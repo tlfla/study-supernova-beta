@@ -245,7 +245,7 @@ export default function Quiz() {
                     {selectedAnswer === currentQuestion.correct ? 'Correct!' : 'Incorrect'}
                   </p>
                   <p className="text-gray-700 text-sm leading-relaxed">
-                    {currentQuestion.rationale}
+                    {currentQuestion.explanation}
                   </p>
                 </div>
               </div>

@@ -143,8 +143,8 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
 
       const [user, dailyGoal, userProgress] = await Promise.all([
         dataProvider.getCurrentUser(),
-        dataProvider.getDailyGoal('user-1'), // Hardcoded for now
-        dataProvider.getUserProgress('user-1') // Hardcoded for now
+        dataProvider.getDailyGoal(), // Now takes optional date
+        dataProvider.getUserProgress() // Now takes optional category
       ])
 
       dispatch({ type: 'SET_USER', payload: user })
@@ -167,8 +167,8 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
 
   const updateDailyGoal = async (completedQuestions: number, completedTime: number) => {
     try {
-      await dataProvider.updateDailyGoal('user-1', completedQuestions, completedTime) // Hardcoded for now
-      const updatedGoal = await dataProvider.getDailyGoal('user-1')
+      await dataProvider.updateDailyGoal(completedQuestions, completedTime)
+      const updatedGoal = await dataProvider.getDailyGoal()
       dispatch({ type: 'SET_DAILY_GOAL', payload: updatedGoal })
     } catch (error) {
       console.error('Failed to update daily goal:', error)

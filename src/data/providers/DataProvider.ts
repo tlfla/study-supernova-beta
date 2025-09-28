@@ -14,33 +14,36 @@ export interface Question {
     D: string
   }
   correct: 'A' | 'B' | 'C' | 'D'
-  rationale: string
+  explanation: string
   difficulty: 'easy' | 'medium' | 'hard'
   tags: string[]
 }
 
 export interface UserResponse {
-  user_id: string
-  question_id: string
+  id: string
+  userId?: string
+  questionId: string
   answer: 'A' | 'B' | 'C' | 'D'
-  is_correct: boolean
+  isCorrect: boolean
+  timeSpentSec: number
   timestamp: string
-  time_spent: number
 }
 
 export interface Bookmark {
-  user_id: string
-  question_id: string
-  notes: string
-  created_at: string
+  id: string
+  userId?: string
+  questionId: string
+  createdAt: string
 }
 
 export interface StudySession {
-  user_id: string
+  id: string
+  userId?: string
   start: string
   end: string
-  questions_attempted: number
-  score: number
+  questionsAttempted: number
+  correctCount: number
+  accuracy: number
 }
 
 export interface User {
@@ -124,40 +127,38 @@ export interface IDataProvider {
   getQuestionCount(filters?: { category?: string; difficulty?: string }): Promise<number>
 
   // User response operations
-  saveUserResponse(response: Omit<UserResponse, 'timestamp'>): Promise<void>
-  getUserResponses(userId: string, filters?: {
-    category?: string
-    limit?: number
-    since?: string
-  }): Promise<UserResponse[]>
-  getUserStats(userId: string): Promise<{
+  saveResponse(response: UserResponse): Promise<void>
+  getSessionStats(range?: { start?: string; end?: string }): Promise<{
     totalQuestions: number
     correctAnswers: number
     averageScore: number
     totalTime: number
+    categoryBreakdown: Record<string, { attempted: number; correct: number }>
   }>
 
   // Bookmark operations
-  listBookmarks(userId: string): Promise<Bookmark[]>
-  toggleBookmark(userId: string, questionId: string, notes?: string): Promise<boolean>
-  isBookmarked(userId: string, questionId: string): Promise<boolean>
+  listBookmarks(): Promise<Bookmark[]>
+  isBookmarked(questionId: string): Promise<boolean>
+  toggleBookmark(questionId: string): Promise<boolean>
+  bookmarkAll(questionIds: string[]): Promise<void>
+  unbookmarkAll(questionIds: string[]): Promise<void>
 
   // Progress operations
-  getUserProgress(userId: string, category?: string): Promise<UserProgress[]>
-  updateUserProgress(userId: string, category: string, correct: boolean, timeSpent: number): Promise<void>
+  getUserProgress(category?: string): Promise<UserProgress[]>
+  updateUserProgress(category: string, correct: boolean, timeSpentSec: number): Promise<void>
 
   // Daily goal operations
-  getDailyGoal(userId: string, date?: string): Promise<DailyGoal | null>
-  updateDailyGoal(userId: string, completedQuestions: number, completedTime: number): Promise<void>
+  getDailyGoal(date?: string): Promise<DailyGoal | null>
+  updateDailyGoal(completedQuestions: number, completedTime: number): Promise<void>
 
   // Study session operations
-  startStudySession(userId: string): Promise<string>
-  endStudySession(sessionId: string, score: number, questionsAttempted: number): Promise<void>
-  getStudySessions(userId: string, limit?: number): Promise<StudySession[]>
+  startStudySession(): Promise<string>
+  endStudySession(sessionId: string, correctCount: number, questionsAttempted: number): Promise<void>
+  getStudySessions(limit?: number): Promise<StudySession[]>
 
   // Achievement operations
-  getUserAchievements(userId: string): Promise<Achievement[]>
-  unlockAchievement(userId: string, type: Achievement['type'], title: string, description: string): Promise<void>
+  getUserAchievements(): Promise<Achievement[]>
+  unlockAchievement(type: Achievement['type'], title: string, description: string): Promise<void>
 
   // User operations
   getCurrentUser(): Promise<User | null>

@@ -280,7 +280,7 @@ export default function Review() {
 
                 <div className="pt-4 border-t border-gray-200">
                   <p className="text-sm text-gray-600">
-                    <span className="font-medium">Rationale:</span> {question.rationale}
+                    <span className="font-medium">Explanation:</span> {question.explanation}
                   </p>
                   {question.tags.length > 0 && (
                     <div className="mt-3 flex flex-wrap gap-2">

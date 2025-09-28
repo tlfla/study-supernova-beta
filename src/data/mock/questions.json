@@ -5,7 +5,7 @@
     "question": "Discharge instructions for abdominal surgery should include activity restrictions.",
     "options": {},
     "correct": "A",
-    "rationale": "",
+    "explanation": "",
     "difficulty": "easy",
     "tags": [
       "geriatric",
@@ -19,7 +19,7 @@
     "question": "The sequence of steps in cholecystectomy includes: incision, dissection, ligation, closure.",
     "options": {},
     "correct": "A",
-    "rationale": "",
+    "explanation": "",
     "difficulty": "easy",
     "tags": [
       "trauma",
@@ -90,7 +90,7 @@
     "question": "Discharge instructions for abdominal surgery should include activity restrictions.",
     "options": {},
     "correct": "A",
-    "rationale": "",
+    "explanation": "",
     "difficulty": "hard",
     "tags": [
       "trauma",
@@ -142,7 +142,7 @@
     "question": "The immediate phase begins immediately after surgery is complete.",
     "options": {},
     "correct": "A",
-    "rationale": "",
+    "explanation": "",
     "difficulty": "medium",
     "tags": [
       "neurological",
@@ -194,7 +194,7 @@
     "question": "During a anaphylaxis, the surgical technologist should call for help first.",
     "options": {},
     "correct": "A",
-    "rationale": "",
+    "explanation": "",
     "difficulty": "hard",
     "tags": [
       "emergency",
@@ -208,7 +208,7 @@
     "question": "The medication heparin is used to antibiotic prophylaxis during surgical procedures.",
     "options": {},
     "correct": "A",
-    "rationale": "",
+    "explanation": "",
     "difficulty": "medium",
     "tags": [
       "ophthalmic",
@@ -260,7 +260,7 @@
     "question": "The primary concern during intraoperative is patient safety and comfort.",
     "options": {},
     "correct": "A",
-    "rationale": "",
+    "explanation": "",
     "difficulty": "easy",
     "tags": [
       "trauma",
@@ -274,7 +274,7 @@
     "question": "Emergency equipment should be properly maintained and clearly labeled in the operating room.",
     "options": {},
     "correct": "A",
-    "rationale": "",
+    "explanation": "",
     "difficulty": "medium",
     "tags": [
       "orthopedic",
@@ -383,7 +383,7 @@
     "question": "Emergency equipment should be regularly checked and easily accessible in the operating room.",
     "options": {},
     "correct": "A",
-    "rationale": "",
+    "explanation": "",
     "difficulty": "hard",
     "tags": [
       "plastic",
@@ -397,7 +397,7 @@
     "question": "The lidocaine should be administered prior to incision to be most effective.",
     "options": {},
     "correct": "A",
-    "rationale": "",
+    "explanation": "",
     "difficulty": "easy",
     "tags": [
       "pediatric",
@@ -411,7 +411,7 @@
     "question": "Patient confidentiality is protected by institutional policies in healthcare settings.",
     "options": {},
     "correct": "A",
-    "rationale": "",
+    "explanation": "",
     "difficulty": "hard",
     "tags": [
       "trauma",
@@ -501,7 +501,7 @@
     "question": "During a anaphylaxis, the surgical technologist should begin CPR first.",
     "options": {},
     "correct": "A",
-    "rationale": "",
+    "explanation": "",
     "difficulty": "hard",
     "tags": [
       "genitourinary",
@@ -572,7 +572,7 @@
     "question": "The primary concern during preoperative is patient safety and comfort.",
     "options": {},
     "correct": "A",
-    "rationale": "",
+    "explanation": "",
     "difficulty": "hard",
     "tags": [
       "gastrointestinal",
@@ -605,7 +605,7 @@
     "question": "Patient safety during positioning requires maintain proper body alignment.",
     "options": {},
     "correct": "A",
-    "rationale": "",
+    "explanation": "",
     "difficulty": "medium",
     "tags": [
       "gastrointestinal",
@@ -714,7 +714,7 @@
     "question": "Patient confidentiality is protected by HIPAA in healthcare settings.",
     "options": {},
     "correct": "A",
-    "rationale": "",
+    "explanation": "",
     "difficulty": "hard",
     "tags": [
       "elective",
@@ -766,7 +766,7 @@
     "question": "The medication midazolam is used to pain management during surgical procedures.",
     "options": {},
     "correct": "A",
-    "rationale": "",
+    "explanation": "",
     "difficulty": "easy",
     "tags": [
       "neurological",
@@ -780,7 +780,7 @@
     "question": "Informed consent for experimental treatment must include information about risks and benefits.",
     "options": {},
     "correct": "A",
-    "rationale": "",
+    "explanation": "",
     "difficulty": "medium",
     "tags": [
       "gastrointestinal",
@@ -851,7 +851,7 @@
     "question": "The primary concern during preoperative is patient safety and comfort.",
     "options": {},
     "correct": "A",
-    "rationale": "",
+    "explanation": "",
     "difficulty": "easy",
     "tags": [
       "pediatric",
@@ -979,7 +979,7 @@
     "question": "The medication lidocaine is used to pain management during surgical procedures.",
     "options": {},
     "correct": "A",
-    "rationale": "",
+    "explanation": "",
     "difficulty": "hard",
     "tags": [
       "elective",

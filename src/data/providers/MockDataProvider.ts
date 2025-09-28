@@ -78,7 +78,7 @@ export class MockDataProvider implements IDataProvider {
             D: 'Digest food'
           },
           correct: 'A',
-          rationale: 'The heart is responsible for pumping blood throughout the body.',
+          explanation: 'The heart is responsible for pumping blood throughout the body.',
           difficulty: 'easy',
           tags: ['cardiovascular', 'basic']
         }
@@ -87,6 +87,17 @@ export class MockDataProvider implements IDataProvider {
     } catch (error) {
       console.error('Failed to load questions:', error)
       this.storage.set('questions', [])
+    }
+  }
+
+  // Backward compatibility: map rationale to explanation if present
+  private mapQuestionForBackwardCompat(question: any): Question {
+    return {
+      ...question,
+      // Map rationale to explanation if explanation is missing
+      explanation: question.explanation || question.rationale || 'No explanation available.',
+      // Remove rationale field to avoid conflicts
+      rationale: undefined
     }
   }
 
@@ -131,7 +142,7 @@ export class MockDataProvider implements IDataProvider {
     tags?: string[]
     limit?: number
   }): Promise<Question[]> {
-    let questions = this.storage.get<Question>('questions')
+    let questions = this.storage.get<any>('questions').map(q => this.mapQuestionForBackwardCompat(q))
 
     if (filters?.category) {
       questions = questions.filter(q => q.category === filters.category)
@@ -155,12 +166,12 @@ export class MockDataProvider implements IDataProvider {
   }
 
   async getQuestionById(id: string): Promise<Question | null> {
-    const questions = this.storage.get<Question>('questions')
+    const questions = this.storage.get<any>('questions').map(q => this.mapQuestionForBackwardCompat(q))
     return questions.find(q => q.id === id) || null
   }
 
   async getQuestionCount(filters?: { category?: string; difficulty?: string }): Promise<number> {
-    let questions = this.storage.get<Question>('questions')
+    let questions = this.storage.get<any>('questions').map(q => this.mapQuestionForBackwardCompat(q))
 
     if (filters?.category) {
       questions = questions.filter(q => q.category === filters.category)
@@ -174,12 +185,54 @@ export class MockDataProvider implements IDataProvider {
   }
 
   // User response operations
-  async saveUserResponse(response: Omit<UserResponse, 'timestamp'>): Promise<void> {
-    const fullResponse: UserResponse = {
-      ...response,
-      timestamp: new Date().toISOString()
+  async saveResponse(response: UserResponse): Promise<void> {
+    this.storage.add('user_responses', response)
+  }
+
+  async getSessionStats(range?: { start?: string; end?: string }): Promise<{
+    totalQuestions: number
+    correctAnswers: number
+    averageScore: number
+    totalTime: number
+    categoryBreakdown: Record<string, { attempted: number; correct: number }>
+  }> {
+    const responses = this.storage.get<UserResponse>('user_responses')
+
+    let filteredResponses = responses
+    if (range?.start) {
+      filteredResponses = filteredResponses.filter(r => r.timestamp >= range.start!)
     }
-    this.storage.add('user_responses', fullResponse)
+    if (range?.end) {
+      filteredResponses = filteredResponses.filter(r => r.timestamp <= range.end!)
+    }
+
+    const totalQuestions = filteredResponses.length
+    const correctAnswers = filteredResponses.filter(r => r.isCorrect).length
+    const averageScore = totalQuestions > 0 ? (correctAnswers / totalQuestions) * 100 : 0
+    const totalTime = filteredResponses.reduce((sum, r) => sum + r.timeSpentSec, 0)
+
+    // Category breakdown
+    const categoryBreakdown: Record<string, { attempted: number; correct: number }> = {}
+    for (const response of filteredResponses) {
+      // This would need to be joined with questions in a real implementation
+      // For mock, we'll just group by a placeholder
+      const category = 'general'
+      if (!categoryBreakdown[category]) {
+        categoryBreakdown[category] = { attempted: 0, correct: 0 }
+      }
+      categoryBreakdown[category].attempted++
+      if (response.isCorrect) {
+        categoryBreakdown[category].correct++
+      }
+    }
+
+    return {
+      totalQuestions,
+      correctAnswers,
+      averageScore,
+      totalTime,
+      categoryBreakdown
+    }
   }
 
   async getUserResponses(userId: string, filters?: {
@@ -229,14 +282,18 @@ export class MockDataProvider implements IDataProvider {
   }
 
   // Bookmark operations
-  async listBookmarks(userId: string): Promise<Bookmark[]> {
+  async listBookmarks(): Promise<Bookmark[]> {
     return this.storage.get<Bookmark>('bookmarks')
-      .filter(b => b.user_id === userId)
   }
 
-  async toggleBookmark(userId: string, questionId: string, notes?: string): Promise<boolean> {
+  async isBookmarked(questionId: string): Promise<boolean> {
     const bookmarks = this.storage.get<Bookmark>('bookmarks')
-    const existingIndex = bookmarks.findIndex(b => b.user_id === userId && b.question_id === questionId)
+    return bookmarks.some(b => b.questionId === questionId)
+  }
+
+  async toggleBookmark(questionId: string): Promise<boolean> {
+    const bookmarks = this.storage.get<Bookmark>('bookmarks')
+    const existingIndex = bookmarks.findIndex(b => b.questionId === questionId)
 
     if (existingIndex >= 0) {
       bookmarks.splice(existingIndex, 1)
@@ -244,25 +301,40 @@ export class MockDataProvider implements IDataProvider {
       return false
     } else {
       const bookmark: Bookmark = {
-        user_id: userId,
-        question_id: questionId,
-        notes: notes || '',
-        created_at: new Date().toISOString()
+        id: `bookmark-${Date.now()}`,
+        questionId,
+        createdAt: new Date().toISOString()
       }
       this.storage.add('bookmarks', bookmark)
       return true
     }
   }
 
-  async isBookmarked(userId: string, questionId: string): Promise<boolean> {
+  async bookmarkAll(questionIds: string[]): Promise<void> {
     const bookmarks = this.storage.get<Bookmark>('bookmarks')
-    return bookmarks.some(b => b.user_id === userId && b.question_id === questionId)
+    const existingQuestionIds = new Set(bookmarks.map(b => b.questionId))
+
+    for (const questionId of questionIds) {
+      if (!existingQuestionIds.has(questionId)) {
+        const bookmark: Bookmark = {
+          id: `bookmark-${Date.now()}-${questionId}`,
+          questionId,
+          createdAt: new Date().toISOString()
+        }
+        this.storage.add('bookmarks', bookmark)
+      }
+    }
+  }
+
+  async unbookmarkAll(questionIds: string[]): Promise<void> {
+    const bookmarks = this.storage.get<Bookmark>('bookmarks')
+    const filteredBookmarks = bookmarks.filter(b => !questionIds.includes(b.questionId))
+    this.storage.set('bookmarks', filteredBookmarks)
   }
 
   // Progress operations
-  async getUserProgress(userId: string, category?: string): Promise<UserProgress[]> {
+  async getUserProgress(category?: string): Promise<UserProgress[]> {
     let progress = this.storage.get<UserProgress>('user_progress')
-      .filter(p => p.user_id === userId)
 
     if (category) {
       progress = progress.filter(p => p.category === category)
@@ -271,9 +343,9 @@ export class MockDataProvider implements IDataProvider {
     return progress
   }
 
-  async updateUserProgress(userId: string, category: string, correct: boolean, timeSpent: number): Promise<void> {
+  async updateUserProgress(category: string, correct: boolean, timeSpentSec: number): Promise<void> {
     const progress = this.storage.get<UserProgress>('user_progress')
-    const existingIndex = progress.findIndex(p => p.user_id === userId && p.category === category)
+    const existingIndex = progress.findIndex(p => p.category === category)
 
     if (existingIndex >= 0) {
       const current = progress[existingIndex]
@@ -286,7 +358,7 @@ export class MockDataProvider implements IDataProvider {
       }
     } else {
       progress.push({
-        user_id: userId,
+        user_id: this.currentUser?.id || 'user-1',
         category,
         questions_attempted: 1,
         questions_correct: correct ? 1 : 0,
@@ -299,17 +371,17 @@ export class MockDataProvider implements IDataProvider {
   }
 
   // Daily goal operations
-  async getDailyGoal(userId: string, date?: string): Promise<DailyGoal | null> {
+  async getDailyGoal(date?: string): Promise<DailyGoal | null> {
     const goals = this.storage.get<DailyGoal>('daily_goals')
     const targetDate = date || new Date().toISOString().split('T')[0]
 
-    return goals.find(g => g.user_id === userId && g.date === targetDate) || null
+    return goals.find(g => g.date === targetDate) || null
   }
 
-  async updateDailyGoal(userId: string, completedQuestions: number, completedTime: number): Promise<void> {
+  async updateDailyGoal(completedQuestions: number, completedTime: number): Promise<void> {
     const goals = this.storage.get<DailyGoal>('daily_goals')
     const today = new Date().toISOString().split('T')[0]
-    const existingIndex = goals.findIndex(g => g.user_id === userId && g.date === today)
+    const existingIndex = goals.findIndex(g => g.date === today)
 
     if (existingIndex >= 0) {
       goals[existingIndex] = {
@@ -319,7 +391,7 @@ export class MockDataProvider implements IDataProvider {
       }
     } else {
       goals.push({
-        user_id: userId,
+        user_id: this.currentUser?.id || 'user-1',
         date: today,
         target_questions: 20, // Default target
         completed_questions: completedQuestions,
@@ -332,37 +404,39 @@ export class MockDataProvider implements IDataProvider {
   }
 
   // Study session operations
-  async startStudySession(userId: string): Promise<string> {
+  async startStudySession(): Promise<string> {
     const session: StudySession = {
-      user_id: userId,
+      id: `session-${Date.now()}`,
+      userId: this.currentUser?.id,
       start: new Date().toISOString(),
       end: '',
-      questions_attempted: 0,
-      score: 0
+      questionsAttempted: 0,
+      correctCount: 0,
+      accuracy: 0
     }
 
-    const savedSession = this.storage.add('study_sessions', session)
-    return savedSession.start // Using start time as session ID for simplicity
+    this.storage.add('study_sessions', session)
+    return session.id
   }
 
-  async endStudySession(sessionId: string, score: number, questionsAttempted: number): Promise<void> {
+  async endStudySession(sessionId: string, correctCount: number, questionsAttempted: number): Promise<void> {
     const sessions = this.storage.get<StudySession>('study_sessions')
-    const sessionIndex = sessions.findIndex(s => s.start === sessionId)
+    const sessionIndex = sessions.findIndex(s => s.id === sessionId)
 
     if (sessionIndex >= 0) {
       sessions[sessionIndex] = {
         ...sessions[sessionIndex],
         end: new Date().toISOString(),
-        score,
-        questions_attempted: questionsAttempted
+        correctCount,
+        questionsAttempted,
+        accuracy: questionsAttempted > 0 ? (correctCount / questionsAttempted) * 100 : 0
       }
       this.storage.set('study_sessions', sessions)
     }
   }
 
-  async getStudySessions(userId: string, limit?: number): Promise<StudySession[]> {
+  async getStudySessions(limit?: number): Promise<StudySession[]> {
     let sessions = this.storage.get<StudySession>('study_sessions')
-      .filter(s => s.user_id === userId)
       .sort((a, b) => new Date(b.start).getTime() - new Date(a.start).getTime())
 
     if (limit) {
@@ -373,16 +447,15 @@ export class MockDataProvider implements IDataProvider {
   }
 
   // Achievement operations
-  async getUserAchievements(userId: string): Promise<Achievement[]> {
+  async getUserAchievements(): Promise<Achievement[]> {
     return this.storage.get<Achievement>('achievements')
-      .filter(a => a.user_id === userId)
       .sort((a, b) => new Date(b.unlocked_at).getTime() - new Date(a.unlocked_at).getTime())
   }
 
-  async unlockAchievement(userId: string, type: Achievement['type'], title: string, description: string): Promise<void> {
+  async unlockAchievement(type: Achievement['type'], title: string, description: string): Promise<void> {
     const achievement: Achievement = {
       id: `achievement-${Date.now()}`,
-      user_id: userId,
+      user_id: this.currentUser?.id || 'user-1',
       type,
       title,
       description,

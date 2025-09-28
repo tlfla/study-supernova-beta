@@ -288,7 +288,7 @@ export default function Results() {
 
                 <div className="mt-3 pt-3 border-t border-gray-200">
                   <p className="text-sm text-gray-600">
-                    <span className="font-medium">Rationale:</span> {result.question.rationale}
+                    <span className="font-medium">Explanation:</span> {result.question.explanation}
                   </p>
                 </div>
               </div>
