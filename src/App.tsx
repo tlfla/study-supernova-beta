@@ -1,0 +1,47 @@
+import { Routes, Route, Navigate } from 'react-router-dom'
+import { AppProvider } from './state/AppContext'
+import { DataProvider } from './data/providers/DataProvider'
+import Dashboard from './pages/Dashboard'
+import QuizOptions from './pages/QuizOptions'
+import Quiz from './pages/Quiz'
+import Results from './pages/Results'
+import Review from './pages/Review'
+import Flashcards from './pages/Flashcards'
+import Profile from './pages/Profile'
+import Setup from './pages/Setup'
+import BottomTabBar from './components/common/BottomTabBar'
+import './App.css'
+
+function App() {
+  const dataProvider = DataProvider.getInstance()
+
+  // If provider is not mock but not properly configured, show setup
+  if (dataProvider.getProviderType() !== 'mock' && !dataProvider.isConfigured()) {
+    return (
+      <AppProvider>
+        <Setup />
+      </AppProvider>
+    )
+  }
+
+  return (
+    <AppProvider>
+      <div className="min-h-screen bg-gray-50 pb-16">
+        <Routes>
+          <Route path="/" element={<Dashboard />} />
+          <Route path="/quiz-options" element={<QuizOptions />} />
+          <Route path="/quiz" element={<Quiz />} />
+          <Route path="/results" element={<Results />} />
+          <Route path="/review" element={<Review />} />
+          <Route path="/flashcards" element={<Flashcards />} />
+          <Route path="/profile" element={<Profile />} />
+          <Route path="/setup" element={<Setup />} />
+          <Route path="*" element={<Navigate to="/" replace />} />
+        </Routes>
+        <BottomTabBar />
+      </div>
+    </AppProvider>
+  )
+}
+
+export default App

@@ -1,0 +1,9 @@
+/* Global app styles */
+.app-container {
+  min-height: 100vh;
+}
+
+/* Ensure bottom tab bar doesn't overlap content */
+.pb-safe {
+  padding-bottom: env(safe-area-inset-bottom);
+}
