@@ -43,6 +43,11 @@ const timeLimits = [
   { value: '60', label: '60 Minutes' }
 ]
 
+const quizModes = [
+  { value: 'practice', label: 'Practice Mode' },
+  { value: 'exam', label: 'Exam Mode' }
+]
+
 export default function QuizOptions() {
   const navigate = useNavigate()
   const { dispatch } = useAppContext()
@@ -52,6 +57,7 @@ export default function QuizOptions() {
   const [selectedDifficulty, setSelectedDifficulty] = useState('mixed')
   const [selectedQuestionCount, setSelectedQuestionCount] = useState('20')
   const [selectedTimeLimit, setSelectedTimeLimit] = useState('none')
+  const [selectedMode, setSelectedMode] = useState('practice')
   const [isLoading, setIsLoading] = useState(false)
 
   const handleStartQuiz = async () => {
@@ -81,26 +87,24 @@ export default function QuizOptions() {
         return
       }
 
+      const quizSettings = {
+        category: selectedCategory,
+        difficulty: selectedDifficulty as 'easy' | 'medium' | 'hard' | 'mixed',
+        questionCount: parseInt(selectedQuestionCount),
+        timeLimit: selectedTimeLimit !== 'none' ? parseInt(selectedTimeLimit) : undefined,
+        mode: selectedMode as 'practice' | 'exam'
+      }
+
       dispatch({
         type: 'SET_QUIZ_SETTINGS',
-        payload: {
-          category: selectedCategory,
-          difficulty: selectedDifficulty as 'easy' | 'medium' | 'hard' | 'mixed',
-          questionCount: parseInt(selectedQuestionCount),
-          timeLimit: selectedTimeLimit !== 'none' ? parseInt(selectedTimeLimit) : undefined
-        }
+        payload: quizSettings
       })
 
       dispatch({
         type: 'START_QUIZ',
         payload: {
           questions,
-          settings: {
-            category: selectedCategory,
-            difficulty: selectedDifficulty as 'easy' | 'medium' | 'hard' | 'mixed',
-            questionCount: parseInt(selectedQuestionCount),
-            timeLimit: selectedTimeLimit !== 'none' ? parseInt(selectedTimeLimit) : undefined
-          }
+          settings: quizSettings
         }
       })
 
@@ -185,6 +189,22 @@ export default function QuizOptions() {
                 onChange={setSelectedQuestionCount}
                 placeholder="Select question count"
               />
+            </div>
+
+            {/* Quiz Mode */}
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-2">
+                Quiz Mode
+              </label>
+              <Dropdown
+                options={quizModes}
+                value={selectedMode}
+                onChange={setSelectedMode}
+                placeholder="Select quiz mode"
+              />
+              <p className="text-xs text-gray-500 mt-1">
+                Practice: Check answers as you go. Exam: No reveals until summary.
+              </p>
             </div>
 
             {/* Time Limit */}

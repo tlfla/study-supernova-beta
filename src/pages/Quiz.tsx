@@ -1,9 +1,10 @@
 import { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { ArrowLeft, ArrowRight, Bookmark, Clock, Flag } from 'lucide-react'
+import { ArrowLeft, ArrowRight, Bookmark, Clock, Flag, Save } from 'lucide-react'
 import { useAppContext } from '../state/AppContext'
 import { DataProvider } from '../data/providers/DataProvider'
 import Button from '../components/common/Button'
+import Modal from '../components/common/Modal'
 
 export default function Quiz() {
   const navigate = useNavigate()
@@ -14,10 +15,16 @@ export default function Quiz() {
   const [showFeedback, setShowFeedback] = useState(false)
   const [isBookmarked, setIsBookmarked] = useState(false)
   const [timeElapsed, setTimeElapsed] = useState(0)
+  const [showSaveExitModal, setShowSaveExitModal] = useState(false)
 
   const quizState = state.quizState
+  const quizSettings = state.quizSettings
   const currentQuestion = quizState?.questions[quizState.currentQuestionIndex]
   const currentAnswer = quizState?.answers[currentQuestion?.id || '']
+
+  // Check if we're in practice mode and should show feedback
+  const isPracticeMode = quizSettings?.mode === 'practice'
+  const shouldShowFeedback = isPracticeMode ? showFeedback : false
 
   useEffect(() => {
     if (!quizState || !currentQuestion) {
@@ -60,22 +67,51 @@ export default function Quiz() {
 
   const handleAnswerSelect = (answer: 'A' | 'B' | 'C' | 'D') => {
     setSelectedAnswer(answer)
+
+    // In exam mode, just record the answer and don't show feedback
+    if (!isPracticeMode) {
+      // Save the answer
+      dispatch({
+        type: 'ANSWER_QUESTION',
+        payload: { questionId: currentQuestion.id, answer }
+      })
+
+      // Record the response
+      if (state.currentUser) {
+        dataProvider.saveResponse({
+          id: `response-${Date.now()}`,
+          userId: state.currentUser.id,
+          questionId: currentQuestion.id,
+          answer,
+          isCorrect: answer === currentQuestion.correct,
+          timeSpentSec: timeElapsed,
+          timestamp: new Date().toISOString()
+        })
+      }
+    }
+  }
+
+  const handleCheckAnswer = () => {
+    if (!selectedAnswer || !isPracticeMode) return
+
     setShowFeedback(true)
 
     // Save the answer
     dispatch({
       type: 'ANSWER_QUESTION',
-      payload: { questionId: currentQuestion.id, answer }
+      payload: { questionId: currentQuestion.id, answer: selectedAnswer }
     })
 
     // Record the response
     if (state.currentUser) {
-      dataProvider.saveUserResponse({
-        user_id: state.currentUser.id,
-        question_id: currentQuestion.id,
-        answer,
-        is_correct: answer === currentQuestion.correct,
-        time_spent: timeElapsed
+      dataProvider.saveResponse({
+        id: `response-${Date.now()}`,
+        userId: state.currentUser.id,
+        questionId: currentQuestion.id,
+        answer: selectedAnswer,
+        isCorrect: selectedAnswer === currentQuestion.correct,
+        timeSpentSec: timeElapsed,
+        timestamp: new Date().toISOString()
       })
     }
   }
@@ -101,11 +137,28 @@ export default function Quiz() {
   const handleBookmarkToggle = async () => {
     if (!state.currentUser) return
 
-    const newBookmarkState = await dataProvider.toggleBookmark(
-      state.currentUser.id,
-      currentQuestion.id
-    )
+    const newBookmarkState = await dataProvider.toggleBookmark(currentQuestion.id)
     setIsBookmarked(newBookmarkState)
+  }
+
+  const handleSaveAndExit = () => {
+    if (!quizState || !quizSettings) return
+
+    // Save quiz state to localStorage
+    const savedQuizState = {
+      questions: quizState.questions,
+      currentQuestionIndex: quizState.currentQuestionIndex,
+      answers: quizState.answers,
+      startTime: quizState.startTime,
+      settings: quizSettings,
+      timestamp: Date.now()
+    }
+
+    localStorage.setItem('savedQuiz', JSON.stringify(savedQuizState))
+    setShowSaveExitModal(false)
+
+    // Navigate back to dashboard
+    navigate('/')
   }
 
   const formatTime = (seconds: number) => {
@@ -167,6 +220,12 @@ export default function Quiz() {
               >
                 <Bookmark className="h-4 w-4" />
               </button>
+              <button
+                onClick={() => setShowSaveExitModal(true)}
+                className="p-2 rounded-lg text-gray-400 hover:text-gray-600 hover:bg-gray-100 transition-colors duration-200"
+              >
+                <Save className="h-4 w-4" />
+              </button>
             </div>
           </div>
 
@@ -206,15 +265,15 @@ export default function Quiz() {
               <button
                 key={option}
                 onClick={() => handleAnswerSelect(option)}
-                disabled={showFeedback}
+                disabled={shouldShowFeedback}
                 className={`w-full text-left p-4 rounded-lg border-2 transition-all duration-200 ${
                   selectedAnswer === option
-                    ? showFeedback
+                    ? shouldShowFeedback
                       ? option === currentQuestion.correct
                         ? 'border-green-500 bg-green-50 text-green-800'
                         : 'border-red-500 bg-red-50 text-red-800'
                       : 'border-primary-500 bg-primary-50 text-primary-800'
-                    : showFeedback && option === currentQuestion.correct
+                    : shouldShowFeedback && option === currentQuestion.correct
                     ? 'border-green-500 bg-green-50 text-green-800'
                     : 'border-gray-300 hover:border-gray-400 hover:bg-gray-50'
                 }`}
@@ -229,8 +288,8 @@ export default function Quiz() {
             ))}
           </div>
 
-          {/* Feedback */}
-          {showFeedback && (
+          {/* Feedback - only in practice mode */}
+          {shouldShowFeedback && (
             <div className="mb-8 p-4 rounded-lg bg-gray-50 border border-gray-200">
               <div className="flex items-start space-x-3">
                 <div className={`flex-shrink-0 w-6 h-6 rounded-full flex items-center justify-center text-sm font-medium ${
@@ -263,23 +322,58 @@ export default function Quiz() {
             </Button>
 
             <div className="flex space-x-2">
-              {showFeedback ? (
+              {isPracticeMode ? (
+                // Practice mode: Check Answer or Next
+                shouldShowFeedback ? (
+                  <Button onClick={handleNext}>
+                    {quizState.currentQuestionIndex === quizState.questions.length - 1 ? 'Finish Quiz' : 'Next'}
+                    <ArrowRight className="h-4 w-4 ml-2" />
+                  </Button>
+                ) : (
+                  <Button
+                    onClick={handleCheckAnswer}
+                    disabled={!selectedAnswer}
+                  >
+                    Check Answer
+                  </Button>
+                )
+              ) : (
+                // Exam mode: always just Next
                 <Button onClick={handleNext}>
                   {quizState.currentQuestionIndex === quizState.questions.length - 1 ? 'Finish Quiz' : 'Next'}
                   <ArrowRight className="h-4 w-4 ml-2" />
-                </Button>
-              ) : (
-                <Button
-                  onClick={() => setShowFeedback(true)}
-                  disabled={!selectedAnswer}
-                >
-                  Check Answer
                 </Button>
               )}
             </div>
           </div>
         </div>
       </div>
+
+      {/* Save & Exit Modal */}
+      <Modal
+        isOpen={showSaveExitModal}
+        onClose={() => setShowSaveExitModal(false)}
+        title="Save progress and exit?"
+      >
+        <p className="text-gray-600">
+          Your current quiz will be saved so you can resume later.
+        </p>
+        <div className="flex gap-3 mt-6">
+          <Button
+            variant="outline"
+            onClick={() => setShowSaveExitModal(false)}
+            className="flex-1"
+          >
+            Cancel
+          </Button>
+          <Button
+            onClick={handleSaveAndExit}
+            className="flex-1 bg-[var(--primary-500)] text-white hover:bg-[var(--primary-600)]"
+          >
+            Save & Exit
+          </Button>
+        </div>
+      </Modal>
     </div>
   )
 }

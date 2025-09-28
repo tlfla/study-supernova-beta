@@ -39,6 +39,19 @@ function appReducer(state: AppState, action: AppAction): AppState {
         }
       }
 
+    case 'RESUME_QUIZ':
+      return {
+        ...state,
+        quizState: {
+          questions: action.payload.questions,
+          currentQuestionIndex: action.payload.currentIndex,
+          answers: action.payload.answers,
+          startTime: action.payload.startTime,
+          timeRemaining: action.payload.settings.timeLimit ? action.payload.settings.timeLimit * 60 * 1000 - (Date.now() - action.payload.startTime) : undefined,
+          isComplete: false
+        }
+      }
+
     case 'ANSWER_QUESTION':
       if (!state.quizState) return state
 

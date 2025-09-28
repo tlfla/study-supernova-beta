@@ -5,6 +5,7 @@ export interface QuizSettings {
   difficulty: 'easy' | 'medium' | 'hard' | 'mixed'
   questionCount: number
   timeLimit?: number // in minutes
+  mode: 'practice' | 'exam'
 }
 
 export interface QuizState {
@@ -37,6 +38,7 @@ export type AppAction =
   | { type: 'SET_USER_PROGRESS'; payload: UserProgress[] }
   | { type: 'SET_QUIZ_SETTINGS'; payload: QuizSettings | null }
   | { type: 'START_QUIZ'; payload: { questions: Question[]; settings: QuizSettings } }
+  | { type: 'RESUME_QUIZ'; payload: { questions: Question[]; settings: QuizSettings; currentIndex: number; answers: Record<string, 'A' | 'B' | 'C' | 'D'>; startTime: number } }
   | { type: 'ANSWER_QUESTION'; payload: { questionId: string; answer: 'A' | 'B' | 'C' | 'D' } }
   | { type: 'NEXT_QUESTION' }
   | { type: 'PREVIOUS_QUESTION' }

@@ -1,3 +1,4 @@
+import { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { Play, BookOpen, RotateCcw, Calendar, Target, TrendingUp } from 'lucide-react'
 import { useAppContext } from '../state/AppContext'
@@ -8,11 +9,49 @@ import Button from '../components/common/Button'
 
 export default function Dashboard() {
   const navigate = useNavigate()
-  const { state } = useAppContext()
+  const { state, dispatch } = useAppContext()
   const dataProvider = DataProvider.getInstance()
+  const [savedQuizData, setSavedQuizData] = useState<any>(null)
+
+  useEffect(() => {
+    // Check for saved quiz data
+    const saved = localStorage.getItem('savedQuiz')
+    if (saved) {
+      try {
+        setSavedQuizData(JSON.parse(saved))
+      } catch (e) {
+        console.error('Failed to parse saved quiz data:', e)
+        localStorage.removeItem('savedQuiz')
+      }
+    }
+  }, [])
 
   const handleStartQuiz = () => {
+    // Clear any saved quiz data when starting new
+    localStorage.removeItem('savedQuiz')
     navigate('/quiz-options')
+  }
+
+  const handleResumeQuiz = () => {
+    if (!savedQuizData) return
+
+    // Restore quiz state
+    dispatch({
+      type: 'RESUME_QUIZ',
+      payload: {
+        questions: savedQuizData.questions,
+        settings: savedQuizData.settings,
+        currentIndex: savedQuizData.currentQuestionIndex,
+        answers: savedQuizData.answers,
+        startTime: savedQuizData.startTime
+      }
+    })
+
+    // Navigate to quiz
+    navigate('/quiz')
+
+    // Clean up saved data after resuming
+    localStorage.removeItem('savedQuiz')
   }
 
   const handleContinueStudying = () => {
@@ -111,6 +150,23 @@ export default function Dashboard() {
 
         {/* Action Tiles */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
+          {savedQuizData && (
+            <Card
+              className="cursor-pointer hover:shadow-md transition-shadow duration-200 bg-white/70 backdrop-blur-sm shadow-lg rounded-2xl border-border"
+              onClick={handleResumeQuiz}
+            >
+              <div className="flex items-center space-x-3">
+                <div className="bg-green-100 p-3 rounded-lg">
+                  <Play className="h-6 w-6 text-green-600" />
+                </div>
+                <div>
+                  <h3 className="font-semibold text-gray-900">Resume Quiz</h3>
+                  <p className="text-sm text-gray-600">Continue where you left off</p>
+                </div>
+              </div>
+            </Card>
+          )}
+
           <Card
             className="cursor-pointer hover:shadow-md transition-shadow duration-200 bg-white/70 backdrop-blur-sm shadow-lg rounded-2xl border-border"
             onClick={handleStartQuiz}

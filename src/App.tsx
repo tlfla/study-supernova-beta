@@ -6,6 +6,7 @@ import QuizOptions from './pages/QuizOptions'
 import Quiz from './pages/Quiz'
 import Results from './pages/Results'
 import Review from './pages/Review'
+import Study from './pages/Study'
 import Flashcards from './pages/Flashcards'
 import Profile from './pages/Profile'
 import Setup from './pages/Setup'
@@ -33,6 +34,7 @@ function App() {
           <Route path="/quiz" element={<Quiz />} />
           <Route path="/results" element={<Results />} />
           <Route path="/review" element={<Review />} />
+          <Route path="/study" element={<Study />} />
           <Route path="/flashcards" element={<Flashcards />} />
           <Route path="/profile" element={<Profile />} />
           <Route path="/setup" element={<Setup />} />

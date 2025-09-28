@@ -13,6 +13,7 @@ export default function Results() {
 
   const [results, setResults] = useState<any[]>([])
   const [isBookmarkingAll, setIsBookmarkingAll] = useState(false)
+  const [expandedExplanations, setExpandedExplanations] = useState<Set<string>>(new Set())
 
   // Compute whether all visible questions are bookmarked
   const allBookmarked = results.length > 0 && results.every(result => result.isBookmarked)
@@ -126,8 +127,18 @@ export default function Results() {
   const handleToggleBookmark = async (questionId: string) => {
     if (!state.currentUser) return
 
-    await dataProvider.toggleBookmark(state.currentUser.id, questionId)
+    await dataProvider.toggleBookmark(questionId)
     await calculateResults()
+  }
+
+  const toggleExplanation = (questionId: string) => {
+    const newExpanded = new Set(expandedExplanations)
+    if (newExpanded.has(questionId)) {
+      newExpanded.delete(questionId)
+    } else {
+      newExpanded.add(questionId)
+    }
+    setExpandedExplanations(newExpanded)
   }
 
   if (!quizState || !quizState.isComplete) {
@@ -188,6 +199,21 @@ export default function Results() {
         {/* Action Buttons */}
         <div className="flex flex-col sm:flex-row gap-4 mb-8">
           <Button
+            onClick={() => navigate('/review?missed=true')}
+            variant="outline"
+            className="flex-1"
+          >
+            Review Missed Only
+          </Button>
+          <Button
+            onClick={handleRetakeQuiz}
+            variant="outline"
+            className="flex-1"
+          >
+            <RotateCcw className="h-4 w-4 mr-2" />
+            Retry Quiz (same settings)
+          </Button>
+          <Button
             onClick={handleBookmarkAll}
             variant={allBookmarked ? "primary" : "outline"}
             className={`flex-1 ${allBookmarked ? 'bg-[var(--bookmark-500)] hover:bg-[var(--bookmark-600)]' : ''}`}
@@ -196,14 +222,6 @@ export default function Results() {
           >
             <Bookmark className="h-4 w-4 mr-2" />
             {allBookmarked ? 'Bookmarked All' : 'Bookmark All Questions'}
-          </Button>
-          <Button
-            onClick={handleRetakeQuiz}
-            variant="outline"
-            className="flex-1"
-          >
-            <RotateCcw className="h-4 w-4 mr-2" />
-            Retake Quiz
           </Button>
           <Button
             onClick={handleGoHome}
@@ -287,9 +305,20 @@ export default function Results() {
                 </div>
 
                 <div className="mt-3 pt-3 border-t border-gray-200">
-                  <p className="text-sm text-gray-600">
-                    <span className="font-medium">Explanation:</span> {result.question.explanation}
-                  </p>
+                  <button
+                    onClick={() => toggleExplanation(result.question.id)}
+                    className="flex items-center justify-between w-full text-sm text-gray-600 hover:text-gray-900 transition-colors"
+                  >
+                    <span className="font-medium">Explanation</span>
+                    <span className={`transform transition-transform ${expandedExplanations.has(result.question.id) ? 'rotate-180' : ''}`}>
+                      ▶
+                    </span>
+                  </button>
+                  {expandedExplanations.has(result.question.id) && (
+                    <p className="text-sm text-gray-600 mt-2 leading-relaxed">
+                      {result.question.explanation}
+                    </p>
+                  )}
                 </div>
               </div>
             ))}

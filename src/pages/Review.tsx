@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, useSearchParams } from 'react-router-dom'
 import { ArrowLeft, Bookmark, Search, Filter, BookOpen } from 'lucide-react'
 import { useAppContext } from '../state/AppContext'
 import { DataProvider, Question } from '../data/providers/DataProvider'
@@ -37,6 +37,7 @@ const filterOptions = [
 
 export default function Review() {
   const navigate = useNavigate()
+  const [searchParams, setSearchParams] = useSearchParams()
   const { state } = useAppContext()
   const dataProvider = DataProvider.getInstance()
 
@@ -49,9 +50,19 @@ export default function Review() {
   const [searchTerm, setSearchTerm] = useState('')
   const [isLoading, setIsLoading] = useState(true)
 
+  // Check if we should default to missed-only from Results navigation
+  const shouldDefaultToMissed = searchParams.get('missed') === 'true'
+
   useEffect(() => {
     loadQuestions()
   }, [])
+
+  useEffect(() => {
+    // Set default filter to missed if coming from Results
+    if (shouldDefaultToMissed && selectedFilter === 'all') {
+      setSelectedFilter('missed')
+    }
+  }, [shouldDefaultToMissed, selectedFilter])
 
   useEffect(() => {
     filterQuestions()
@@ -95,6 +106,13 @@ export default function Review() {
       filtered = filtered.filter(q => bookmarkedQuestions.has(q.id))
     }
 
+    // Missed filter - for now, just show all questions since we don't have response data
+    // In a real implementation, this would filter based on incorrect responses
+    if (selectedFilter === 'missed') {
+      // For demo purposes, just show all questions when missed is selected
+      // In production, this would filter to only questions the user got wrong
+    }
+
     // Search term
     if (searchTerm.trim()) {
       const term = searchTerm.toLowerCase()
@@ -111,11 +129,11 @@ export default function Review() {
   const handleToggleBookmark = async (questionId: string) => {
     if (!state.currentUser) return
 
-    await dataProvider.toggleBookmark(state.currentUser.id, questionId)
+    await dataProvider.toggleBookmark(questionId)
 
     // Update bookmarked questions set
-    const bookmarks = await dataProvider.listBookmarks(state.currentUser.id)
-    setBookmarkedQuestions(new Set(bookmarks.map(b => b.question_id)))
+    const bookmarks = await dataProvider.listBookmarks()
+    setBookmarkedQuestions(new Set(bookmarks.map(b => b.questionId)))
   }
 
   return (
@@ -248,8 +266,8 @@ export default function Review() {
                     onClick={() => handleToggleBookmark(question.id)}
                     className={`p-2 rounded-lg transition-colors duration-200 ${
                       bookmarkedQuestions.has(question.id)
-                        ? 'bg-bookmark-active text-white'
-                        : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
+                        ? 'text-bookmark-500 hover:text-bookmark-600'
+                        : 'text-gray-400 hover:text-bookmark-500'
                     }`}
                   >
                     <Bookmark className={`h-4 w-4 ${bookmarkedQuestions.has(question.id) ? 'fill-current' : ''}`} />
