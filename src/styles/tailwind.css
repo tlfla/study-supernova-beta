@@ -77,3 +77,14 @@
     @apply border-l-4 border-info bg-info text-white;
   }
 }
+
+/* Safe area utilities for mobile devices */
+@layer utilities {
+  .safe-area-padding-bottom {
+    padding-bottom: env(safe-area-inset-bottom);
+  }
+
+  .safe-area-inset-bottom {
+    bottom: env(safe-area-inset-bottom);
+  }
+}

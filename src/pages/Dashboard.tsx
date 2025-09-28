@@ -53,7 +53,7 @@ export default function Dashboard() {
         {/* Progress Overview */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
           {/* Readiness Score */}
-          <Card>
+          <Card className="bg-white/70 backdrop-blur-sm shadow-lg rounded-2xl border-border">
             <div className="flex items-center justify-between mb-4">
               <h2 className="text-lg font-semibold text-gray-900">Readiness Score</h2>
               <TrendingUp className="h-6 w-6 text-primary-500" />
@@ -67,7 +67,7 @@ export default function Dashboard() {
           </Card>
 
           {/* Daily Goal */}
-          <Card>
+          <Card className="bg-white/70 backdrop-blur-sm shadow-lg rounded-2xl border-border">
             <div className="flex items-center justify-between mb-4">
               <h2 className="text-lg font-semibold text-gray-900">Daily Goal</h2>
               <Target className="h-6 w-6 text-primary-500" />
@@ -112,7 +112,7 @@ export default function Dashboard() {
         {/* Action Tiles */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
           <Card
-            className="cursor-pointer hover:shadow-md transition-shadow duration-200"
+            className="cursor-pointer hover:shadow-md transition-shadow duration-200 bg-white/70 backdrop-blur-sm shadow-lg rounded-2xl border-border"
             onClick={handleStartQuiz}
           >
             <div className="flex items-center space-x-3">
@@ -127,7 +127,7 @@ export default function Dashboard() {
           </Card>
 
           <Card
-            className="cursor-pointer hover:shadow-md transition-shadow duration-200"
+            className="cursor-pointer hover:shadow-md transition-shadow duration-200 bg-white/70 backdrop-blur-sm shadow-lg rounded-2xl border-border"
             onClick={handleContinueStudying}
           >
             <div className="flex items-center space-x-3">
@@ -142,7 +142,7 @@ export default function Dashboard() {
           </Card>
 
           <Card
-            className="cursor-pointer hover:shadow-md transition-shadow duration-200"
+            className="cursor-pointer hover:shadow-md transition-shadow duration-200 bg-white/70 backdrop-blur-sm shadow-lg rounded-2xl border-border"
             onClick={handleReviewMissed}
           >
             <div className="flex items-center space-x-3">
@@ -157,7 +157,7 @@ export default function Dashboard() {
           </Card>
 
           <Card
-            className="cursor-pointer hover:shadow-md transition-shadow duration-200 opacity-50"
+            className="cursor-pointer hover:shadow-md transition-shadow duration-200 opacity-50 bg-white/70 backdrop-blur-sm shadow-lg rounded-2xl border-border"
           >
             <div className="flex items-center space-x-3">
               <div className="bg-gray-100 p-3 rounded-lg">
@@ -173,7 +173,7 @@ export default function Dashboard() {
 
         {/* Quick Stats */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          <Card>
+          <Card className="bg-white/70 backdrop-blur-sm shadow-lg rounded-2xl border-border">
             <div className="text-center">
               <p className="text-3xl font-bold text-primary-600">
                 {state.userProgress.reduce((sum, p) => sum + p.questions_attempted, 0)}
@@ -182,7 +182,7 @@ export default function Dashboard() {
             </div>
           </Card>
 
-          <Card>
+          <Card className="bg-white/70 backdrop-blur-sm shadow-lg rounded-2xl border-border">
             <div className="text-center">
               <p className="text-3xl font-bold text-green-600">
                 {state.userProgress.reduce((sum, p) => sum + p.questions_correct, 0)}
@@ -191,7 +191,7 @@ export default function Dashboard() {
             </div>
           </Card>
 
-          <Card>
+          <Card className="bg-white/70 backdrop-blur-sm shadow-lg rounded-2xl border-border">
             <div className="text-center">
               <p className="text-3xl font-bold text-blue-600">
                 {state.userProgress.length > 0

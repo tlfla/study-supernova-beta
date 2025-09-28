@@ -246,8 +246,8 @@ export default function Results() {
                     onClick={() => handleToggleBookmark(result.question.id)}
                     className={`p-1 rounded transition-colors duration-200 ${
                       result.isBookmarked
-                        ? 'text-bookmark-active hover:text-bookmark-hover'
-                        : 'text-gray-400 hover:text-bookmark-active'
+                        ? 'text-bookmark-500 hover:text-bookmark-600'
+                        : 'text-gray-400 hover:text-bookmark-500'
                     }`}
                   >
                     <Bookmark className={`h-4 w-4 ${result.isBookmarked ? 'fill-current' : ''}`} />
