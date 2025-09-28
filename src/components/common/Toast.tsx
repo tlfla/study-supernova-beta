@@ -13,10 +13,10 @@ interface ToastProps {
 }
 
 const toastStyles = {
-  success: 'border-l-success bg-green-50 text-green-800',
-  error: 'border-l-danger bg-red-50 text-red-800',
-  warning: 'border-l-warning bg-yellow-50 text-yellow-800',
-  info: 'border-l-info bg-blue-50 text-blue-800'
+  success: 'toast-success',
+  error: 'toast-error',
+  warning: 'toast-warning',
+  info: 'toast-info'
 }
 
 export default function Toast({

@@ -9,18 +9,18 @@
     --border: 214.3 31.8% 91.4%;
     --input: 214.3 31.8% 91.4%;
     --ring: 222.2 84% 4.9%;
-    --primary-300: 110 215 204;
-    --primary-400: 59 198 184;
-    --primary-500: 17 181 164;
-    --primary-600: 15 163 150;
-    --primary-700: 13 142 131;
-    --secondary-500: 123 158 255;
-    --bookmark-active: 255 180 54;
-    --bookmark-hover: 226 165 47;
-    --success: 45 201 138;
-    --warning: 255 200 92;
-    --danger: 255 107 107;
-    --info: 56 189 248;
+    --primary-300: 172 66% 50%;
+    --primary-400: 172 66% 44%;
+    --primary-500: 172 66% 38%;
+    --primary-600: 172 66% 35%;
+    --primary-700: 172 66% 32%;
+    --secondary-500: 235 100% 75%;
+    --bookmark-500: 37 92% 60%;
+    --bookmark-600: 37 92% 50%;
+    --success: 158 64% 52%;
+    --warning: 38 92% 67%;
+    --danger: 0 84% 60%;
+    --info: 204 100% 59%;
   }
 
   * {
@@ -38,7 +38,7 @@
   }
 
   .btn-secondary {
-    @apply bg-secondary-500 hover:bg-secondary-600 text-white font-medium py-3 px-6 rounded-lg transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-secondary-500 focus:ring-offset-2;
+    @apply bg-secondary-500 hover:bg-primary-600 text-white font-medium py-3 px-6 rounded-lg transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-secondary-500 focus:ring-offset-2;
   }
 
   .btn-outline {
@@ -62,18 +62,18 @@
   }
 
   .toast-success {
-    @apply border-l-4 border-success;
+    @apply border-l-4 border-success bg-success text-white;
   }
 
   .toast-error {
-    @apply border-l-4 border-danger;
+    @apply border-l-4 border-danger bg-danger text-white;
   }
 
   .toast-warning {
-    @apply border-l-4 border-warning;
+    @apply border-l-4 border-warning bg-warning text-white;
   }
 
   .toast-info {
-    @apply border-l-4 border-info;
+    @apply border-l-4 border-info bg-info text-white;
   }
 }

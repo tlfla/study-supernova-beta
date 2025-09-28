@@ -14,6 +14,9 @@ export default function Results() {
   const [results, setResults] = useState<any[]>([])
   const [isBookmarkingAll, setIsBookmarkingAll] = useState(false)
 
+  // Compute whether all visible questions are bookmarked
+  const allBookmarked = results.length > 0 && results.every(result => result.isBookmarked)
+
   const quizState = state.quizState
 
   useEffect(() => {
@@ -60,32 +63,51 @@ export default function Results() {
   }
 
   const handleBookmarkAll = async () => {
-    if (!state.currentUser || isBookmarkingAll) return
+    if (!state.currentUser || isBookmarkingAll || results.length === 0) return
 
     setIsBookmarkingAll(true)
 
     try {
-      const questionsToBookmark = results
-        .filter(result => !result.isBookmarked)
-        .map(result => result.question.id)
-
-      await Promise.all(
-        questionsToBookmark.map(questionId =>
-          dataProvider.toggleBookmark(state.currentUser!.id, questionId)
+      if (allBookmarked) {
+        // Unbookmark all questions
+        await Promise.all(
+          results.map(result =>
+            dataProvider.toggleBookmark(state.currentUser!.id, result.question.id)
+          )
         )
-      )
+
+        dispatch({
+          type: 'SHOW_TOAST',
+          payload: {
+            type: 'success',
+            title: 'Bookmarks Removed',
+            message: `All ${results.length} questions have been removed from bookmarks.`
+          }
+        })
+      } else {
+        // Bookmark all questions
+        const questionsToBookmark = results
+          .filter(result => !result.isBookmarked)
+          .map(result => result.question.id)
+
+        await Promise.all(
+          questionsToBookmark.map(questionId =>
+            dataProvider.toggleBookmark(state.currentUser!.id, questionId)
+          )
+        )
+
+        dispatch({
+          type: 'SHOW_TOAST',
+          payload: {
+            type: 'success',
+            title: 'Questions Bookmarked',
+            message: `${questionsToBookmark.length} questions have been bookmarked for review.`
+          }
+        })
+      }
 
       // Refresh results
       await calculateResults()
-
-      dispatch({
-        type: 'SHOW_TOAST',
-        payload: {
-          type: 'success',
-          title: 'Questions Bookmarked',
-          message: `${questionsToBookmark.length} questions have been bookmarked for review.`
-        }
-      })
     } catch (error) {
       console.error('Failed to bookmark questions:', error)
       dispatch({
@@ -167,12 +189,13 @@ export default function Results() {
         <div className="flex flex-col sm:flex-row gap-4 mb-8">
           <Button
             onClick={handleBookmarkAll}
-            variant="outline"
-            className="flex-1"
+            variant={allBookmarked ? "primary" : "outline"}
+            className={`flex-1 ${allBookmarked ? 'bg-[var(--bookmark-500)] hover:bg-[var(--bookmark-600)]' : ''}`}
             isLoading={isBookmarkingAll}
+            aria-pressed={allBookmarked}
           >
             <Bookmark className="h-4 w-4 mr-2" />
-            Bookmark All Questions
+            {allBookmarked ? 'Bookmarked All' : 'Bookmark All Questions'}
           </Button>
           <Button
             onClick={handleRetakeQuiz}
