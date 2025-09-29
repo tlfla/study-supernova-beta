@@ -8,24 +8,25 @@ import Modal from '../components/common/Modal'
 
 function getCategoryColor(category: string, opacity: number = 1) {
   const colors: Record<string, string> = {
-    'Anatomy & Physiology': '#6AA9FF',
-    'Intra-operative': '#E87177',
-    'Pre-operative': '#6AA9FF',
-    'Post-operative': '#39C0A8',
-    'Sterilization': '#A78BFA',
-    'General Surgery': '#11B5A4',
-    'Neurosurgery': '#7B9EFF',
-    'Orthopedic': '#FFB436',
-    'Cardiovascular': '#2DC98A',
-    'Surgical Procedures': '#E87177',
-    'Instrumentation': '#A78BFA',
-    'Patient Care': '#39C0A8',
-    'Microbiology': '#6AA9FF',
-    'Pharmacology': '#FFB436',
-    'Medical Ethics': '#2DC98A',
-    'Emergency Procedures': '#E87177',
-    'Post-Operative Care': '#39C0A8'
+    'Anatomy & Physiology': '#E85D75',
+    'Microbiology': '#4CAF82',
+    'Pharmacology': '#4A9FE8',
+    'Sterilization and Decontamination': '#8B7BC7',
+    'Cardiovascular': '#E85D6B',
+    'General Surgery': '#6B7280',
+    'Genitourinary': '#F5B947',
+    'Neurology': '#5A7C99',
+    'Ophthalmic': '#FF9F5A',
+    'Orthopedic': '#5BA3D4',
+    'Otorhinolaryngology': '#64B5F6',
+    'Peripheral Vascular': '#F08C84',
+    'Plastics and Reconstructive': '#EDAD5C',
+    'Obstetrics and Gynecology': '#E88A8A',
+    'Preoperative': '#52C9B0',
+    'Postoperative': '#F4D03F',
+    'Professional and Administrative Responsibilities': '#B591D6'
   };
+  
   const baseColor = colors[category] || '#11B5A4';
   
   if (opacity < 1) {
