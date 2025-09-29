@@ -1,5 +1,5 @@
 import { useLocation, useNavigate } from 'react-router-dom'
-import { Home, BookOpen, RotateCcw, GraduationCap, User } from 'lucide-react'
+import { Home, BookOpen, RotateCcw, GraduationCap, User, Play } from 'lucide-react'
 import { clsx } from 'clsx'
 
 interface TabItem {
@@ -10,6 +10,7 @@ interface TabItem {
 
 const tabs: TabItem[] = [
   { path: '/', label: 'Home', icon: Home },
+  { path: '/quiz-options', label: 'Quiz', icon: Play },
   { path: '/review', label: 'Review', icon: RotateCcw },
   { path: '/study', label: 'Study', icon: GraduationCap },
   { path: '/profile', label: 'Profile', icon: User }

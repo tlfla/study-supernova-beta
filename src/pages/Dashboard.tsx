@@ -122,95 +122,96 @@ export default function Dashboard() {
           </div>
         </Card>
 
-        {/* Hero Actions - Exactly 3 centered and tall */}
-        <div className="flex justify-center gap-6 mb-12">
+        {/* Quick Actions - 2x2 Grid */}
+        <div className="grid grid-cols-2 gap-4 mb-8 max-w-2xl mx-auto">
           <Card
-            className="cursor-pointer hover:shadow-lg transition-all duration-200 bg-white/70 backdrop-blur-sm shadow-lg rounded-2xl border-border min-h-[120px] w-80 flex flex-col justify-center"
+            className="cursor-pointer transition-all duration-200 border border-black/10 rounded-xl shadow-sm min-h-[110px] flex flex-col justify-center hover:ring-2 hover:ring-[var(--primary-500)]/20"
             onClick={handleStartQuiz}
           >
-            <div className="text-center">
-              <div className="bg-primary-500 w-12 h-12 rounded-full flex items-center justify-center mx-auto mb-4">
-                <Play className="h-6 w-6 text-white" />
+            <div className="text-center p-4">
+              <div className="w-10 h-10 rounded-full flex items-center justify-center mx-auto mb-3" style={{ backgroundColor: 'var(--primary-500)' }}>
+                <Play className="h-5 w-5 text-white" />
               </div>
-              <h3 className="font-semibold text-gray-900 text-lg mb-2">Start New Quiz</h3>
-              <p className="text-sm text-gray-600">Begin your practice session</p>
+              <h3 className="font-semibold text-gray-900 text-base mb-1">Start Quiz</h3>
+              <p className="text-xs text-gray-600">Practice session</p>
             </div>
           </Card>
 
           <Card
-            className="cursor-pointer hover:shadow-lg transition-all duration-200 bg-white/70 backdrop-blur-sm shadow-lg rounded-2xl border-border min-h-[120px] w-80 flex flex-col justify-center hover:bg-primary-50/70"
+            className="cursor-pointer transition-all duration-200 border border-black/10 rounded-xl shadow-sm min-h-[110px] flex flex-col justify-center hover:ring-2 hover:ring-[var(--primary-500)]/20"
             onClick={handleReviewMissed}
           >
-            <div className="text-center">
-              <div className="bg-primary-100 w-12 h-12 rounded-full flex items-center justify-center mx-auto mb-4">
-                <RotateCcw className="h-6 w-6 text-primary-600" />
+            <div className="text-center p-4">
+              <div className="w-10 h-10 rounded-full bg-gray-100 flex items-center justify-center mx-auto mb-3">
+                <RotateCcw className="h-5 w-5" style={{ color: 'var(--primary-500)' }} />
               </div>
-              <h3 className="font-semibold text-gray-900 text-lg mb-2">Review Missed Questions</h3>
-              <p className="text-sm text-gray-600">Focus on areas that need work</p>
+              <h3 className="font-semibold text-gray-900 text-base mb-1">Review Missed</h3>
+              <p className="text-xs text-gray-600">Focus on weak areas</p>
             </div>
           </Card>
 
           <Card
-            className="cursor-pointer hover:shadow-lg transition-all duration-200 bg-white/70 backdrop-blur-sm shadow-lg rounded-2xl border-border min-h-[120px] w-80 flex flex-col justify-center hover:bg-primary-50/70"
+            className="cursor-pointer transition-all duration-200 border border-black/10 rounded-xl shadow-sm min-h-[110px] flex flex-col justify-center hover:ring-2 hover:ring-[var(--primary-500)]/20"
             onClick={handleStudyResources}
           >
-            <div className="text-center">
-              <div className="bg-primary-100 w-12 h-12 rounded-full flex items-center justify-center mx-auto mb-4">
-                <BookOpen className="h-6 w-6 text-primary-600" />
+            <div className="text-center p-4">
+              <div className="w-10 h-10 rounded-full bg-gray-100 flex items-center justify-center mx-auto mb-3">
+                <BookOpen className="h-5 w-5" style={{ color: 'var(--primary-500)' }} />
               </div>
-              <h3 className="font-semibold text-gray-900 text-lg mb-2">Study Resources</h3>
-              <p className="text-sm text-gray-600">Access study materials and guides</p>
+              <h3 className="font-semibold text-gray-900 text-base mb-1">Study Resources</h3>
+              <p className="text-xs text-gray-600">Materials & guides</p>
+            </div>
+          </Card>
+
+          <Card
+            className="cursor-pointer transition-all duration-200 border border-black/10 rounded-xl shadow-sm min-h-[110px] flex flex-col justify-center hover:ring-2 hover:ring-[var(--primary-500)]/20"
+            onClick={() => navigate('/profile#performance')}
+          >
+            <div className="text-center p-4">
+              <div className="w-10 h-10 rounded-full bg-gray-100 flex items-center justify-center mx-auto mb-3">
+                <TrendingUp className="h-5 w-5" style={{ color: 'var(--primary-500)' }} />
+              </div>
+              <h3 className="font-semibold text-gray-900 text-base mb-1">Performance</h3>
+              <p className="text-xs text-gray-600">Track progress</p>
             </div>
           </Card>
         </div>
 
-        {/* Category Performance */}
-        <Card className="bg-white/70 backdrop-blur-sm shadow-lg rounded-2xl border-border mb-8">
-          <button
-            onClick={() => setCategoryPerformanceExpanded(!categoryPerformanceExpanded)}
-            className="flex items-center justify-between w-full text-left"
-          >
-            <h2 className="text-xl font-semibold text-gray-900">Category Performance</h2>
-            <div className="flex items-center space-x-2">
-              <div className="text-sm text-gray-600">
-                {categoryPerformanceExpanded ? 'Collapse' : 'Expand'}
+        {/* Category Performance Snippet */}
+        <Card className="border border-black/10 rounded-xl shadow-sm">
+          <div className="flex items-center justify-between mb-4">
+            <h2 className="text-lg font-semibold text-gray-900">Top Categories</h2>
+            <button 
+              onClick={() => navigate('/profile#performance')}
+              className="text-sm font-medium hover:underline"
+              style={{ color: 'var(--primary-500)' }}
+            >
+              View all →
+            </button>
+          </div>
+          <div className="space-y-3">
+            {[
+              { name: 'Anatomy & Physiology', score: 85 },
+              { name: 'Surgical Procedures', score: 78 },
+              { name: 'Instrumentation', score: 92 }
+            ].map((category) => (
+              <div key={category.name} className="space-y-1">
+                <div className="flex items-center justify-between text-sm">
+                  <span className="text-gray-700">{category.name}</span>
+                  <span className="font-medium text-gray-900">{category.score}%</span>
+                </div>
+                <div className="w-full bg-gray-200 rounded-full h-2">
+                  <div
+                    className="h-2 rounded-full transition-all duration-300"
+                    style={{
+                      width: `${category.score}%`,
+                      backgroundColor: 'var(--primary-500)'
+                    }}
+                  />
+                </div>
               </div>
-              {categoryPerformanceExpanded ? (
-                <ChevronUp className="h-5 w-5 text-gray-400" />
-              ) : (
-                <ChevronDown className="h-5 w-5 text-gray-400" />
-              )}
-            </div>
-          </button>
-
-          {categoryPerformanceExpanded && (
-            <div className="mt-6 pt-6 border-t border-gray-200">
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                {['Anatomy & Physiology', 'Surgical Procedures', 'Instrumentation'].map((category) => (
-                  <div key={category} className="space-y-3">
-                    <div className="flex items-center justify-between">
-                      <h3 className="font-medium text-gray-900">{category}</h3>
-                      <span className="text-sm text-gray-500">Best: 85%</span>
-                    </div>
-                    <div className="space-y-2">
-                      {/* Mock line graph placeholder */}
-                      <div className="h-16 bg-gray-50 rounded-lg flex items-end justify-between p-2 border border-gray-100">
-                        <div className="w-2 h-8 bg-primary-300 rounded-t"></div>
-                        <div className="w-2 h-12 bg-primary-400 rounded-t"></div>
-                        <div className="w-2 h-6 bg-primary-500 rounded-t"></div>
-                        <div className="w-2 h-10 bg-primary-600 rounded-t"></div>
-                        <div className="w-2 h-14 bg-primary-700 rounded-t"></div>
-                      </div>
-                      <div className="flex justify-between text-sm text-gray-600">
-                        <span>Practice this week: 12</span>
-                        <span>Tap to review →</span>
-                      </div>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </div>
-          )}
+            ))}
+          </div>
         </Card>
 
       </div>

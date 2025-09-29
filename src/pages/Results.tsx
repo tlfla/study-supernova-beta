@@ -167,31 +167,22 @@ export default function Results() {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
           <Card>
             <div className="text-center">
-              <div className="inline-flex items-center justify-center w-16 h-16 bg-green-100 rounded-full mb-4">
-                <CheckCircle className="h-8 w-8 text-green-600" />
-              </div>
-              <p className="text-3xl font-bold text-green-600">{correctAnswers}</p>
-              <p className="text-gray-600">Correct</p>
+              <p className="text-gray-600 text-sm mb-1">Correct</p>
+              <p className="text-2xl font-bold" style={{ color: 'var(--success-500)' }}>{correctAnswers}</p>
             </div>
           </Card>
 
           <Card>
             <div className="text-center">
-              <div className="inline-flex items-center justify-center w-16 h-16 bg-orange-100 rounded-full mb-4">
-                <XCircle className="h-8 w-8 text-orange-500" />
-              </div>
-              <p className="text-3xl font-bold text-orange-600">{incorrectAnswers}</p>
-              <p className="text-gray-600">Incorrect</p>
+              <p className="text-gray-600 text-sm mb-1">Incorrect</p>
+              <p className="text-2xl font-bold text-gray-900">{incorrectAnswers}</p>
             </div>
           </Card>
 
           <Card>
             <div className="text-center">
-              <div className="inline-flex items-center justify-center w-16 h-16 bg-primary-100 rounded-full mb-4">
-                <span className="text-2xl font-bold text-primary-600">{score}%</span>
-              </div>
-              <p className="text-3xl font-bold text-primary-600">{score}%</p>
-              <p className="text-gray-600">Score</p>
+              <p className="text-gray-600 text-sm mb-1">Score</p>
+              <p className="text-2xl font-bold" style={{ color: 'var(--primary-500)' }}>{score}%</p>
             </div>
           </Card>
         </div>
@@ -248,21 +239,23 @@ export default function Results() {
                     <span className="text-sm font-medium text-gray-600">
                       Question {result.questionNumber}
                     </span>
-                    <span className={`inline-flex items-center px-2 py-1 rounded-full text-xs font-medium ${
-                      result.isCorrect
-                        ? 'bg-green-100 text-green-800'
-                        : 'bg-orange-100 text-orange-700'
-                    }`}>
+                    <span 
+                      className="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium border"
+                      style={result.isCorrect 
+                        ? { borderColor: 'var(--success-500)', color: 'var(--success-500)', backgroundColor: '#F0FFF4' }
+                        : { borderColor: 'rgba(0,0,0,0.1)', backgroundColor: '#FFE9E9', color: '#666' }
+                      }
+                    >
                       {result.isCorrect ? 'Correct' : 'Review'}
                     </span>
                   </div>
                   <button
                     onClick={() => handleToggleBookmark(result.question.id)}
-                    className={`p-1 rounded transition-colors duration-200 ${
-                      result.isBookmarked
-                        ? 'text-bookmark-500 hover:text-bookmark-600'
-                        : 'text-gray-400 hover:text-bookmark-500'
-                    }`}
+                    className="p-2 rounded-lg border transition-colors duration-200"
+                    style={result.isBookmarked 
+                      ? { backgroundColor: 'var(--bookmark-500)', borderColor: 'var(--bookmark-600)', color: 'black' }
+                      : { borderColor: 'rgba(0,0,0,0.2)', color: 'rgba(0,0,0,0.6)' }
+                    }
                   >
                     <Bookmark className={`h-4 w-4 ${result.isBookmarked ? 'fill-current' : ''}`} />
                   </button>
@@ -280,20 +273,18 @@ export default function Results() {
                     return (
                       <div
                         key={option}
-                        className={`rounded-xl px-3 py-2 text-sm ${
-                          isCorrectAnswer
-                            ? 'border border-success bg-green-50 text-green-800 font-medium'
-                            : isUserAnswer
-                            ? 'border border-black/20 bg-white text-gray-900'
-                            : 'border border-black/10 bg-white text-gray-700'
-                        }`}
+                        className="rounded-xl px-3 py-2 text-sm border text-gray-900"
+                        style={{
+                          ...(isCorrectAnswer ? { borderColor: 'var(--success-500)' } : { borderColor: 'rgba(0,0,0,0.1)' }),
+                          ...(isUserAnswer && !isCorrectAnswer ? { backgroundColor: '#FFE9E9' } : { backgroundColor: 'white' })
+                        }}
                       >
                         <span className="font-medium">{option}:</span> {result.question.options[option]}
                         {isCorrectAnswer && (
-                          <span className="ml-2">✓ Correct Answer</span>
+                          <span className="ml-2" style={{ color: 'var(--success-500)' }}>✓</span>
                         )}
                         {isUserAnswer && !isCorrectAnswer && (
-                          <span className="ml-2" style={{ color: 'var(--warning-500)' }}>• Your Answer</span>
+                          <span className="ml-2 text-gray-600">← Your Answer</span>
                         )}
                       </div>
                     )
@@ -311,9 +302,11 @@ export default function Results() {
                     </span>
                   </button>
                   {expandedExplanations.has(result.question.id) && (
-                    <p className="text-sm text-gray-600 mt-2 leading-relaxed">
-                      {result.question.explanation}
-                    </p>
+                    <div className="mt-2 rounded-lg border border-black/10 px-3 py-2" style={{ backgroundColor: '#F0F6FF' }}>
+                      <p className="text-sm text-gray-700 leading-relaxed">
+                        {result.question.explanation}
+                      </p>
+                    </div>
                   )}
                 </div>
               </div>

@@ -43,12 +43,21 @@ const questionCounts = [
   { value: '100', label: '100 Questions' }
 ]
 
+const questionSources = [
+  { value: 'fresh', label: 'Fresh Questions' },
+  { value: 'missed', label: 'Missed Questions' },
+  { value: 'bookmarked', label: 'Bookmarked' },
+  { value: 'all_available', label: 'All Available' }
+]
+
 export default function QuizOptions() {
   const navigate = useNavigate()
   const { dispatch } = useAppContext()
   const dataProvider = DataProvider.getInstance()
 
+  const [selectedCategory, setSelectedCategory] = useState('all')
   const [selectedQuestionCount, setSelectedQuestionCount] = useState('20')
+  const [selectedSource, setSelectedSource] = useState('fresh')
   const [selectedTimeLimit, setSelectedTimeLimit] = useState('none')
   const [selectedMode, setSelectedMode] = useState('practice')
   const [isLoading, setIsLoading] = useState(false)
@@ -142,10 +151,68 @@ export default function QuizOptions() {
 
       {/* Main Content */}
       <div className="max-w-4xl mx-auto px-4 py-8 safe-area-padding-left safe-area-padding-right safe-area-padding-bottom">
-        <Card className="mb-8 bg-white/70 backdrop-blur-sm shadow-lg rounded-2xl border-border">
+        <Card className="mb-8 border border-black/10 rounded-xl shadow-sm bg-white">
           <h2 className="text-xl font-semibold text-gray-900 mb-6">Quiz Configuration</h2>
 
           <div className="space-y-6">
+            {/* Category */}
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-2">
+                Category
+              </label>
+              <Dropdown
+                options={categories}
+                value={selectedCategory}
+                onChange={setSelectedCategory}
+                placeholder="Select category"
+              />
+            </div>
+
+            {/* Question Source */}
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-2">
+                Question Source
+              </label>
+              <Dropdown
+                options={questionSources}
+                value={selectedSource}
+                onChange={setSelectedSource}
+                placeholder="Select source"
+              />
+            </div>
+
+            {/* Question Count */}
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-2">
+                Number of Questions
+              </label>
+              <input
+                type="number"
+                min="5"
+                max="100"
+                step="5"
+                value={selectedQuestionCount}
+                onChange={(e) => setSelectedQuestionCount(e.target.value)}
+                className="w-full bg-white border border-black/10 rounded-xl px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[var(--primary-500)] focus:border-[var(--primary-500)]"
+              />
+              <div className="flex gap-2 mt-2">
+                {['10', '20', '30'].map((count) => (
+                  <button
+                    key={count}
+                    onClick={() => setSelectedQuestionCount(count)}
+                    className={`px-3 py-1 text-sm rounded-lg border transition-colors ${
+                      selectedQuestionCount === count
+                        ? 'border-[var(--primary-500)] text-white'
+                        : 'border-black/10 text-gray-700 hover:border-black/20'
+                    }`}
+                    style={selectedQuestionCount === count ? { backgroundColor: 'var(--primary-500)' } : {}}
+                  >
+                    {count}
+                  </button>
+                ))}
+              </div>
+            </div>
+
             {/* Quiz Mode */}
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-2">
@@ -161,19 +228,6 @@ export default function QuizOptions() {
                 Practice: Shows rationales after answer submission; optional timer.
                 Exam: No rationales until results; timer on by default.
               </p>
-            </div>
-
-            {/* Question Count */}
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
-                Number of Questions
-              </label>
-              <Dropdown
-                options={questionCounts}
-                value={selectedQuestionCount}
-                onChange={setSelectedQuestionCount}
-                placeholder="Select question count"
-              />
             </div>
 
             {/* Time Limit */}
@@ -196,14 +250,16 @@ export default function QuizOptions() {
 
         {/* Start Quiz Button */}
         <div className="flex justify-center">
-          <Button
+          <button
             onClick={handleStartQuiz}
-            isLoading={isLoading}
-            size="lg"
-            className="px-8"
+            disabled={isLoading}
+            className="px-8 py-3 text-white font-medium rounded-lg transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 disabled:opacity-50"
+            style={{ backgroundColor: 'var(--primary-500)' }}
+            onMouseEnter={(e) => !isLoading && (e.currentTarget.style.backgroundColor = 'var(--primary-600)')}
+            onMouseLeave={(e) => !isLoading && (e.currentTarget.style.backgroundColor = 'var(--primary-500)')}
           >
-            Start Quiz
-          </Button>
+            {isLoading ? 'Loading...' : 'Start Quiz'}
+          </button>
         </div>
       </div>
     </div>

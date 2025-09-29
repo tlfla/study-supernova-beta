@@ -212,13 +212,13 @@ export default function Quiz() {
               )}
               <button
                 onClick={handleBookmarkToggle}
-                className={`p-2 rounded-lg transition-colors duration-200 ${
-                  isBookmarked
-                    ? 'text-bookmark-500 hover:text-bookmark-600'
-                    : 'text-gray-400 hover:text-bookmark-500'
-                }`}
+                className="p-2 rounded-lg border transition-colors duration-200"
+                style={isBookmarked 
+                  ? { backgroundColor: 'var(--bookmark-500)', borderColor: 'var(--bookmark-600)', color: 'black' }
+                  : { borderColor: 'rgba(0,0,0,0.2)', color: 'rgba(0,0,0,0.6)' }
+                }
               >
-                <Bookmark className="h-4 w-4" />
+                <Bookmark className={`h-4 w-4 ${isBookmarked ? 'fill-current' : ''}`} />
               </button>
             </div>
           </div>
@@ -261,15 +261,21 @@ export default function Quiz() {
                   selectedAnswer === option
                     ? shouldShowFeedback
                       ? option === currentQuestion.correct
-                        ? 'border border-success outline outline-1 outline-black/10 bg-green-50 text-green-800'
-                        : 'border border-black/20 outline outline-1 outline-black/10 bg-white text-gray-900'
+                        ? 'border text-gray-900'
+                        : 'border border-black/10 text-gray-900'
                       : isExamMode
                         ? 'border border-black/10 outline outline-1 outline-black/10'
-                        : 'border border-primary-500 outline outline-1 outline-black/10 bg-primary-50 text-primary-800'
+                        : 'border outline outline-1 outline-black/10 text-gray-900'
                     : shouldShowFeedback && option === currentQuestion.correct
-                    ? 'border border-success bg-green-50 text-green-800'
+                    ? 'border text-gray-900'
                     : 'border border-black/10 hover:border-black/20'
                 }`}
+                style={{
+                  ...(selectedAnswer === option && shouldShowFeedback && option === currentQuestion.correct ? { borderColor: 'var(--success-500)' } : {}),
+                  ...(selectedAnswer === option && shouldShowFeedback && option !== currentQuestion.correct ? { backgroundColor: '#FFE9E9' } : {}),
+                  ...(shouldShowFeedback && option === currentQuestion.correct && selectedAnswer !== option ? { borderColor: 'var(--success-500)' } : {}),
+                  ...(selectedAnswer === option && !shouldShowFeedback && !isExamMode ? { borderColor: 'var(--primary-500)' } : {})
+                }}
               >
                 <div className="flex items-start space-x-3">
                   <span className="flex-shrink-0 w-6 h-6 rounded-full border-2 flex items-center justify-center text-sm font-medium mt-0.5">

@@ -96,9 +96,11 @@ export default function Profile() {
               </div>
               <button
                 onClick={() => handleToggle('notifications')}
-                className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 ${
-                  settings.notifications ? 'bg-primary-500' : 'bg-gray-200'
-                }`}
+                className="relative inline-flex h-6 w-11 items-center rounded-full transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2"
+                style={{ 
+                  backgroundColor: settings.notifications ? 'var(--primary-500)' : '#E5E7EB',
+                  boxShadow: settings.notifications ? `0 0 0 2px var(--primary-500)` : 'none'
+                }}
               >
                 <span
                   className={`inline-block h-4 w-4 transform rounded-full bg-white transition-transform duration-200 ${
@@ -119,9 +121,10 @@ export default function Profile() {
               </div>
               <button
                 onClick={() => handleToggle('soundEffects')}
-                className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 ${
-                  settings.soundEffects ? 'bg-primary-500' : 'bg-gray-200'
-                }`}
+                className="relative inline-flex h-6 w-11 items-center rounded-full transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2"
+                style={{ 
+                  backgroundColor: settings.soundEffects ? 'var(--primary-500)' : '#E5E7EB'
+                }}
               >
                 <span
                   className={`inline-block h-4 w-4 transform rounded-full bg-white transition-transform duration-200 ${
@@ -142,9 +145,10 @@ export default function Profile() {
               </div>
               <button
                 onClick={() => handleToggle('darkMode')}
-                className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 ${
-                  settings.darkMode ? 'bg-primary-500' : 'bg-gray-200'
-                }`}
+                className="relative inline-flex h-6 w-11 items-center rounded-full transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2"
+                style={{ 
+                  backgroundColor: settings.darkMode ? 'var(--primary-500)' : '#E5E7EB'
+                }}
               >
                 <span
                   className={`inline-block h-4 w-4 transform rounded-full bg-white transition-transform duration-200 ${
@@ -165,9 +169,10 @@ export default function Profile() {
               </div>
               <button
                 onClick={() => handleToggle('highContrast')}
-                className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 ${
-                  settings.highContrast ? 'bg-primary-500' : 'bg-gray-200'
-                }`}
+                className="relative inline-flex h-6 w-11 items-center rounded-full transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2"
+                style={{ 
+                  backgroundColor: settings.highContrast ? 'var(--primary-500)' : '#E5E7EB'
+                }}
               >
                 <span
                   className={`inline-block h-4 w-4 transform rounded-full bg-white transition-transform duration-200 ${
@@ -186,24 +191,62 @@ export default function Profile() {
           </div>
         </Card>
 
+        {/* Category Performance */}
+        <Card className="mb-8" id="performance">
+          <h2 className="text-xl font-semibold text-gray-900 mb-6">Category Performance</h2>
+          <div className="space-y-4">
+            {[
+              { name: 'Anatomy & Physiology', score: 85, attempted: 45 },
+              { name: 'Surgical Procedures', score: 78, attempted: 38 },
+              { name: 'Instrumentation', score: 92, attempted: 52 },
+              { name: 'Sterilization', score: 88, attempted: 41 },
+              { name: 'Patient Care', score: 76, attempted: 35 },
+              { name: 'Microbiology', score: 81, attempted: 28 },
+              { name: 'Pharmacology', score: 73, attempted: 30 },
+              { name: 'Medical Ethics', score: 90, attempted: 22 },
+              { name: 'Emergency Procedures', score: 69, attempted: 18 },
+              { name: 'Post-Operative Care', score: 84, attempted: 25 }
+            ].map((category) => (
+              <div key={category.name} className="space-y-2">
+                <div className="flex items-center justify-between text-sm">
+                  <span className="text-gray-700 font-medium">{category.name}</span>
+                  <div className="flex items-center gap-3">
+                    <span className="text-gray-500 text-xs">{category.attempted} attempted</span>
+                    <span className="font-bold text-gray-900 min-w-[45px] text-right">{category.score}%</span>
+                  </div>
+                </div>
+                <div className="w-full bg-gray-200 rounded-full h-2">
+                  <div
+                    className="h-2 rounded-full transition-all duration-300"
+                    style={{
+                      width: `${category.score}%`,
+                      backgroundColor: 'var(--primary-500)'
+                    }}
+                  />
+                </div>
+              </div>
+            ))}
+          </div>
+        </Card>
+
         {/* Your Stats */}
-        <Card>
+        <Card className="mb-8">
           <h2 className="text-xl font-semibold text-gray-900 mb-6">Your Stats</h2>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             <div className="text-center">
-              <p className="text-3xl font-bold text-primary-600">
+              <p className="text-3xl font-bold" style={{ color: 'var(--primary-500)' }}>
                 {state.userProgress.reduce((sum, p) => sum + p.questions_attempted, 0)}
               </p>
               <p className="text-sm text-gray-600 mt-1">Questions Attempted</p>
             </div>
             <div className="text-center">
-              <p className="text-3xl font-bold text-green-600">
+              <p className="text-3xl font-bold" style={{ color: 'var(--success-500)' }}>
                 {state.userProgress.reduce((sum, p) => sum + p.questions_correct, 0)}
               </p>
               <p className="text-sm text-gray-600 mt-1">Correct Answers</p>
             </div>
             <div className="text-center">
-              <p className="text-3xl font-bold text-blue-600">
+              <p className="text-3xl font-bold" style={{ color: 'var(--primary-500)' }}>
                 {state.userProgress.length > 0
                   ? Math.round(state.userProgress.reduce((sum, p) => sum + p.best_score, 0) / state.userProgress.length)
                   : 0
@@ -215,7 +258,7 @@ export default function Profile() {
         </Card>
 
         {/* App Info */}
-        <Card>
+        <Card className="mb-8">
           <h2 className="text-xl font-semibold text-gray-900 mb-6">App Information</h2>
           <div className="space-y-4">
             <div className="flex justify-between items-center">
@@ -224,7 +267,7 @@ export default function Profile() {
             </div>
             <div className="flex justify-between items-center">
               <span className="text-gray-600">Data Provider</span>
-              <span className="font-medium text-primary-600">Mock Data</span>
+              <span className="font-medium" style={{ color: 'var(--primary-500)' }}>Mock Data</span>
             </div>
             <div className="flex justify-between items-center">
               <span className="text-gray-600">Questions Available</span>
