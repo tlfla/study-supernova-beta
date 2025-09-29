@@ -21,6 +21,9 @@
     --warning: 38 92% 67%;
     --danger: 0 84% 60%;
     --info: 204 100% 59%;
+    --glass-bg: 255 255 255 / 0.6;
+    --glass-border: 255 255 255 / 0.4;
+    --shadow-soft: 0 8px 24px 0 0 0 / 0.08;
   }
 
   * {
@@ -46,7 +49,10 @@
   }
 
   .card {
-    @apply bg-white rounded-xl shadow-sm border border-gray-200 p-6;
+    @apply rounded-2xl shadow-lg p-6;
+    background: var(--glass-bg);
+    border: 1px solid var(--glass-border);
+    box-shadow: var(--shadow-soft);
   }
 
   .progress-ring {

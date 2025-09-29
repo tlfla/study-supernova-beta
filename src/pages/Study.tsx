@@ -1,17 +1,33 @@
-import { useState } from 'react'
+import React, { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { ArrowLeft, BookOpen, FileText, Download, Volume2, Play } from 'lucide-react'
 import Card from '../components/common/Card'
 import Button from '../components/common/Button'
 import Toast from '../components/common/Toast'
+import Dropdown from '../components/common/Dropdown'
 
 export default function Study() {
   const navigate = useNavigate()
   const [toast, setToast] = useState<{ type: 'success' | 'error' | 'warning' | 'info'; title: string; message?: string } | null>(null)
+  const [selectedCategory, setSelectedCategory] = useState('all')
+
+  const studyCategories = [
+    { value: 'all', label: 'All Categories' },
+    { value: 'anatomy', label: 'Anatomy & Physiology' },
+    { value: 'procedures', label: 'Surgical Procedures' },
+    { value: 'instruments', label: 'Instrumentation' },
+    { value: 'sterilization', label: 'Sterilization' },
+    { value: 'patient-care', label: 'Patient Care' },
+    { value: 'microbiology', label: 'Microbiology' },
+    { value: 'pharmacology', label: 'Pharmacology' },
+    { value: 'ethics', label: 'Medical Ethics' },
+    { value: 'emergency', label: 'Emergency Procedures' }
+  ]
 
   const studySections = [
     {
       title: 'Audio Resources',
+      category: 'all',
       description: 'Listen to surgical procedures and terminology explanations',
       icon: Volume2,
       items: [
@@ -23,6 +39,7 @@ export default function Study() {
     },
     {
       title: 'Terminology & Flashcards',
+      category: 'all',
       description: 'Interactive flashcards and terminology drills',
       icon: FileText,
       items: [
@@ -34,6 +51,7 @@ export default function Study() {
     },
     {
       title: 'Study Guides',
+      category: 'all',
       description: 'Comprehensive study materials and reference documents',
       icon: Download,
       items: [
@@ -77,8 +95,23 @@ export default function Study() {
 
       {/* Content */}
       <div className="max-w-7xl mx-auto px-4 py-8">
+        {/* Category Filter */}
+        <Card className="mb-8 bg-white/70 backdrop-blur-sm shadow-lg rounded-2xl border-border">
+          <div className="flex items-center justify-between">
+            <h2 className="text-lg font-semibold text-gray-900">Filter by Category</h2>
+            <Dropdown
+              options={studyCategories}
+              value={selectedCategory}
+              onChange={setSelectedCategory}
+              placeholder="Select category"
+            />
+          </div>
+        </Card>
+
         <div className="space-y-8">
-          {studySections.map((section) => (
+          {studySections
+            .filter(section => selectedCategory === 'all' || section.category === selectedCategory)
+            .map((section) => (
             <Card
               key={section.title}
               className="bg-white/70 backdrop-blur-sm shadow-lg rounded-2xl border-border"

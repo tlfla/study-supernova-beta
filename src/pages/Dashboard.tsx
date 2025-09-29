@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import React, { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { Play, BookOpen, RotateCcw, Calendar, Target, TrendingUp, ChevronDown, ChevronUp } from 'lucide-react'
 import { useAppContext } from '../state/AppContext'
@@ -82,66 +82,45 @@ export default function Dashboard() {
                 </h1>
               </div>
             </div>
-            <div className="text-right">
-              <div className="flex flex-col items-end space-y-2">
-                <div className="flex items-center space-x-2">
-                  <ProgressRing progress={readinessScore} size={60} />
-                  <div>
-                    <p className="text-xs text-gray-500">{daysUntilExam} days to exam</p>
-                    <p className="text-sm font-medium text-gray-900">{readinessScore}% ready</p>
-                  </div>
-                </div>
-                <div className="w-32 bg-gray-200 rounded-full h-2">
-                  <div
-                    className="bg-primary-500 h-2 rounded-full transition-all duration-300"
-                    style={{
-                      width: `${Math.min(100, (daysUntilExam / 30) * 100)}%`
-                    }}
-                  />
-                </div>
-              </div>
-            </div>
           </div>
         </div>
       </div>
 
       {/* Main Content */}
       <div className="max-w-7xl mx-auto px-4 py-6">
-        {/* Progress Overview */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
-          {/* Days to Exam + Circle */}
-          <Card className="bg-white/70 backdrop-blur-sm shadow-lg rounded-2xl border-border">
-            <div className="flex items-center justify-between mb-4">
-              <h2 className="text-lg font-semibold text-gray-900">Exam Progress</h2>
-              <Calendar className="h-6 w-6 text-primary-500" />
-            </div>
-            <div className="space-y-4">
-              {/* Days to Exam Bar */}
-              <div>
-                <div className="flex justify-between text-sm mb-2">
-                  <span className="text-gray-600">Days until exam</span>
-                  <span className="font-medium text-primary-600">{daysUntilExam}</span>
-                </div>
-                <div className="w-full bg-gray-200 rounded-full h-2">
-                  <div
-                    className="bg-primary-500 h-2 rounded-full transition-all duration-300"
-                    style={{
-                      width: `${Math.min(100, (daysUntilExam / 30) * 100)}%`
-                    }}
-                  />
-                </div>
-              </div>
+        {/* Exam Progress */}
+        <Card className="bg-white/70 backdrop-blur-sm shadow-lg rounded-2xl border-border mb-8">
+          <div className="flex items-center justify-between mb-6">
+            <h2 className="text-lg font-semibold text-gray-900">Exam Progress</h2>
+            <Calendar className="h-6 w-6 text-primary-500" />
+          </div>
 
-              {/* Circular Progress Ring */}
-              <div className="flex items-center justify-center">
-                <ProgressRing progress={readinessScore} size={120} />
+          <div className="space-y-6">
+            {/* Days to Exam Bar */}
+            <div>
+              <div className="flex justify-between text-sm mb-2">
+                <span className="text-gray-600">Days until exam</span>
+                <span className="font-medium text-primary-600">{daysUntilExam}</span>
               </div>
-              <p className="text-center text-sm text-gray-600">
-                {readinessScore}% study completion
-              </p>
+              <div className="w-full bg-gray-200 rounded-full h-2">
+                <div
+                  className="bg-primary-500 h-2 rounded-full transition-all duration-300"
+                  style={{
+                    width: `${Math.min(100, (daysUntilExam / 30) * 100)}%`
+                  }}
+                />
+              </div>
             </div>
-          </Card>
-        </div>
+
+            {/* Circular Progress Ring */}
+            <div className="flex items-center justify-center">
+              <ProgressRing progress={readinessScore} size={120} />
+            </div>
+            <p className="text-center text-sm text-gray-600">
+              {readinessScore}% study completion
+            </p>
+          </div>
+        </Card>
 
         {/* Hero Actions - Exactly 3 centered and tall */}
         <div className="flex justify-center gap-6 mb-12">
@@ -209,10 +188,13 @@ export default function Dashboard() {
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                 {['Anatomy & Physiology', 'Surgical Procedures', 'Instrumentation'].map((category) => (
                   <div key={category} className="space-y-3">
-                    <h3 className="font-medium text-gray-900">{category}</h3>
+                    <div className="flex items-center justify-between">
+                      <h3 className="font-medium text-gray-900">{category}</h3>
+                      <span className="text-sm text-gray-500">Best: 85%</span>
+                    </div>
                     <div className="space-y-2">
                       {/* Mock line graph placeholder */}
-                      <div className="h-16 bg-gray-100 rounded-lg flex items-end justify-between p-2">
+                      <div className="h-16 bg-gray-50 rounded-lg flex items-end justify-between p-2 border border-gray-100">
                         <div className="w-2 h-8 bg-primary-300 rounded-t"></div>
                         <div className="w-2 h-12 bg-primary-400 rounded-t"></div>
                         <div className="w-2 h-6 bg-primary-500 rounded-t"></div>
@@ -221,7 +203,7 @@ export default function Dashboard() {
                       </div>
                       <div className="flex justify-between text-sm text-gray-600">
                         <span>Practice this week: 12</span>
-                        <span>Best score: 85%</span>
+                        <span>Tap to review →</span>
                       </div>
                     </div>
                   </div>
@@ -231,38 +213,6 @@ export default function Dashboard() {
           )}
         </Card>
 
-        {/* Quick Stats */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          <Card className="bg-white/70 backdrop-blur-sm shadow-lg rounded-2xl border-border">
-            <div className="text-center">
-              <p className="text-3xl font-bold text-primary-600">
-                {state.userProgress.reduce((sum, p) => sum + p.questions_attempted, 0)}
-              </p>
-              <p className="text-sm text-gray-600 mt-1">Questions Attempted</p>
-            </div>
-          </Card>
-
-          <Card className="bg-white/70 backdrop-blur-sm shadow-lg rounded-2xl border-border">
-            <div className="text-center">
-              <p className="text-3xl font-bold text-green-600">
-                {state.userProgress.reduce((sum, p) => sum + p.questions_correct, 0)}
-              </p>
-              <p className="text-sm text-gray-600 mt-1">Correct Answers</p>
-            </div>
-          </Card>
-
-          <Card className="bg-white/70 backdrop-blur-sm shadow-lg rounded-2xl border-border">
-            <div className="text-center">
-              <p className="text-3xl font-bold text-blue-600">
-                {state.userProgress.length > 0
-                  ? Math.round(state.userProgress.reduce((sum, p) => sum + p.best_score, 0) / state.userProgress.length)
-                  : 0
-                }%
-              </p>
-              <p className="text-sm text-gray-600 mt-1">Average Score</p>
-            </div>
-          </Card>
-        </div>
       </div>
     </div>
   )

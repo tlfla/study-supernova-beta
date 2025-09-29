@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import React, { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { ArrowLeft } from 'lucide-react'
 import { useAppContext } from '../state/AppContext'
@@ -40,7 +40,6 @@ export default function QuizOptions() {
   const { dispatch } = useAppContext()
   const dataProvider = DataProvider.getInstance()
 
-  const [selectedCategory, setSelectedCategory] = useState('all')
   const [selectedQuestionCount, setSelectedQuestionCount] = useState('20')
   const [selectedTimeLimit, setSelectedTimeLimit] = useState('none')
   const [selectedMode, setSelectedMode] = useState('practice')
@@ -60,9 +59,6 @@ export default function QuizOptions() {
 
     try {
       const filters: any = {}
-      if (selectedCategory !== 'all') {
-        filters.category = selectedCategory
-      }
       filters.limit = parseInt(selectedQuestionCount)
 
       const questions = await dataProvider.getQuestions(filters)
@@ -80,7 +76,6 @@ export default function QuizOptions() {
       }
 
       const quizSettings = {
-        category: selectedCategory,
         questionCount: parseInt(selectedQuestionCount),
         timeLimit: selectedTimeLimit !== 'none' ? parseInt(selectedTimeLimit) : undefined,
         mode: selectedMode as 'practice' | 'exam'
@@ -143,18 +138,6 @@ export default function QuizOptions() {
           <h2 className="text-xl font-semibold text-gray-900 mb-6">Quiz Configuration</h2>
 
           <div className="space-y-6">
-            {/* Category Selection */}
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
-                Category
-              </label>
-              <Dropdown
-                options={categories}
-                value={selectedCategory}
-                onChange={setSelectedCategory}
-                placeholder="Select a category"
-              />
-            </div>
 
 
             {/* Question Count */}

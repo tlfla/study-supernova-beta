@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { RotateCcw, Home, Bookmark, CheckCircle, XCircle } from 'lucide-react'
 import { useAppContext } from '../state/AppContext'

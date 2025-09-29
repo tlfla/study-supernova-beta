@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import React, { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { ArrowLeft, User, Bell, Shield, Palette, Save } from 'lucide-react'
 import { useAppContext } from '../state/AppContext'
@@ -183,6 +183,34 @@ export default function Profile() {
               <Save className="h-4 w-4 mr-2" />
               Save Settings
             </Button>
+          </div>
+        </Card>
+
+        {/* Your Stats */}
+        <Card>
+          <h2 className="text-xl font-semibold text-gray-900 mb-6">Your Stats</h2>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <div className="text-center">
+              <p className="text-3xl font-bold text-primary-600">
+                {state.userProgress.reduce((sum, p) => sum + p.questions_attempted, 0)}
+              </p>
+              <p className="text-sm text-gray-600 mt-1">Questions Attempted</p>
+            </div>
+            <div className="text-center">
+              <p className="text-3xl font-bold text-green-600">
+                {state.userProgress.reduce((sum, p) => sum + p.questions_correct, 0)}
+              </p>
+              <p className="text-sm text-gray-600 mt-1">Correct Answers</p>
+            </div>
+            <div className="text-center">
+              <p className="text-3xl font-bold text-blue-600">
+                {state.userProgress.length > 0
+                  ? Math.round(state.userProgress.reduce((sum, p) => sum + p.best_score, 0) / state.userProgress.length)
+                  : 0
+                }%
+              </p>
+              <p className="text-sm text-gray-600 mt-1">Average Score</p>
+            </div>
           </div>
         </Card>
 
