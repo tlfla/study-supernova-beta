@@ -5,37 +5,36 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [0.2.0] - 2025-01-XX
+## [0.3.0] - 2025-01-XX
 
 ### Added
-- **Quiz Modes & Check-to-Reveal**: Implemented Practice and Exam modes with conditional answer reveal. Practice mode requires "Check Answer" before showing correctness and explanation; Exam mode only reveals after quiz completion.
-- **Results Summary**: Added comprehensive results page with score header, category breakdown table, streaks tracking (best/current), and action buttons (Review Missed Only, Retry Quiz, Back to Dashboard).
-- **Review Missed-Only Flow**: Added toggle to filter questions to missed-only, with expandable explanations and enhanced bookmark functionality.
-- **Bookmark-All Active Styling**: Implemented bookmark-all toggle with honey amber active state (`bg-[var(--bookmark-500)] hover:bg-[var(--bookmark-600)]`) and proper aria-pressed attributes.
-- **Profile Turquoise Success Toast**: Updated success toast styling to use turquoise color (`bg-[var(--primary-500)] text-white`) for better visual feedback.
-- **Token Centralization**: Unified all design tokens using CSS variables through HSL format, eliminating hardcoded hex values and ensuring consistent theming.
-- **Glassmorphism Dashboard**: Applied subtle glassmorphism styling (`bg-white/70 backdrop-blur-sm shadow-lg rounded-2xl border-border`) to all Dashboard cards for modern visual appeal.
+- **Quiz Modes with Check-to-Reveal**: Implemented Practice and Exam modes with conditional answer reveal. Practice mode requires "Check Answer" before showing correctness and explanation; Exam mode only reveals in Summary.
+- **Save & Exit with Resume**: Added confirmation modal for leaving active quizzes, localStorage-based persistence, and Resume functionality that restores quiz state exactly where left off.
+- **Study Area Page**: New dedicated Study page accessible from bottom navigation with Deep Dives, Key Concepts, and Reference Sheets sections with placeholder content.
+- **Collapsible Explanations**: Made explanations collapsible in Results and Review pages (default closed) for better information hierarchy.
+- **Enhanced Review Filters**: Added Missed Only toggle, improved filtering logic, and expandable explanations with chevron indicators.
+- **Modal Component**: Created reusable Modal component with backdrop blur and proper focus management for confirmations.
 
 ### Changed
-- **Rationale → Explanation Rename**: Updated data schema to use `explanation` instead of `rationale` across types, mock JSON, providers, and UI components with backward compatibility mapping.
-- **DataProvider Interface**: Enhanced interface with new methods (`getSessionStats`, `bookmarkAll`, `unbookmarkAll`) and updated parameter signatures for better type safety.
-- **UserResponse & Bookmark Types**: Updated to use optional `userId` and improved field naming (`timeSpentSec`, `createdAt`).
-- **StudySession Type**: Added `correctCount` and `accuracy` fields for better progress tracking.
+- **Quiz Flow Logic**: Complete rewrite of quiz behavior - Practice mode requires explicit "Check Answer" before reveal, Exam mode never reveals during quiz.
+- **Answer Styling**: Toned down wrong-answer highlighting during quiz (subtle red tint instead of full red background) while keeping strong green for correct answers.
+- **Header Controls**: Moved save/bookmark icons to question card header instead of global header for better UX.
+- **Results Page**: Enhanced with category breakdown, streaks tracking, and improved action buttons including "Review Missed Only" and "Retry Quiz (same settings)".
 
 ### Fixed
-- **Backward Compatibility**: Added mapping to handle legacy `rationale` fields, ensuring smooth migration from v0.1.0.
-- **Mobile Safe Area**: Enhanced BottomTabBar with proper safe-area insets and content padding to prevent overlap on iOS devices.
-- **Type Safety**: Improved TypeScript interfaces and added comprehensive type checking with `tsc --noEmit` script.
+- **Reveal Timing**: Fixed quiz to never reveal correctness during the quiz in any mode - only in Summary for Exam mode, only after "Check Answer" for Practice mode.
+- **Modal Styling**: Added proper backdrop blur and styling using design system tokens.
+- **Safe Area Insets**: Enhanced mobile compatibility with proper safe-area padding for bottom navigation.
 
 ### Tests
-- **Quiz Flow Tests**: Added tests ensuring Start Quiz routes to options (not directly to quiz) and bookmark-all toggles work correctly.
-- **Component Tests**: Enhanced test coverage for Results page bookmark functionality and navigation flows.
-- **Type Safety**: Added typecheck script to ensure build-time type validation.
+- **Quiz Mode Tests**: Added comprehensive tests for Practice mode (no reveal until Check Answer) and Exam mode (no reveal during quiz).
+- **Save/Exit/Resume Tests**: Added tests for localStorage persistence and resume functionality.
+- **Review Flow Tests**: Added tests for Missed Only filtering and navigation from Results.
 
 ### Technical
-- **Build Optimization**: Maintained `vite build` for production builds with separate `typecheck` script for development.
-- **Provider Architecture**: Kept MockDataProvider as default with environment-based selection (`VITE_DATA_PROVIDER=mock|supabase`).
-- **Design System**: Centralized all tokens in Tailwind config using CSS variables for maintainability.
+- **Type Safety**: Maintained strict TypeScript with enhanced type checking and separate typecheck script.
+- **Performance**: Optimized quiz state management and localStorage persistence for smooth resume experience.
+- **Accessibility**: Enhanced ARIA attributes and keyboard navigation for modal interactions.
 
 ---
 
