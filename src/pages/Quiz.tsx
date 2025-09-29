@@ -6,6 +6,37 @@ import { DataProvider } from '../data/providers/DataProvider'
 import Button from '../components/common/Button'
 import Modal from '../components/common/Modal'
 
+function getCategoryColor(category: string, opacity: number = 1) {
+  const colors: Record<string, string> = {
+    'Anatomy & Physiology': '#6AA9FF',
+    'Intra-operative': '#E87177',
+    'Pre-operative': '#6AA9FF',
+    'Post-operative': '#39C0A8',
+    'Sterilization': '#A78BFA',
+    'General Surgery': '#11B5A4',
+    'Neurosurgery': '#7B9EFF',
+    'Orthopedic': '#FFB436',
+    'Cardiovascular': '#2DC98A',
+    'Surgical Procedures': '#E87177',
+    'Instrumentation': '#A78BFA',
+    'Patient Care': '#39C0A8',
+    'Microbiology': '#6AA9FF',
+    'Pharmacology': '#FFB436',
+    'Medical Ethics': '#2DC98A',
+    'Emergency Procedures': '#E87177',
+    'Post-Operative Care': '#39C0A8'
+  };
+  const baseColor = colors[category] || '#11B5A4';
+  
+  if (opacity < 1) {
+    const r = parseInt(baseColor.slice(1, 3), 16);
+    const g = parseInt(baseColor.slice(3, 5), 16);
+    const b = parseInt(baseColor.slice(5, 7), 16);
+    return `rgba(${r}, ${g}, ${b}, ${opacity})`;
+  }
+  return baseColor;
+}
+
 export default function Quiz() {
   const navigate = useNavigate()
   const { state, dispatch } = useAppContext()
@@ -225,10 +256,10 @@ export default function Quiz() {
 
           {/* Progress Bar */}
           <div className="mt-4">
-            <div className="w-full bg-gray-200 rounded-full h-2">
+            <div className="w-full rounded-full h-1.5" style={{ backgroundColor: 'var(--bg-raised)' }}>
               <div
-                className="bg-primary-500 h-2 rounded-full transition-all duration-300"
-                style={{ width: `${progress}%` }}
+                className="h-full rounded-full transition-all duration-300"
+                style={{ width: `${progress}%`, backgroundColor: 'var(--primary-500)' }}
               />
             </div>
           </div>
@@ -240,8 +271,14 @@ export default function Quiz() {
         <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-8">
           {/* Question Header */}
           <div className="mb-6">
-            <div className="flex items-center justify-between mb-4">
-              <span className="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-primary-100 text-primary-800">
+            <div className="mb-4">
+              <span 
+                className="inline-block px-3 py-1.5 rounded-full text-xs font-semibold uppercase tracking-wide"
+                style={{
+                  backgroundColor: getCategoryColor(currentQuestion.category, 0.15),
+                  color: getCategoryColor(currentQuestion.category, 1)
+                }}
+              >
                 {currentQuestion.category}
               </span>
             </div>
@@ -252,32 +289,54 @@ export default function Quiz() {
 
           {/* Answer Options */}
           <div className="space-y-3 mb-8">
-            {(['A', 'B', 'C', 'D'] as const).map((option) => (
-              <button
-                key={option}
-                onClick={() => handleAnswerSelect(option)}
-                disabled={shouldShowFeedback}
-                className="w-full text-left rounded-xl px-3 py-2 transition-all duration-200 border"
-                style={{
-                  color: 'var(--text-primary)',
-                  ...(selectedAnswer === option && shouldShowFeedback && option === currentQuestion.correct ? { borderColor: 'var(--success-500)' } : {}),
-                  ...(selectedAnswer === option && shouldShowFeedback && option !== currentQuestion.correct ? { backgroundColor: 'var(--wrong-answer-bg)', borderColor: 'var(--border-muted)' } : {}),
-                  ...(shouldShowFeedback && option === currentQuestion.correct && selectedAnswer !== option ? { borderColor: 'var(--success-500)' } : {}),
-                  ...(selectedAnswer === option && !shouldShowFeedback && !isExamMode ? { borderColor: 'var(--primary-500)', outline: '1px solid var(--stroke-soft)' } : {}),
-                  ...(selectedAnswer === option && isExamMode ? { borderColor: 'var(--border-muted)', outline: '1px solid var(--stroke-soft)' } : {}),
-                  ...(!selectedAnswer || selectedAnswer !== option ? { borderColor: 'var(--border-muted)' } : {})
-                }}
-                onMouseEnter={(e) => !shouldShowFeedback && selectedAnswer !== option && (e.currentTarget.style.borderColor = 'var(--border-strong)')}
-                onMouseLeave={(e) => !shouldShowFeedback && selectedAnswer !== option && (e.currentTarget.style.borderColor = 'var(--border-muted)')}
-              >
-                <div className="flex items-start space-x-3">
-                  <span className="flex-shrink-0 w-6 h-6 rounded-full border-2 flex items-center justify-center text-sm font-medium mt-0.5">
-                    {option}
-                  </span>
-                  <span className="text-base">{currentQuestion.options[option]}</span>
-                </div>
-              </button>
-            ))}
+            {(['A', 'B', 'C', 'D'] as const).map((option) => {
+              const isSelected = selectedAnswer === option
+              const isCorrect = option === currentQuestion.correct
+              const showingFeedback = shouldShowFeedback
+              
+              return (
+                <button
+                  key={option}
+                  onClick={() => handleAnswerSelect(option)}
+                  disabled={shouldShowFeedback}
+                  className="w-full p-4 rounded-xl border-2 text-left transition-all"
+                  style={{
+                    borderColor: isSelected && !showingFeedback ? 'var(--primary-500)' : 'var(--border-muted)',
+                    backgroundColor: isSelected && !showingFeedback ? 'rgba(17, 181, 164, 0.1)' : 'white',
+                    ...(showingFeedback && isCorrect && { borderColor: 'var(--success-500)' }),
+                    ...(showingFeedback && isSelected && !isCorrect && { backgroundColor: 'var(--wrong-answer-bg)', borderColor: 'var(--danger-500)' })
+                  }}
+                  onMouseEnter={(e) => {
+                    if (!shouldShowFeedback && !isSelected) {
+                      e.currentTarget.style.borderColor = 'var(--primary-400)'
+                    }
+                  }}
+                  onMouseLeave={(e) => {
+                    if (!shouldShowFeedback && !isSelected) {
+                      e.currentTarget.style.borderColor = 'var(--border-muted)'
+                    }
+                  }}
+                >
+                  <div className="flex items-center gap-3">
+                    <span 
+                      className="flex-shrink-0 w-8 h-8 rounded-full border-2 flex items-center justify-center font-semibold text-sm"
+                      style={{
+                        borderColor: isSelected && !showingFeedback ? 'var(--primary-500)' : 'var(--border-muted)',
+                        backgroundColor: isSelected && !showingFeedback ? 'var(--primary-500)' : 'transparent',
+                        color: isSelected && !showingFeedback ? 'white' : 'var(--text-secondary)',
+                        ...(showingFeedback && isCorrect && { borderColor: 'var(--success-500)', backgroundColor: 'var(--success-500)', color: 'white' }),
+                        ...(showingFeedback && isSelected && !isCorrect && { borderColor: 'var(--danger-500)', backgroundColor: 'var(--danger-500)', color: 'white' })
+                      }}
+                    >
+                      {option}
+                    </span>
+                    <span className="text-sm font-medium" style={{ color: 'var(--text-primary)' }}>
+                      {currentQuestion.options[option]}
+                    </span>
+                  </div>
+                </button>
+              )
+            })}
           </div>
 
           {/* Feedback - only in practice mode */}
@@ -307,39 +366,45 @@ export default function Quiz() {
           )}
 
           {/* Navigation Buttons */}
-          <div className="flex items-center justify-between">
-            <Button
-              variant="outline"
-              onClick={handlePrevious}
-              disabled={quizState.currentQuestionIndex === 0}
-            >
-              Previous
-            </Button>
-
-            <div className="flex space-x-2">
-              {isPracticeMode ? (
-                // Practice mode: Check Answer or Next
-                shouldShowFeedback ? (
-                  <Button onClick={handleNext}>
-                    {quizState.currentQuestionIndex === quizState.questions.length - 1 ? 'Finish Quiz' : 'Next'}
-                    <ArrowRight className="h-4 w-4 ml-2" />
-                  </Button>
-                ) : (
-                  <Button
-                    onClick={handleCheckAnswer}
-                    disabled={!selectedAnswer}
-                  >
-                    Check Answer
-                  </Button>
-                )
-              ) : (
-                // Exam mode: always just Next
-                <Button onClick={handleNext}>
+          <div className="flex gap-3 mt-6">
+            {isPracticeMode ? (
+              // Practice mode: Check Answer or Next
+              shouldShowFeedback ? (
+                <button
+                  onClick={handleNext}
+                  className="flex-1 py-3 rounded-xl text-white font-semibold transition-all"
+                  style={{ backgroundColor: 'var(--primary-500)' }}
+                  onMouseEnter={(e) => e.currentTarget.style.backgroundColor = 'var(--primary-600)'}
+                  onMouseLeave={(e) => e.currentTarget.style.backgroundColor = 'var(--primary-500)'}
+                >
                   {quizState.currentQuestionIndex === quizState.questions.length - 1 ? 'Finish Quiz' : 'Next'}
-                  <ArrowRight className="h-4 w-4 ml-2" />
-                </Button>
-              )}
-            </div>
+                  <ArrowRight className="inline h-4 w-4 ml-2" />
+                </button>
+              ) : (
+                <button
+                  onClick={handleCheckAnswer}
+                  disabled={!selectedAnswer}
+                  className="flex-1 py-3 rounded-xl text-white font-semibold transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+                  style={{ backgroundColor: 'var(--primary-500)' }}
+                  onMouseEnter={(e) => !selectedAnswer ? null : e.currentTarget.style.backgroundColor = 'var(--primary-600)'}
+                  onMouseLeave={(e) => !selectedAnswer ? null : e.currentTarget.style.backgroundColor = 'var(--primary-500)'}
+                >
+                  Check Answer
+                </button>
+              )
+            ) : (
+              // Exam mode: always just Next
+              <button
+                onClick={handleNext}
+                className="flex-1 py-3 rounded-xl text-white font-semibold transition-all"
+                style={{ backgroundColor: 'var(--primary-500)' }}
+                onMouseEnter={(e) => e.currentTarget.style.backgroundColor = 'var(--primary-600)'}
+                onMouseLeave={(e) => e.currentTarget.style.backgroundColor = 'var(--primary-500)'}
+              >
+                {quizState.currentQuestionIndex === quizState.questions.length - 1 ? 'Finish Quiz' : 'Next'}
+                <ArrowRight className="inline h-4 w-4 ml-2" />
+              </button>
+            )}
           </div>
         </div>
       </div>

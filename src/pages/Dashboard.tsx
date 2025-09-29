@@ -67,58 +67,39 @@ export default function Dashboard() {
   const readinessScore = 75 // Mock data
 
   return (
-    <div className="min-h-screen-safe bg-gray-50 pb-20">
-      {/* Header */}
-      <div className="bg-white shadow-sm border-b border-gray-200 safe-area-padding-top">
-        <div className="max-w-7xl mx-auto px-4 py-6 safe-area-padding-left safe-area-padding-right">
-          <div className="flex items-center justify-between">
-            <div className="flex items-center space-x-3">
-              <div className="bg-primary-100 p-2 rounded-lg">
-                <BookOpen className="h-6 w-6 text-primary-600" />
-              </div>
-              <div>
-                <h1 className="text-2xl font-bold text-gray-900">
-                  Surgical Tech Study
-                </h1>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-
+    <div className="min-h-screen-safe pb-20" style={{ backgroundColor: 'var(--bg-base)' }}>
       {/* Main Content */}
-      <div className="max-w-7xl mx-auto px-4 py-6 safe-area-padding-left safe-area-padding-right safe-area-padding-bottom">
-        {/* Exam Progress */}
-        <Card className="bg-white/70 backdrop-blur-sm shadow-lg rounded-2xl border-border mb-8">
+      <div className="max-w-7xl mx-auto px-4 pt-6 safe-area-padding-top safe-area-padding-left safe-area-padding-right safe-area-padding-bottom">
+        {/* App Title */}
+        <div className="flex items-center gap-3 mb-6">
+          <BookOpen className="w-8 h-8" style={{ color: 'var(--primary-600)' }} />
+          <h1 className="text-2xl font-bold" style={{ color: 'var(--text-primary)' }}>
+            Surgical Tech Study
+          </h1>
+        </div>
+        
+        {/* Compact Days Until Exam */}
+        <div className="flex items-center justify-between px-5 py-3 rounded-xl mb-6" style={{ backgroundColor: 'rgba(255, 255, 255, 0.6)' }}>
+          <span className="text-sm font-medium" style={{ color: 'var(--text-secondary)' }}>
+            Days until exam
+          </span>
+          <span className="text-2xl font-bold px-3 py-1 bg-white rounded-lg" style={{ color: 'var(--primary-600)' }}>
+            {daysUntilExam}
+          </span>
+        </div>
+        {/* Study Completion Progress */}
+        <Card className="rounded-2xl mb-8" style={{ backgroundColor: 'rgba(255, 255, 255, 0.7)', backdropFilter: 'blur(8px)', boxShadow: 'var(--shadow-raised)' }}>
           <div className="flex items-center justify-between mb-6">
-            <h2 className="text-lg font-semibold text-gray-900">Exam Progress</h2>
-            <Calendar className="h-6 w-6 text-primary-500" />
+            <h2 className="text-lg font-semibold" style={{ color: 'var(--text-primary)' }}>Study Progress</h2>
+            <Target className="h-6 w-6" style={{ color: 'var(--primary-500)' }} />
           </div>
 
-          <div className="space-y-6">
-            {/* Days to Exam Bar */}
-            <div className="px-4">
-              <div className="flex justify-between items-center">
-                <span className="text-sm font-medium" style={{ color: 'var(--text-secondary)' }}>
-                  Days until exam
-                </span>
-                <span 
-                  className="text-2xl font-bold px-3 py-1 rounded-lg" 
-                  style={{ 
-                    color: 'var(--text-primary)', 
-                    backgroundColor: 'rgba(255, 255, 255, 0.6)' 
-                  }}
-                >
-                  {daysUntilExam}
-                </span>
-              </div>
-            </div>
-
+          <div className="space-y-4">
             {/* Circular Progress Ring */}
             <div className="flex items-center justify-center">
               <ProgressRing progress={readinessScore} size={120} />
             </div>
-            <p className="text-center text-base font-medium mt-4" style={{ color: 'var(--text-secondary)' }}>
+            <p className="text-center text-base font-medium" style={{ color: 'var(--text-secondary)' }}>
               {readinessScore}% study completion
             </p>
           </div>

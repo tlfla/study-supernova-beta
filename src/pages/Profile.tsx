@@ -1,14 +1,19 @@
 import React, { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { ArrowLeft, User, Bell, Shield, Palette, Save } from 'lucide-react'
+import { User, Bell, Shield, Palette, Save, Edit, Check } from 'lucide-react'
 import { useAppContext } from '../state/AppContext'
 import Card from '../components/common/Card'
 import Button from '../components/common/Button'
 import Toast from '../components/common/Toast'
+import MinimalHeader from '../components/common/MinimalHeader'
 
 export default function Profile() {
   const navigate = useNavigate()
   const { state, dispatch } = useAppContext()
+
+  const [isEditing, setIsEditing] = useState(false)
+  const [name, setName] = useState(state.currentUser?.name || 'Student')
+  const [examDate, setExamDate] = useState('2024-12-15')
 
   const [settings, setSettings] = useState({
     notifications: true,
@@ -40,28 +45,27 @@ export default function Profile() {
 
   return (
     <div className="min-h-screen-safe bg-gray-50 pb-20">
-      {/* Header */}
-      <div className="bg-white shadow-sm border-b border-gray-200 safe-area-padding-top">
-        <div className="max-w-7xl mx-auto px-4 py-4 safe-area-padding-left safe-area-padding-right">
-          <div className="flex items-center space-x-4">
-            <Button
-              variant="outline"
-              size="sm"
-              onClick={() => navigate('/')}
-            >
-              <ArrowLeft className="h-4 w-4 mr-2" />
-              Back to Dashboard
-            </Button>
-            <div>
-              <h1 className="text-2xl font-bold text-gray-900">Profile & Settings</h1>
-              <p className="text-gray-600">Manage your account and preferences</p>
-            </div>
-          </div>
-        </div>
-      </div>
+      <MinimalHeader 
+        title="Profile"
+        rightAction={
+          <button 
+            onClick={() => setIsEditing(!isEditing)}
+            className="p-2 rounded-lg transition-colors"
+            style={{ color: isEditing ? 'var(--success-500)' : 'var(--primary-500)' }}
+            onMouseEnter={(e) => e.currentTarget.style.backgroundColor = isEditing ? 'rgba(45, 201, 138, 0.1)' : 'rgba(17, 181, 164, 0.1)'}
+            onMouseLeave={(e) => e.currentTarget.style.backgroundColor = 'transparent'}
+          >
+            {isEditing ? (
+              <Check className="w-5 h-5" />
+            ) : (
+              <Edit className="w-5 h-5" />
+            )}
+          </button>
+        }
+      />
 
       {/* Content */}
-      <div className="max-w-4xl mx-auto px-4 py-8 safe-area-padding-left safe-area-padding-right safe-area-padding-bottom">
+      <main className="pt-16 px-4 py-8 max-w-4xl mx-auto safe-area-padding-left safe-area-padding-right safe-area-padding-bottom">
         {/* User Info */}
         <Card className="mb-8">
           <div className="flex items-center space-x-4">
@@ -79,6 +83,50 @@ export default function Profile() {
             </div>
           </div>
         </Card>
+
+        {/* Editable Profile Info */}
+        <div className="bg-white rounded-2xl shadow-sm p-5 mb-6">
+          <h2 className="text-xl font-semibold mb-4" style={{ color: 'var(--text-primary)' }}>Profile Information</h2>
+          <div className="space-y-4">
+            <div>
+              <label className="block text-sm font-semibold mb-2" style={{ color: 'var(--text-primary)' }}>
+                Full Name
+              </label>
+              <input
+                type="text"
+                value={name}
+                onChange={(e) => setName(e.target.value)}
+                disabled={!isEditing}
+                className="w-full px-4 py-3 rounded-xl border transition-all focus:outline-none focus:ring-2"
+                style={{
+                  borderColor: isEditing ? 'var(--primary-500)' : 'var(--border-muted)',
+                  backgroundColor: isEditing ? 'white' : 'var(--bg-raised)',
+                  color: 'var(--text-primary)',
+                  ...(isEditing && { outlineColor: 'var(--primary-500)' })
+                }}
+              />
+            </div>
+            
+            <div>
+              <label className="block text-sm font-semibold mb-2" style={{ color: 'var(--text-primary)' }}>
+                Exam Date
+              </label>
+              <input
+                type="date"
+                value={examDate}
+                onChange={(e) => setExamDate(e.target.value)}
+                disabled={!isEditing}
+                className="w-full px-4 py-3 rounded-xl border transition-all focus:outline-none focus:ring-2"
+                style={{
+                  borderColor: isEditing ? 'var(--primary-500)' : 'var(--border-muted)',
+                  backgroundColor: isEditing ? 'white' : 'var(--bg-raised)',
+                  color: 'var(--text-primary)',
+                  ...(isEditing && { outlineColor: 'var(--primary-500)' })
+                }}
+              />
+            </div>
+          </div>
+        </div>
 
         {/* Settings */}
         <Card className="mb-8">
@@ -275,7 +323,7 @@ export default function Profile() {
             </div>
           </div>
         </Card>
-      </div>
+      </main>
 
       {/* Toast */}
       {state.toast && (

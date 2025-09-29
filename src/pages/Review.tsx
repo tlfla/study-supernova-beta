@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from 'react'
 import { useNavigate, useSearchParams } from 'react-router-dom'
-import { ArrowLeft, Bookmark, Search, Filter, BookOpen, CheckCircle, ChevronDown, ExternalLink, Headphones } from 'lucide-react'
+import { Bookmark, Search, Filter, BookOpen, CheckCircle, ChevronDown, ExternalLink, Headphones } from 'lucide-react'
 import { useAppContext } from '../state/AppContext'
 import { DataProvider, Question } from '../data/providers/DataProvider'
 import Card from '../components/common/Card'
 import Button from '../components/common/Button'
 import Dropdown from '../components/common/Dropdown'
+import MinimalHeader from '../components/common/MinimalHeader'
 
 const categories = [
   { value: 'all', label: 'All Categories' },
@@ -138,28 +139,10 @@ export default function Review() {
 
   return (
     <div className="min-h-screen-safe bg-gray-50 pb-20">
-      {/* Header */}
-      <div className="bg-white shadow-sm border-b border-gray-200 safe-area-padding-top">
-        <div className="max-w-7xl mx-auto px-4 py-4 safe-area-padding-left safe-area-padding-right">
-          <div className="flex items-center space-x-4">
-            <Button
-              variant="outline"
-              size="sm"
-              onClick={() => navigate('/')}
-            >
-              <ArrowLeft className="h-4 w-4 mr-2" />
-              Back to Dashboard
-            </Button>
-            <div>
-              <h1 className="text-2xl font-bold text-gray-900">Review & Study</h1>
-              <p className="text-gray-600">Review questions and focus on weak areas</p>
-            </div>
-          </div>
-        </div>
-      </div>
+      <MinimalHeader title="Review & Study" />
 
       {/* Filters */}
-      <div className="max-w-7xl mx-auto px-4 py-6 safe-area-padding-left safe-area-padding-right safe-area-padding-bottom">
+      <main className="pt-16 px-4 py-6 max-w-7xl mx-auto safe-area-padding-left safe-area-padding-right safe-area-padding-bottom">
         <Card className="mb-6 bg-white/70 backdrop-blur-sm shadow-lg rounded-2xl border-border">
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
             <div>
@@ -340,10 +323,10 @@ export default function Review() {
                   {/* Expandable Explanation */}
                   <details className="px-5 pb-4">
                     <summary 
-                      className="text-sm font-semibold cursor-pointer flex items-center gap-2 transition-colors"
-                      style={{ color: 'var(--primary-600)' }}
-                      onMouseEnter={(e) => e.currentTarget.style.color = 'var(--primary-700)'}
-                      onMouseLeave={(e) => e.currentTarget.style.color = 'var(--primary-600)'}
+                      className="text-sm font-semibold cursor-pointer flex items-center gap-2 py-2 transition-colors"
+                      style={{ color: '#38BDF8' }}
+                      onMouseEnter={(e) => e.currentTarget.style.color = '#0284C7'}
+                      onMouseLeave={(e) => e.currentTarget.style.color = '#38BDF8'}
                     >
                       <ChevronDown className="w-4 h-4 transition-transform" />
                       Explanation
@@ -351,7 +334,7 @@ export default function Review() {
                     <div 
                       className="mt-3 p-4 rounded-lg text-sm leading-relaxed"
                       style={{
-                        backgroundColor: 'rgba(56, 189, 248, 0.05)',
+                        backgroundColor: 'rgba(56, 189, 248, 0.12)',
                         color: 'var(--text-primary)'
                       }}
                     >
@@ -387,7 +370,7 @@ export default function Review() {
             })}
           </div>
         )}
-      </div>
+      </main>
     </div>
   )
 }

@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { ArrowLeft } from 'lucide-react'
 import { useAppContext } from '../state/AppContext'
 import { DataProvider } from '../data/providers/DataProvider'
 import Card from '../components/common/Card'
 import Button from '../components/common/Button'
 import Dropdown from '../components/common/Dropdown'
+import MinimalHeader from '../components/common/MinimalHeader'
 
 const categories = [
   { value: 'all', label: 'All Categories' },
@@ -129,32 +129,16 @@ export default function QuizOptions() {
 
   return (
     <div className="min-h-screen-safe bg-gray-50 pb-20">
-      {/* Header */}
-      <div className="bg-white shadow-sm border-b border-gray-200 safe-area-padding-top">
-        <div className="max-w-7xl mx-auto px-4 py-4 safe-area-padding-left safe-area-padding-right">
-          <div className="flex items-center space-x-4">
-            <Button
-              variant="outline"
-              size="sm"
-              onClick={() => navigate('/')}
-            >
-              <ArrowLeft className="h-4 w-4 mr-2" />
-              Back to Dashboard
-            </Button>
-            <div>
-              <h1 className="text-2xl font-bold text-gray-900">Quiz Options</h1>
-              <p className="text-gray-600">Customize your practice session</p>
-            </div>
-          </div>
-        </div>
-      </div>
+      <MinimalHeader title="Quiz Options" />
 
       {/* Main Content */}
-      <div className="max-w-4xl mx-auto px-4 py-8 safe-area-padding-left safe-area-padding-right safe-area-padding-bottom">
-        <Card className="mb-8 rounded-xl shadow-sm" style={{ borderWidth: '1px', borderStyle: 'solid', borderColor: 'var(--border-muted)', backgroundColor: 'var(--bg-card)' }}>
-          <h2 className="text-xl font-semibold text-gray-900 mb-6">Quiz Configuration</h2>
-
-          <div className="space-y-6">
+      <main className="pt-16 px-4 pb-8 max-w-4xl mx-auto safe-area-padding-left safe-area-padding-right safe-area-padding-bottom">
+        <div className="py-6">
+          <h2 className="text-lg font-bold mb-6" style={{ color: 'var(--text-primary)' }}>
+            Quiz Configuration
+          </h2>
+          <Card className="mb-8 rounded-xl shadow-sm" style={{ borderWidth: '1px', borderStyle: 'solid', borderColor: 'var(--border-muted)', backgroundColor: 'var(--bg-card)' }}>
+            <div className="space-y-6">
             {/* Category */}
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-2">
@@ -262,8 +246,9 @@ export default function QuizOptions() {
           >
             {isLoading ? 'Loading...' : 'Start Quiz'}
           </button>
+        </Card>
         </div>
-      </div>
+      </main>
     </div>
   )
 }

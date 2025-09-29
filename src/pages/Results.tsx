@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { RotateCcw, Home, Bookmark, CheckCircle, XCircle } from 'lucide-react'
+import { RotateCcw, Home, Bookmark, CheckCircle, XCircle, RefreshCw, ArrowRight } from 'lucide-react'
 import { useAppContext } from '../state/AppContext'
 import { DataProvider } from '../data/providers/DataProvider'
 import Card from '../components/common/Card'
@@ -153,63 +153,77 @@ export default function Results() {
 
       {/* Results Summary */}
       <div className="max-w-4xl mx-auto px-4 py-8 safe-area-padding-left safe-area-padding-right safe-area-padding-bottom">
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
-          <Card>
-            <div className="text-center">
-              <p className="text-gray-600 text-sm mb-1">Correct</p>
-              <p className="text-2xl font-bold" style={{ color: 'var(--success-500)' }}>{correctAnswers}</p>
+        {/* Horizontal Score Cards */}
+        <div className="grid grid-cols-3 gap-3 mb-6">
+          <div className="bg-white rounded-xl shadow-sm p-4 text-center">
+            <div className="text-3xl font-bold mb-1" style={{ color: 'var(--success-500)' }}>
+              {correctAnswers}
             </div>
-          </Card>
-
-          <Card>
-            <div className="text-center">
-              <p className="text-gray-600 text-sm mb-1">Incorrect</p>
-              <p className="text-2xl font-bold text-gray-900">{incorrectAnswers}</p>
+            <div className="text-xs font-medium" style={{ color: 'var(--text-secondary)' }}>
+              Correct
             </div>
-          </Card>
-
-          <Card>
-            <div className="text-center">
-              <p className="text-gray-600 text-sm mb-1">Score</p>
-              <p className="text-2xl font-bold" style={{ color: 'var(--primary-500)' }}>{score}%</p>
+          </div>
+          
+          <div className="bg-white rounded-xl shadow-sm p-4 text-center">
+            <div className="text-3xl font-bold mb-1" style={{ color: 'var(--danger-500)' }}>
+              {incorrectAnswers}
             </div>
-          </Card>
+            <div className="text-xs font-medium" style={{ color: 'var(--text-secondary)' }}>
+              Incorrect
+            </div>
+          </div>
+          
+          <div className="bg-white rounded-xl shadow-sm p-4 text-center">
+            <div className="text-3xl font-bold mb-1" style={{ color: 'var(--primary-600)' }}>
+              {score}%
+            </div>
+            <div className="text-xs font-medium" style={{ color: 'var(--text-secondary)' }}>
+              Score
+            </div>
+          </div>
         </div>
 
         {/* Action Buttons */}
-        <div className="flex flex-col sm:flex-row gap-4 mb-8">
-          <Button
-            onClick={() => navigate('/review?missed=true')}
-            variant="outline"
-            className="flex-1"
-          >
-            Review Missed Only
-          </Button>
-          <Button
+        <div className="space-y-3 mb-8">
+          <button 
             onClick={handleRetakeQuiz}
-            variant="outline"
-            className="flex-1"
+            className="w-full py-3.5 rounded-xl text-white font-semibold shadow-md transition-all"
+            style={{ backgroundColor: 'var(--primary-500)' }}
+            onMouseEnter={(e) => e.currentTarget.style.backgroundColor = 'var(--primary-600)'}
+            onMouseLeave={(e) => e.currentTarget.style.backgroundColor = 'var(--primary-500)'}
           >
-            <RotateCcw className="h-4 w-4 mr-2" />
+            <RefreshCw className="inline w-5 h-5 mr-2" />
             Retry Quiz (same settings)
-          </Button>
-          <Button
+          </button>
+          
+          <button 
             onClick={handleBookmarkAll}
-            variant={allBookmarked ? "primary" : "outline"}
-            className={`flex-1 ${allBookmarked ? 'bg-[var(--bookmark-500)] hover:bg-[var(--bookmark-600)]' : ''}`}
-            isLoading={isBookmarkingAll}
-            aria-pressed={allBookmarked}
+            disabled={isBookmarkingAll}
+            className="w-full py-3.5 rounded-xl bg-white font-semibold border-2 shadow-sm transition-all disabled:opacity-50"
+            style={{ 
+              color: 'var(--bookmark-600)', 
+              borderColor: 'var(--bookmark-500)' 
+            }}
+            onMouseEnter={(e) => !isBookmarkingAll && (e.currentTarget.style.backgroundColor = 'rgba(255, 180, 54, 0.05)')}
+            onMouseLeave={(e) => !isBookmarkingAll && (e.currentTarget.style.backgroundColor = 'white')}
           >
-            <Bookmark className="h-4 w-4 mr-2" />
-            {allBookmarked ? 'Bookmarked All' : 'Bookmark All Questions'}
-          </Button>
-          <Button
-            onClick={handleGoHome}
-            className="flex-1"
+            <Bookmark className="inline w-5 h-5 mr-2" />
+            {isBookmarkingAll ? 'Bookmarking...' : (allBookmarked ? 'Bookmarked All' : 'Bookmark All Questions')}
+          </button>
+          
+          <button 
+            onClick={() => navigate('/review?missed=true')}
+            className="w-full py-3.5 rounded-xl bg-white font-semibold border-2 shadow-sm transition-all"
+            style={{ 
+              color: 'var(--primary-600)', 
+              borderColor: 'var(--primary-400)' 
+            }}
+            onMouseEnter={(e) => e.currentTarget.style.backgroundColor = 'rgba(17, 181, 164, 0.05)'}
+            onMouseLeave={(e) => e.currentTarget.style.backgroundColor = 'white'}
           >
-            <Home className="h-4 w-4 mr-2" />
-            Back to Dashboard
-          </Button>
+            <ArrowRight className="inline w-5 h-5 mr-2" />
+            Review Missed Only
+          </button>
         </div>
 
         {/* Questions Review */}
