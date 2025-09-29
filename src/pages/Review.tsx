@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { useNavigate, useSearchParams } from 'react-router-dom'
-import { ArrowLeft, Bookmark, Search, Filter, BookOpen } from 'lucide-react'
+import { ArrowLeft, Bookmark, Search, Filter, BookOpen, CheckCircle, ChevronDown, ExternalLink, Headphones } from 'lucide-react'
 import { useAppContext } from '../state/AppContext'
 import { DataProvider, Question } from '../data/providers/DataProvider'
 import Card from '../components/common/Card'
@@ -251,70 +251,140 @@ export default function Review() {
               </p>
             </div>
 
-            {filteredQuestions.map((question) => (
-              <Card key={question.id} className="bg-white/70 backdrop-blur-sm shadow-lg rounded-2xl border-border hover:shadow-xl transition-shadow duration-200">
-                <div className="flex items-start justify-between mb-4">
-                  <div className="flex items-center space-x-2">
-                    <span className="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-primary-100 text-primary-800">
-                      {question.category}
-                    </span>
-                    <span className="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-gray-100 text-gray-800">
-                      {question.difficulty}
-                    </span>
-                  </div>
+            {filteredQuestions.map((question) => {
+              // Map category to color
+              const getCategoryColor = (category: string) => {
+                const lowerCategory = category.toLowerCase()
+                if (lowerCategory.includes('pre')) return { bg: 'rgba(106, 169, 255, 0.15)', text: '#6AA9FF' }
+                if (lowerCategory.includes('intra') || lowerCategory.includes('surgical')) return { bg: 'rgba(232, 113, 119, 0.15)', text: '#E87177' }
+                if (lowerCategory.includes('post')) return { bg: 'rgba(57, 192, 168, 0.15)', text: '#39C0A8' }
+                if (lowerCategory.includes('steril')) return { bg: 'rgba(167, 139, 250, 0.15)', text: '#A78BFA' }
+                return { bg: 'rgba(17, 181, 164, 0.15)', text: 'var(--primary-500)' }
+              }
+              
+              const categoryColor = getCategoryColor(question.category)
+              
+              return (
+                <div 
+                  key={question.id} 
+                  className="relative rounded-2xl overflow-hidden mb-4 transition-shadow duration-200 hover:shadow-[var(--shadow-emphasis)]"
+                  style={{ 
+                    backgroundColor: 'white',
+                    boxShadow: 'var(--shadow-raised)'
+                  }}
+                >
+                  {/* Bookmark Button - Top Right Corner */}
                   <button
                     onClick={() => handleToggleBookmark(question.id)}
-                    className={`p-2 rounded-lg transition-colors duration-200 ${
-                      bookmarkedQuestions.has(question.id)
-                        ? 'text-bookmark-500 hover:text-bookmark-600'
-                        : 'text-gray-400 hover:text-bookmark-500'
-                    }`}
+                    className="absolute top-4 right-4 p-2 rounded-lg transition-colors duration-200 z-10"
+                    style={{
+                      backgroundColor: bookmarkedQuestions.has(question.id) 
+                        ? 'rgba(255, 180, 54, 0.1)' 
+                        : 'transparent'
+                    }}
+                    onMouseEnter={(e) => !bookmarkedQuestions.has(question.id) && (e.currentTarget.style.backgroundColor = 'rgba(255, 180, 54, 0.1)')}
+                    onMouseLeave={(e) => !bookmarkedQuestions.has(question.id) && (e.currentTarget.style.backgroundColor = 'transparent')}
                   >
-                    <Bookmark className={`h-4 w-4 ${bookmarkedQuestions.has(question.id) ? 'fill-current' : ''}`} />
+                    <Bookmark 
+                      className={`h-5 w-5 ${bookmarkedQuestions.has(question.id) ? 'fill-current' : ''}`}
+                      style={{ color: 'var(--bookmark-500)' }}
+                    />
                   </button>
-                </div>
 
-                <h3 className="text-lg font-medium text-gray-900 mb-4 leading-relaxed">
-                  {question.question}
-                </h3>
-
-                <div className="space-y-2 mb-4">
-                  {(['A', 'B', 'C', 'D'] as const).map((option) => (
-                    <div
-                      key={option}
-                      className={`p-3 rounded-lg text-sm ${
-                        option === question.correct
-                          ? 'bg-green-100 text-green-800 font-medium'
-                          : 'bg-gray-50 text-gray-700'
-                      }`}
+                  {/* Category Pill */}
+                  <div className="px-5 pt-4 pb-2">
+                    <span 
+                      className="inline-block px-3 py-1 rounded-full text-xs font-semibold uppercase tracking-wide"
+                      style={{
+                        backgroundColor: categoryColor.bg,
+                        color: categoryColor.text
+                      }}
                     >
-                      <span className="font-medium">{option}:</span> {question.options[option]}
-                      {option === question.correct && (
-                        <span className="ml-2">✓ Correct Answer</span>
-                      )}
-                    </div>
-                  ))}
-                </div>
+                      {question.category}
+                    </span>
+                  </div>
 
-                <div className="pt-4 border-t border-gray-200">
-                  <p className="text-sm text-gray-600">
-                    <span className="font-medium">Explanation:</span> {question.explanation}
-                  </p>
-                  {question.tags.length > 0 && (
-                    <div className="mt-3 flex flex-wrap gap-2">
-                      {question.tags.map((tag) => (
-                        <span
-                          key={tag}
-                          className="inline-flex items-center px-2 py-1 rounded-md text-xs font-medium bg-blue-100 text-blue-800"
-                        >
-                          {tag}
-                        </span>
-                      ))}
+                  {/* Question */}
+                  <div className="px-5 py-3">
+                    <h3 className="text-base font-medium leading-relaxed" style={{ color: 'var(--text-primary)' }}>
+                      {question.question}
+                    </h3>
+                  </div>
+
+                  {/* Correct Answer Only */}
+                  <div className="px-5 pb-3">
+                    <div 
+                      className="rounded-lg p-4"
+                      style={{
+                        backgroundColor: 'var(--correct-answer-bg)',
+                        borderLeft: '4px solid var(--success-500)'
+                      }}
+                    >
+                      <div className="flex items-start gap-2">
+                        <CheckCircle 
+                          className="w-5 h-5 flex-shrink-0 mt-0.5" 
+                          style={{ color: 'var(--success-700)' }}
+                        />
+                        <div>
+                          <p className="text-sm font-semibold mb-1" style={{ color: 'var(--success-700)' }}>
+                            Correct Answer
+                          </p>
+                          <p className="text-sm" style={{ color: 'var(--text-primary)' }}>
+                            {question.options[question.correct]}
+                          </p>
+                        </div>
+                      </div>
                     </div>
-                  )}
+                  </div>
+
+                  {/* Expandable Explanation */}
+                  <details className="px-5 pb-4">
+                    <summary 
+                      className="text-sm font-semibold cursor-pointer flex items-center gap-2 transition-colors"
+                      style={{ color: 'var(--primary-600)' }}
+                      onMouseEnter={(e) => e.currentTarget.style.color = 'var(--primary-700)'}
+                      onMouseLeave={(e) => e.currentTarget.style.color = 'var(--primary-600)'}
+                    >
+                      <ChevronDown className="w-4 h-4 transition-transform" />
+                      Explanation
+                    </summary>
+                    <div 
+                      className="mt-3 p-4 rounded-lg text-sm leading-relaxed"
+                      style={{
+                        backgroundColor: 'rgba(56, 189, 248, 0.05)',
+                        color: 'var(--text-primary)'
+                      }}
+                    >
+                      {question.explanation}
+                    </div>
+                  </details>
+
+                  {/* Study Links */}
+                  <div className="px-5 pb-4 flex gap-3">
+                    <button 
+                      onClick={() => navigate('/study')}
+                      className="flex items-center gap-2 text-sm transition-colors"
+                      style={{ color: 'var(--text-secondary)' }}
+                      onMouseEnter={(e) => e.currentTarget.style.color = 'var(--primary-600)'}
+                      onMouseLeave={(e) => e.currentTarget.style.color = 'var(--text-secondary)'}
+                    >
+                      <ExternalLink className="w-4 h-4" />
+                      Study More: {question.category}
+                    </button>
+                    <button 
+                      className="flex items-center gap-2 text-sm transition-colors"
+                      style={{ color: 'var(--text-secondary)' }}
+                      onMouseEnter={(e) => e.currentTarget.style.color = 'var(--primary-600)'}
+                      onMouseLeave={(e) => e.currentTarget.style.color = 'var(--text-secondary)'}
+                      disabled
+                    >
+                      <Headphones className="w-4 h-4" />
+                      Audio (Coming Soon)
+                    </button>
+                  </div>
                 </div>
-              </Card>
-            ))}
+              )
+            })}
           </div>
         )}
       </div>

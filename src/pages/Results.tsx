@@ -13,7 +13,6 @@ export default function Results() {
 
   const [results, setResults] = useState<any[]>([])
   const [isBookmarkingAll, setIsBookmarkingAll] = useState(false)
-  const [expandedExplanations, setExpandedExplanations] = useState<Set<string>>(new Set())
 
   // Compute whether all visible questions are bookmarked
   const allBookmarked = results.length > 0 && results.every(result => result.isBookmarked)
@@ -131,16 +130,6 @@ export default function Results() {
     await calculateResults()
   }
 
-  const toggleExplanation = (questionId: string) => {
-    const newExpanded = new Set(expandedExplanations)
-    if (newExpanded.has(questionId)) {
-      newExpanded.delete(questionId)
-    } else {
-      newExpanded.add(questionId)
-    }
-    setExpandedExplanations(newExpanded)
-  }
-
   if (!quizState || !quizState.isComplete) {
     return null
   }
@@ -242,8 +231,8 @@ export default function Results() {
                     <span 
                       className="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium border"
                       style={result.isCorrect 
-                        ? { borderColor: 'var(--success-500)', color: 'var(--success-500)', backgroundColor: '#F0FFF4' }
-                        : { borderColor: 'rgba(0,0,0,0.1)', backgroundColor: '#FFE9E9', color: '#666' }
+                        ? { borderColor: 'var(--success-500)', color: 'var(--success-500)', backgroundColor: 'var(--correct-answer-bg)' }
+                        : { borderColor: 'var(--border-muted)', backgroundColor: 'var(--wrong-answer-bg)', color: 'var(--text-secondary)' }
                       }
                     >
                       {result.isCorrect ? 'Correct' : 'Review'}
@@ -253,8 +242,8 @@ export default function Results() {
                     onClick={() => handleToggleBookmark(result.question.id)}
                     className="p-2 rounded-lg border transition-colors duration-200"
                     style={result.isBookmarked 
-                      ? { backgroundColor: 'var(--bookmark-500)', borderColor: 'var(--bookmark-600)', color: 'black' }
-                      : { borderColor: 'rgba(0,0,0,0.2)', color: 'rgba(0,0,0,0.6)' }
+                      ? { backgroundColor: 'var(--bookmark-500)', borderColor: 'var(--bookmark-600)', color: 'var(--text-primary)' }
+                      : { borderColor: 'var(--border-strong)', color: 'var(--text-secondary)' }
                     }
                   >
                     <Bookmark className={`h-4 w-4 ${result.isBookmarked ? 'fill-current' : ''}`} />
@@ -269,45 +258,79 @@ export default function Results() {
                   {(['A', 'B', 'C', 'D'] as const).map((option) => {
                     const isUserAnswer = result.userAnswer === option
                     const isCorrectAnswer = result.question.correct === option
+                    const isWrong = isUserAnswer && !isCorrectAnswer
 
+                    // User's wrong answer
+                    if (isWrong) {
+                      return (
+                        <div
+                          key={option}
+                          className="p-3 rounded-lg"
+                          style={{
+                            backgroundColor: 'var(--wrong-answer-bg)',
+                            borderLeft: '4px solid var(--danger-500)'
+                          }}
+                        >
+                          <div className="flex items-center gap-2">
+                            <XCircle className="w-5 h-5" style={{ color: 'var(--danger-700)' }} />
+                            <span className="text-sm font-medium" style={{ color: 'var(--text-primary)' }}>
+                              {option}. {result.question.options[option]}
+                            </span>
+                            <span className="ml-auto text-xs font-semibold" style={{ color: 'var(--danger-700)' }}>
+                              Your Answer
+                            </span>
+                          </div>
+                        </div>
+                      )
+                    }
+
+                    // Correct answer
+                    if (isCorrectAnswer) {
+                      return (
+                        <div
+                          key={option}
+                          className="p-3 rounded-lg"
+                          style={{
+                            backgroundColor: 'var(--correct-answer-bg)',
+                            borderLeft: '4px solid var(--success-500)'
+                          }}
+                        >
+                          <div className="flex items-center gap-2">
+                            <CheckCircle className="w-5 h-5" style={{ color: 'var(--success-700)' }} />
+                            <span className="text-sm font-medium" style={{ color: 'var(--text-primary)' }}>
+                              {option}. {result.question.options[option]}
+                            </span>
+                            <span className="ml-auto text-xs font-semibold" style={{ color: 'var(--success-700)' }}>
+                              Correct
+                            </span>
+                          </div>
+                        </div>
+                      )
+                    }
+
+                    // Other options (neutral)
                     return (
                       <div
                         key={option}
-                        className="rounded-xl px-3 py-2 text-sm border text-gray-900"
-                        style={{
-                          ...(isCorrectAnswer ? { borderColor: 'var(--success-500)' } : { borderColor: 'rgba(0,0,0,0.1)' }),
-                          ...(isUserAnswer && !isCorrectAnswer ? { backgroundColor: '#FFE9E9' } : { backgroundColor: 'white' })
-                        }}
+                        className="p-3 rounded-lg"
+                        style={{ backgroundColor: 'var(--bg-raised)' }}
                       >
-                        <span className="font-medium">{option}:</span> {result.question.options[option]}
-                        {isCorrectAnswer && (
-                          <span className="ml-2" style={{ color: 'var(--success-500)' }}>✓</span>
-                        )}
-                        {isUserAnswer && !isCorrectAnswer && (
-                          <span className="ml-2 text-gray-600">← Your Answer</span>
-                        )}
+                        <span className="text-sm" style={{ color: 'var(--text-secondary)' }}>
+                          {option}. {result.question.options[option]}
+                        </span>
                       </div>
                     )
                   })}
                 </div>
 
-                <div className="mt-3 pt-3 border-t border-gray-200">
-                  <button
-                    onClick={() => toggleExplanation(result.question.id)}
-                    className="flex items-center justify-between w-full text-sm text-gray-600 hover:text-gray-900 transition-colors"
-                  >
-                    <span className="font-medium">Explanation</span>
-                    <span className={`transform transition-transform ${expandedExplanations.has(result.question.id) ? 'rotate-180' : ''}`}>
-                      ▶
-                    </span>
-                  </button>
-                  {expandedExplanations.has(result.question.id) && (
-                    <div className="mt-2 rounded-lg border border-black/10 px-3 py-2" style={{ backgroundColor: '#F0F6FF' }}>
-                      <p className="text-sm text-gray-700 leading-relaxed">
-                        {result.question.explanation}
-                      </p>
-                    </div>
-                  )}
+                {/* Explanation */}
+                <div className="mt-4 p-4 rounded-lg" style={{ backgroundColor: 'rgba(56, 189, 248, 0.05)' }}>
+                  <p className="text-sm font-semibold mb-2" style={{ color: 'var(--text-primary)' }}>
+                    Explanation:
+                  </p>
+                  <p className="text-sm leading-relaxed" style={{ color: 'var(--text-primary)' }}>
+                    {result.question.explanation}
+                  </p>
                 </div>
               </div>
             ))}

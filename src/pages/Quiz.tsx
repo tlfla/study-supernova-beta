@@ -214,8 +214,8 @@ export default function Quiz() {
                 onClick={handleBookmarkToggle}
                 className="p-2 rounded-lg border transition-colors duration-200"
                 style={isBookmarked 
-                  ? { backgroundColor: 'var(--bookmark-500)', borderColor: 'var(--bookmark-600)', color: 'black' }
-                  : { borderColor: 'rgba(0,0,0,0.2)', color: 'rgba(0,0,0,0.6)' }
+                  ? { backgroundColor: 'var(--bookmark-500)', borderColor: 'var(--bookmark-600)', color: 'var(--text-primary)' }
+                  : { borderColor: 'var(--border-strong)', color: 'var(--text-secondary)' }
                 }
               >
                 <Bookmark className={`h-4 w-4 ${isBookmarked ? 'fill-current' : ''}`} />
@@ -257,25 +257,18 @@ export default function Quiz() {
                 key={option}
                 onClick={() => handleAnswerSelect(option)}
                 disabled={shouldShowFeedback}
-                className={`w-full text-left rounded-xl px-3 py-2 transition-all duration-200 ${
-                  selectedAnswer === option
-                    ? shouldShowFeedback
-                      ? option === currentQuestion.correct
-                        ? 'border text-gray-900'
-                        : 'border border-black/10 text-gray-900'
-                      : isExamMode
-                        ? 'border border-black/10 outline outline-1 outline-black/10'
-                        : 'border outline outline-1 outline-black/10 text-gray-900'
-                    : shouldShowFeedback && option === currentQuestion.correct
-                    ? 'border text-gray-900'
-                    : 'border border-black/10 hover:border-black/20'
-                }`}
+                className="w-full text-left rounded-xl px-3 py-2 transition-all duration-200 border"
                 style={{
+                  color: 'var(--text-primary)',
                   ...(selectedAnswer === option && shouldShowFeedback && option === currentQuestion.correct ? { borderColor: 'var(--success-500)' } : {}),
-                  ...(selectedAnswer === option && shouldShowFeedback && option !== currentQuestion.correct ? { backgroundColor: '#FFE9E9' } : {}),
+                  ...(selectedAnswer === option && shouldShowFeedback && option !== currentQuestion.correct ? { backgroundColor: 'var(--wrong-answer-bg)', borderColor: 'var(--border-muted)' } : {}),
                   ...(shouldShowFeedback && option === currentQuestion.correct && selectedAnswer !== option ? { borderColor: 'var(--success-500)' } : {}),
-                  ...(selectedAnswer === option && !shouldShowFeedback && !isExamMode ? { borderColor: 'var(--primary-500)' } : {})
+                  ...(selectedAnswer === option && !shouldShowFeedback && !isExamMode ? { borderColor: 'var(--primary-500)', outline: '1px solid var(--stroke-soft)' } : {}),
+                  ...(selectedAnswer === option && isExamMode ? { borderColor: 'var(--border-muted)', outline: '1px solid var(--stroke-soft)' } : {}),
+                  ...(!selectedAnswer || selectedAnswer !== option ? { borderColor: 'var(--border-muted)' } : {})
                 }}
+                onMouseEnter={(e) => !shouldShowFeedback && selectedAnswer !== option && (e.currentTarget.style.borderColor = 'var(--border-strong)')}
+                onMouseLeave={(e) => !shouldShowFeedback && selectedAnswer !== option && (e.currentTarget.style.borderColor = 'var(--border-muted)')}
               >
                 <div className="flex items-start space-x-3">
                   <span className="flex-shrink-0 w-6 h-6 rounded-full border-2 flex items-center justify-center text-sm font-medium mt-0.5">

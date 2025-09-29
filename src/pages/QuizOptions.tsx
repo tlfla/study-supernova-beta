@@ -151,7 +151,7 @@ export default function QuizOptions() {
 
       {/* Main Content */}
       <div className="max-w-4xl mx-auto px-4 py-8 safe-area-padding-left safe-area-padding-right safe-area-padding-bottom">
-        <Card className="mb-8 border border-black/10 rounded-xl shadow-sm bg-white">
+        <Card className="mb-8 rounded-xl shadow-sm" style={{ borderWidth: '1px', borderStyle: 'solid', borderColor: 'var(--border-muted)', backgroundColor: 'var(--bg-card)' }}>
           <h2 className="text-xl font-semibold text-gray-900 mb-6">Quiz Configuration</h2>
 
           <div className="space-y-6">
@@ -193,19 +193,21 @@ export default function QuizOptions() {
                 step="5"
                 value={selectedQuestionCount}
                 onChange={(e) => setSelectedQuestionCount(e.target.value)}
-                className="w-full bg-white border border-black/10 rounded-xl px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[var(--primary-500)] focus:border-[var(--primary-500)]"
+                className="w-full rounded-xl px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[var(--primary-500)]"
+                style={{ backgroundColor: 'var(--bg-card)', borderWidth: '1px', borderStyle: 'solid', borderColor: 'var(--border-muted)' }}
               />
               <div className="flex gap-2 mt-2">
                 {['10', '20', '30'].map((count) => (
                   <button
                     key={count}
                     onClick={() => setSelectedQuestionCount(count)}
-                    className={`px-3 py-1 text-sm rounded-lg border transition-colors ${
-                      selectedQuestionCount === count
-                        ? 'border-[var(--primary-500)] text-white'
-                        : 'border-black/10 text-gray-700 hover:border-black/20'
-                    }`}
-                    style={selectedQuestionCount === count ? { backgroundColor: 'var(--primary-500)' } : {}}
+                    className="px-3 py-1 text-sm rounded-lg border transition-colors"
+                    style={selectedQuestionCount === count 
+                      ? { backgroundColor: 'var(--primary-500)', borderColor: 'var(--primary-500)', color: 'white' } 
+                      : { borderColor: 'var(--border-muted)', color: 'var(--text-primary)' }
+                    }
+                    onMouseEnter={(e) => selectedQuestionCount !== count && (e.currentTarget.style.borderColor = 'var(--border-strong)')}
+                    onMouseLeave={(e) => selectedQuestionCount !== count && (e.currentTarget.style.borderColor = 'var(--border-muted)')}
                   >
                     {count}
                   </button>

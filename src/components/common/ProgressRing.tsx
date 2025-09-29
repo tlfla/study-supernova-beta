@@ -35,10 +35,10 @@ export default function ProgressRing({
         />
         {/* Progress circle */}
         <circle
-          stroke="currentColor"
+          stroke="var(--primary-500)"
           fill="transparent"
           strokeWidth={strokeWidth}
-          className="text-primary-500 transition-all duration-300 ease-in-out"
+          className="transition-all duration-300 ease-in-out"
           strokeDasharray={strokeDasharray}
           strokeDashoffset={strokeDashoffset}
           strokeLinecap="round"
@@ -49,7 +49,7 @@ export default function ProgressRing({
       </svg>
       {/* Progress text */}
       <div className="absolute inset-0 flex items-center justify-center">
-        <span className="text-2xl font-bold text-primary-600">
+        <span className="text-4xl font-bold" style={{ fill: 'var(--primary-600)', color: 'var(--primary-600)' }}>
           {Math.round(progress)}%
         </span>
       </div>
