@@ -7,6 +7,35 @@ import Card from '../components/common/Card'
 import ProgressRing from '../components/common/ProgressRing'
 import Button from '../components/common/Button'
 
+function getCategoryColor(category: string): string {
+  const colors: Record<string, string> = {
+    'Anatomy & Physiology': '#E85D75',
+    'Microbiology': '#4CAF82',
+    'Pharmacology': '#4A9FE8',
+    'Sterilization and Decontamination': '#8B7BC7',
+    'Cardiovascular': '#E85D6B',
+    'General Surgery': '#6B7280',
+    'Genitourinary': '#F5B947',
+    'Neurology': '#5A7C99',
+    'Ophthalmic': '#FF9F5A',
+    'Orthopedic': '#5BA3D4',
+    'Otorhinolaryngology': '#64B5F6',
+    'Peripheral Vascular': '#F08C84',
+    'Plastics and Reconstructive': '#EDAD5C',
+    'Obstetrics and Gynecology': '#E88A8A',
+    'Preoperative': '#52C9B0',
+    'Postoperative': '#F4D03F',
+    'Professional and Administrative Responsibilities': '#B591D6',
+    'Surgical Procedures': '#6B7280',
+    'Instrumentation': '#5BA3D4',
+    'Patient Care': '#52C9B0',
+    'Medical Ethics': '#B591D6',
+    'Emergency Procedures': '#E85D6B',
+    'Post-Operative Care': '#F4D03F'
+  };
+  return colors[category] || '#11B5A4';
+}
+
 export default function Dashboard() {
   const navigate = useNavigate()
   const { state, dispatch } = useAppContext()
@@ -78,32 +107,36 @@ export default function Dashboard() {
           </h1>
         </div>
         
-        {/* Compact Days Until Exam */}
-        <div className="flex items-center justify-between px-5 py-3 rounded-xl mb-6" style={{ backgroundColor: 'rgba(255, 255, 255, 0.6)' }}>
-          <span className="text-sm font-medium" style={{ color: 'var(--text-secondary)' }}>
-            Days until exam
-          </span>
-          <span className="text-2xl font-bold px-3 py-1 bg-white rounded-lg" style={{ color: 'var(--primary-600)' }}>
-            {daysUntilExam}
-          </span>
-        </div>
-        {/* Study Completion Progress */}
-        <Card className="rounded-2xl mb-8" style={{ backgroundColor: 'rgba(255, 255, 255, 0.7)', backdropFilter: 'blur(8px)', boxShadow: 'var(--shadow-raised)' }}>
-          <div className="flex items-center justify-between mb-6">
-            <h2 className="text-lg font-semibold" style={{ color: 'var(--text-primary)' }}>Study Progress</h2>
-            <Target className="h-6 w-6" style={{ color: 'var(--primary-500)' }} />
-          </div>
-
-          <div className="space-y-4">
-            {/* Circular Progress Ring */}
-            <div className="flex items-center justify-center">
-              <ProgressRing progress={readinessScore} size={120} />
+        {/* Study Progress Card with Exam Countdown */}
+        <div className="bg-white rounded-2xl p-6 mb-6" style={{ boxShadow: 'var(--shadow-raised)' }}>
+          <div className="flex items-center justify-between mb-4">
+            <h2 className="text-lg font-bold" style={{ color: 'var(--text-primary)' }}>
+              Study Progress
+            </h2>
+            <div className="flex items-center gap-2">
+              <Calendar className="w-4 h-4" style={{ color: 'var(--text-secondary)' }} />
+              <span className="text-sm" style={{ color: 'var(--text-secondary)' }}>Exam in</span>
+              <span 
+                className="text-xl font-bold px-3 py-1 rounded-lg" 
+                style={{ 
+                  color: 'var(--primary-600)', 
+                  backgroundColor: 'rgba(17, 181, 164, 0.1)' 
+                }}
+              >
+                {daysUntilExam}
+              </span>
+              <span className="text-sm" style={{ color: 'var(--text-secondary)' }}>days</span>
             </div>
-            <p className="text-center text-base font-medium" style={{ color: 'var(--text-secondary)' }}>
+          </div>
+          
+          {/* Progress ring */}
+          <div className="flex flex-col items-center py-6">
+            <ProgressRing progress={readinessScore} size={120} />
+            <p className="text-center text-base font-medium mt-4" style={{ color: 'var(--text-secondary)' }}>
               {readinessScore}% study completion
             </p>
           </div>
-        </Card>
+        </div>
 
         {/* Main Action Buttons - 2 Centered */}
         <div className="flex flex-col gap-3 px-8 mt-6 mb-8 max-w-2xl mx-auto">
@@ -176,7 +209,7 @@ export default function Dashboard() {
                   <span className="text-sm font-medium" style={{ color: 'var(--text-primary)' }}>
                     {category.name}
                   </span>
-                  <span className="text-sm font-bold" style={{ color: 'var(--primary-600)' }}>
+                  <span className="text-sm font-bold" style={{ color: getCategoryColor(category.name) }}>
                     {category.score}%
                   </span>
                 </div>
@@ -188,7 +221,7 @@ export default function Dashboard() {
                     className="h-full rounded-full transition-all duration-300"
                     style={{
                       width: `${category.score}%`,
-                      backgroundColor: 'var(--primary-500)'
+                      backgroundColor: getCategoryColor(category.name)
                     }}
                   />
                 </div>

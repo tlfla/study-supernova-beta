@@ -7,6 +7,35 @@ import Button from '../components/common/Button'
 import Toast from '../components/common/Toast'
 import MinimalHeader from '../components/common/MinimalHeader'
 
+function getCategoryColor(category: string): string {
+  const colors: Record<string, string> = {
+    'Anatomy & Physiology': '#E85D75',
+    'Microbiology': '#4CAF82',
+    'Pharmacology': '#4A9FE8',
+    'Sterilization and Decontamination': '#8B7BC7',
+    'Cardiovascular': '#E85D6B',
+    'General Surgery': '#6B7280',
+    'Genitourinary': '#F5B947',
+    'Neurology': '#5A7C99',
+    'Ophthalmic': '#FF9F5A',
+    'Orthopedic': '#5BA3D4',
+    'Otorhinolaryngology': '#64B5F6',
+    'Peripheral Vascular': '#F08C84',
+    'Plastics and Reconstructive': '#EDAD5C',
+    'Obstetrics and Gynecology': '#E88A8A',
+    'Preoperative': '#52C9B0',
+    'Postoperative': '#F4D03F',
+    'Professional and Administrative Responsibilities': '#B591D6',
+    'Surgical Procedures': '#6B7280',
+    'Instrumentation': '#5BA3D4',
+    'Patient Care': '#52C9B0',
+    'Medical Ethics': '#B591D6',
+    'Emergency Procedures': '#E85D6B',
+    'Post-Operative Care': '#F4D03F'
+  };
+  return colors[category] || '#11B5A4';
+}
+
 export default function Profile() {
   const navigate = useNavigate()
   const { state, dispatch } = useAppContext()
@@ -67,26 +96,30 @@ export default function Profile() {
       {/* Content */}
       <main className="pt-16 px-4 py-8 max-w-4xl mx-auto safe-area-padding-left safe-area-padding-right safe-area-padding-bottom">
         {/* User Info */}
-        <Card className="mb-8">
-          <div className="flex items-center space-x-4">
-            <div className="bg-primary-100 p-3 rounded-full">
-              <User className="h-8 w-8 text-primary-600" />
+        <div className="bg-white rounded-2xl shadow-sm p-6 mb-6">
+          <div className="flex items-center gap-4">
+            <div 
+              className="w-16 h-16 rounded-full flex items-center justify-center"
+              style={{ backgroundColor: 'rgba(17, 181, 164, 0.1)' }}
+            >
+              <User className="w-8 h-8" style={{ color: 'var(--primary-600)' }} />
             </div>
-            <div className="flex-1">
-              <h2 className="text-xl font-semibold text-gray-900">
-                {state.currentUser?.name || 'Student'}
+            <div>
+              <h2 className="text-xl font-bold" style={{ color: 'var(--text-primary)' }}>
+                {state.currentUser?.name || 'John Doe'}
               </h2>
-              <p className="text-gray-600">{state.currentUser?.email}</p>
-              <p className="text-sm text-gray-500">
-                Class: {state.currentUser?.class_code} • Campus: {state.currentUser?.campus_id}
+              <p className="text-sm" style={{ color: 'var(--text-secondary)' }}>
+                {state.currentUser?.email || 'student@example.com'}
               </p>
             </div>
           </div>
-        </Card>
+        </div>
 
         {/* Editable Profile Info */}
         <div className="bg-white rounded-2xl shadow-sm p-5 mb-6">
-          <h2 className="text-xl font-semibold mb-4" style={{ color: 'var(--text-primary)' }}>Profile Information</h2>
+          <h3 className="text-lg font-bold mb-4" style={{ color: 'var(--text-primary)' }}>
+            Profile Information
+          </h3>
           <div className="space-y-4">
             <div>
               <label className="block text-sm font-semibold mb-2" style={{ color: 'var(--text-primary)' }}>
@@ -97,13 +130,12 @@ export default function Profile() {
                 value={name}
                 onChange={(e) => setName(e.target.value)}
                 disabled={!isEditing}
-                className="w-full px-4 py-3 rounded-xl border transition-all focus:outline-none focus:ring-2"
-                style={{
-                  borderColor: isEditing ? 'var(--primary-500)' : 'var(--border-muted)',
-                  backgroundColor: isEditing ? 'white' : 'var(--bg-raised)',
-                  color: 'var(--text-primary)',
-                  ...(isEditing && { outlineColor: 'var(--primary-500)' })
-                }}
+                className={`w-full px-4 py-3 rounded-xl border transition-all ${
+                  isEditing 
+                    ? 'border-[var(--primary-500)] bg-white focus:ring-2 focus:ring-[var(--primary-500)]/20' 
+                    : 'border-[var(--border-muted)] bg-[var(--bg-raised)] text-[var(--text-secondary)]'
+                }`}
+                style={{ color: isEditing ? 'var(--text-primary)' : 'var(--text-secondary)' }}
               />
             </div>
             
@@ -116,13 +148,12 @@ export default function Profile() {
                 value={examDate}
                 onChange={(e) => setExamDate(e.target.value)}
                 disabled={!isEditing}
-                className="w-full px-4 py-3 rounded-xl border transition-all focus:outline-none focus:ring-2"
-                style={{
-                  borderColor: isEditing ? 'var(--primary-500)' : 'var(--border-muted)',
-                  backgroundColor: isEditing ? 'white' : 'var(--bg-raised)',
-                  color: 'var(--text-primary)',
-                  ...(isEditing && { outlineColor: 'var(--primary-500)' })
-                }}
+                className={`w-full px-4 py-3 rounded-xl border transition-all ${
+                  isEditing 
+                    ? 'border-[var(--primary-500)] bg-white focus:ring-2 focus:ring-[var(--primary-500)]/20' 
+                    : 'border-[var(--border-muted)] bg-[var(--bg-raised)] text-[var(--text-secondary)]'
+                }`}
+                style={{ color: isEditing ? 'var(--text-primary)' : 'var(--text-secondary)' }}
               />
             </div>
           </div>
@@ -255,23 +286,27 @@ export default function Profile() {
               { name: 'Emergency Procedures', score: 69, attempted: 18 },
               { name: 'Post-Operative Care', score: 84, attempted: 25 }
             ].map((category) => (
-              <div key={category.name} className="space-y-2">
-                <div className="flex items-center justify-between text-sm">
-                  <span className="text-gray-700 font-medium">{category.name}</span>
-                  <div className="flex items-center gap-3">
-                    <span className="text-gray-500 text-xs">{category.attempted} attempted</span>
-                    <span className="font-bold text-gray-900 min-w-[45px] text-right">{category.score}%</span>
-                  </div>
+              <div key={category.name} className="mb-4">
+                <div className="flex justify-between items-center mb-2">
+                  <span className="text-sm font-medium" style={{ color: 'var(--text-primary)' }}>
+                    {category.name}
+                  </span>
+                  <span className="text-sm font-bold" style={{ color: getCategoryColor(category.name) }}>
+                    {category.score}%
+                  </span>
                 </div>
-                <div className="w-full bg-gray-200 rounded-full h-2">
-                  <div
-                    className="h-2 rounded-full transition-all duration-300"
-                    style={{
+                <div className="h-2 rounded-full overflow-hidden" style={{ backgroundColor: 'var(--bg-raised)' }}>
+                  <div 
+                    className="h-full rounded-full transition-all"
+                    style={{ 
                       width: `${category.score}%`,
-                      backgroundColor: 'var(--primary-500)'
+                      backgroundColor: getCategoryColor(category.name)
                     }}
                   />
                 </div>
+                <p className="text-xs mt-1" style={{ color: 'var(--text-secondary)' }}>
+                  {category.attempted} attempted
+                </p>
               </div>
             ))}
           </div>
