@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { ArrowLeft } from 'lucide-react'
 import { useAppContext } from '../state/AppContext'
@@ -33,6 +33,14 @@ const timeLimits = [
 const quizModes = [
   { value: 'practice', label: 'Practice Mode' },
   { value: 'exam', label: 'Exam Mode' }
+]
+
+const questionCounts = [
+  { value: '10', label: '10 Questions' },
+  { value: '20', label: '20 Questions' },
+  { value: '30', label: '30 Questions' },
+  { value: '50', label: '50 Questions' },
+  { value: '100', label: '100 Questions' }
 ]
 
 export default function QuizOptions() {
@@ -111,10 +119,10 @@ export default function QuizOptions() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen-safe bg-gray-50 pb-20">
       {/* Header */}
-      <div className="bg-white shadow-sm border-b border-gray-200">
-        <div className="max-w-7xl mx-auto px-4 py-4">
+      <div className="bg-white shadow-sm border-b border-gray-200 safe-area-padding-top">
+        <div className="max-w-7xl mx-auto px-4 py-4 safe-area-padding-left safe-area-padding-right">
           <div className="flex items-center space-x-4">
             <Button
               variant="outline"
@@ -133,26 +141,11 @@ export default function QuizOptions() {
       </div>
 
       {/* Main Content */}
-      <div className="max-w-4xl mx-auto px-4 py-8">
-        <Card className="mb-8">
+      <div className="max-w-4xl mx-auto px-4 py-8 safe-area-padding-left safe-area-padding-right safe-area-padding-bottom">
+        <Card className="mb-8 bg-white/70 backdrop-blur-sm shadow-lg rounded-2xl border-border">
           <h2 className="text-xl font-semibold text-gray-900 mb-6">Quiz Configuration</h2>
 
           <div className="space-y-6">
-
-
-            {/* Question Count */}
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
-                Number of Questions
-              </label>
-              <Dropdown
-                options={questionCounts}
-                value={selectedQuestionCount}
-                onChange={setSelectedQuestionCount}
-                placeholder="Select question count"
-              />
-            </div>
-
             {/* Quiz Mode */}
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-2">
@@ -170,23 +163,17 @@ export default function QuizOptions() {
               </p>
             </div>
 
-            {/* Number of Questions */}
+            {/* Question Count */}
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-2">
                 Number of Questions
               </label>
-              <input
-                type="number"
-                min="1"
-                max="200"
+              <Dropdown
+                options={questionCounts}
                 value={selectedQuestionCount}
-                onChange={(e) => setSelectedQuestionCount(e.target.value)}
-                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-primary-500"
-                placeholder="Enter number of questions"
+                onChange={setSelectedQuestionCount}
+                placeholder="Select question count"
               />
-              <p className="text-xs text-gray-500 mt-1">
-                Enter a number between 1 and 200
-              </p>
             </div>
 
             {/* Time Limit */}

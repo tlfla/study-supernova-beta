@@ -20,9 +20,9 @@ export default function BottomTabBar() {
   const navigate = useNavigate()
 
   return (
-    <div className="fixed bottom-0 left-0 right-0 safe-area-inset-bottom">
-      <div className="bg-white/70 backdrop-blur-sm border-t border-white/20 shadow-lg">
-        <div className="flex items-center justify-around py-3 px-4 safe-area-padding-bottom">
+    <div className="fixed bottom-0 left-0 right-0 safe-area-inset-bottom z-50">
+      <div className="bg-white/90 backdrop-blur-md border-t border-gray-200/50 shadow-lg">
+        <div className="flex items-center justify-around py-2 px-4 safe-area-padding-bottom safe-area-padding-left safe-area-padding-right">
         {tabs.map((tab) => {
           const Icon = tab.icon
           const isActive = location.pathname === tab.path
@@ -48,9 +48,10 @@ export default function BottomTabBar() {
                 )}
               />
               <span className={clsx(
-                'text-xs font-medium truncate w-full text-center relative z-10',
+                'text-[12px] leading-tight font-medium truncate w-full text-center relative z-10',
                 isActive ? 'text-primary-600' : 'text-gray-500'
-              )}>
+              )}
+              style={{ fontSize: 'max(12px, 1rem)' }}>
                 {tab.label}
               </span>
             </button>

@@ -151,10 +151,10 @@ export default function Results() {
   const incorrectAnswers = totalQuestions - correctAnswers
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen-safe bg-gray-50 pb-20">
       {/* Header */}
-      <div className="bg-white shadow-sm border-b border-gray-200">
-        <div className="max-w-4xl mx-auto px-4 py-6">
+      <div className="bg-white shadow-sm border-b border-gray-200 safe-area-padding-top">
+        <div className="max-w-4xl mx-auto px-4 py-6 safe-area-padding-left safe-area-padding-right">
           <div className="text-center">
             <h1 className="text-3xl font-bold text-gray-900 mb-2">Quiz Complete!</h1>
             <p className="text-gray-600">Here's how you performed</p>
@@ -163,7 +163,7 @@ export default function Results() {
       </div>
 
       {/* Results Summary */}
-      <div className="max-w-4xl mx-auto px-4 py-8">
+      <div className="max-w-4xl mx-auto px-4 py-8 safe-area-padding-left safe-area-padding-right safe-area-padding-bottom">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
           <Card>
             <div className="text-center">
@@ -177,10 +177,10 @@ export default function Results() {
 
           <Card>
             <div className="text-center">
-              <div className="inline-flex items-center justify-center w-16 h-16 bg-red-100 rounded-full mb-4">
-                <XCircle className="h-8 w-8 text-red-600" />
+              <div className="inline-flex items-center justify-center w-16 h-16 bg-orange-100 rounded-full mb-4">
+                <XCircle className="h-8 w-8 text-orange-500" />
               </div>
-              <p className="text-3xl font-bold text-red-600">{incorrectAnswers}</p>
+              <p className="text-3xl font-bold text-orange-600">{incorrectAnswers}</p>
               <p className="text-gray-600">Incorrect</p>
             </div>
           </Card>
@@ -251,9 +251,9 @@ export default function Results() {
                     <span className={`inline-flex items-center px-2 py-1 rounded-full text-xs font-medium ${
                       result.isCorrect
                         ? 'bg-green-100 text-green-800'
-                        : 'bg-red-100 text-red-800'
+                        : 'bg-orange-100 text-orange-700'
                     }`}>
-                      {result.isCorrect ? 'Correct' : 'Incorrect'}
+                      {result.isCorrect ? 'Correct' : 'Review'}
                     </span>
                   </div>
                   <button

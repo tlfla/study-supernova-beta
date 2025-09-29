@@ -67,10 +67,10 @@ export default function Dashboard() {
   const readinessScore = 75 // Mock data
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen-safe bg-gray-50 pb-20">
       {/* Header */}
-      <div className="bg-white shadow-sm border-b border-gray-200">
-        <div className="max-w-7xl mx-auto px-4 py-6">
+      <div className="bg-white shadow-sm border-b border-gray-200 safe-area-padding-top">
+        <div className="max-w-7xl mx-auto px-4 py-6 safe-area-padding-left safe-area-padding-right">
           <div className="flex items-center justify-between">
             <div className="flex items-center space-x-3">
               <div className="bg-primary-100 p-2 rounded-lg">
@@ -87,7 +87,7 @@ export default function Dashboard() {
       </div>
 
       {/* Main Content */}
-      <div className="max-w-7xl mx-auto px-4 py-6">
+      <div className="max-w-7xl mx-auto px-4 py-6 safe-area-padding-left safe-area-padding-right safe-area-padding-bottom">
         {/* Exam Progress */}
         <Card className="bg-white/70 backdrop-blur-sm shadow-lg rounded-2xl border-border mb-8">
           <div className="flex items-center justify-between mb-6">

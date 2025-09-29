@@ -137,10 +137,10 @@ export default function Review() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen-safe bg-gray-50 pb-20">
       {/* Header */}
-      <div className="bg-white shadow-sm border-b border-gray-200">
-        <div className="max-w-7xl mx-auto px-4 py-4">
+      <div className="bg-white shadow-sm border-b border-gray-200 safe-area-padding-top">
+        <div className="max-w-7xl mx-auto px-4 py-4 safe-area-padding-left safe-area-padding-right">
           <div className="flex items-center space-x-4">
             <Button
               variant="outline"
@@ -159,8 +159,8 @@ export default function Review() {
       </div>
 
       {/* Filters */}
-      <div className="max-w-7xl mx-auto px-4 py-6">
-        <Card className="mb-6">
+      <div className="max-w-7xl mx-auto px-4 py-6 safe-area-padding-left safe-area-padding-right safe-area-padding-bottom">
+        <Card className="mb-6 bg-white/70 backdrop-blur-sm shadow-lg rounded-2xl border-border">
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-2">
@@ -215,7 +215,7 @@ export default function Review() {
 
         {/* Results */}
         {isLoading ? (
-          <Card>
+          <Card className="bg-white/70 backdrop-blur-sm shadow-lg rounded-2xl border-border">
             <div className="text-center py-12">
               <div className="inline-flex items-center justify-center w-16 h-16 bg-gray-100 rounded-full mb-4">
                 <BookOpen className="h-8 w-8 text-gray-400" />
@@ -224,7 +224,7 @@ export default function Review() {
             </div>
           </Card>
         ) : filteredQuestions.length === 0 ? (
-          <Card>
+          <Card className="bg-white/70 backdrop-blur-sm shadow-lg rounded-2xl border-border">
             <div className="text-center py-12">
               <div className="inline-flex items-center justify-center w-16 h-16 bg-gray-100 rounded-full mb-4">
                 <BookOpen className="h-8 w-8 text-gray-400" />
@@ -252,7 +252,7 @@ export default function Review() {
             </div>
 
             {filteredQuestions.map((question) => (
-              <Card key={question.id} className="hover:shadow-md transition-shadow duration-200">
+              <Card key={question.id} className="bg-white/70 backdrop-blur-sm shadow-lg rounded-2xl border-border hover:shadow-xl transition-shadow duration-200">
                 <div className="flex items-start justify-between mb-4">
                   <div className="flex items-center space-x-2">
                     <span className="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-primary-100 text-primary-800">

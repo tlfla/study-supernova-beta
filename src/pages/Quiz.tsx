@@ -178,10 +178,10 @@ export default function Quiz() {
   const progress = ((quizState.currentQuestionIndex + 1) / quizState.questions.length) * 100
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen-safe bg-gray-50 pb-safe">
       {/* Header */}
-      <div className="bg-white shadow-sm border-b border-gray-200">
-        <div className="max-w-4xl mx-auto px-4 py-4">
+      <div className="bg-white shadow-sm border-b border-gray-200 safe-area-padding-top">
+        <div className="max-w-4xl mx-auto px-4 py-4 safe-area-padding-left safe-area-padding-right">
           <div className="flex items-center justify-between">
             <div className="flex items-center space-x-4">
               <Button
@@ -236,7 +236,7 @@ export default function Quiz() {
       </div>
 
       {/* Question Content */}
-      <div className="max-w-4xl mx-auto px-4 py-8">
+      <div className="max-w-4xl mx-auto px-4 py-8 safe-area-padding-left safe-area-padding-right safe-area-padding-bottom">
         <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-8">
           {/* Question Header */}
           <div className="mb-6">
@@ -262,7 +262,7 @@ export default function Quiz() {
                     ? shouldShowFeedback
                       ? option === currentQuestion.correct
                         ? 'border-green-500 bg-green-50 text-green-800'
-                        : 'border-red-500 bg-red-50 text-red-800'
+                        : 'border-orange-400 bg-white text-gray-900 shadow-sm'
                       : isExamMode
                         ? 'border-gray-300 hover:border-gray-400 hover:bg-gray-50'
                         : 'border-primary-500 bg-primary-50 text-primary-800'
@@ -288,13 +288,13 @@ export default function Quiz() {
                 <div className={`flex-shrink-0 w-6 h-6 rounded-full flex items-center justify-center text-sm font-medium ${
                   selectedAnswer === currentQuestion.correct
                     ? 'bg-green-500 text-white'
-                    : 'bg-red-500 text-white'
+                    : 'bg-orange-400 text-white'
                 }`}>
-                  {selectedAnswer === currentQuestion.correct ? '✓' : '✗'}
+                  {selectedAnswer === currentQuestion.correct ? '✓' : 'i'}
                 </div>
                 <div>
                   <p className="font-medium text-gray-900 mb-2">
-                    {selectedAnswer === currentQuestion.correct ? 'Correct!' : 'Incorrect'}
+                    {selectedAnswer === currentQuestion.correct ? 'Correct!' : 'Review Answer'}
                   </p>
                   <p className="text-gray-700 text-sm leading-relaxed">
                     {currentQuestion.explanation}

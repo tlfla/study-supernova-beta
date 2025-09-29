@@ -27,7 +27,7 @@ function App() {
 
   return (
     <AppProvider>
-      <div className="min-h-screen bg-gray-50 pb-16">
+      <div className="min-h-screen-safe bg-gray-50 pb-20">
         <Routes>
           <Route path="/" element={<Dashboard />} />
           <Route path="/quiz-options" element={<QuizOptions />} />
