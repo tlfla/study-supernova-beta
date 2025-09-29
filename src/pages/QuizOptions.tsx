@@ -246,7 +246,7 @@ export default function QuizOptions() {
           >
             {isLoading ? 'Loading...' : 'Start Quiz'}
           </button>
-        </Card>
+        </div>
         </div>
       </main>
     </div>
