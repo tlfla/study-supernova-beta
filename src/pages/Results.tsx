@@ -280,12 +280,12 @@ export default function Results() {
                     return (
                       <div
                         key={option}
-                        className={`p-2 rounded text-sm ${
+                        className={`rounded-xl px-3 py-2 text-sm ${
                           isCorrectAnswer
-                            ? 'bg-green-200 text-green-800 font-medium border border-green-300'
+                            ? 'border border-success bg-green-50 text-green-800 font-medium'
                             : isUserAnswer
-                            ? 'bg-gray-100 text-gray-700 border border-red-300'
-                            : 'bg-gray-100 text-gray-700'
+                            ? 'border border-black/20 bg-white text-gray-900'
+                            : 'border border-black/10 bg-white text-gray-700'
                         }`}
                       >
                         <span className="font-medium">{option}:</span> {result.question.options[option]}
@@ -293,7 +293,7 @@ export default function Results() {
                           <span className="ml-2">✓ Correct Answer</span>
                         )}
                         {isUserAnswer && !isCorrectAnswer && (
-                          <span className="ml-2">✗ Your Answer</span>
+                          <span className="ml-2" style={{ color: 'var(--warning-500)' }}>• Your Answer</span>
                         )}
                       </div>
                     )

@@ -57,6 +57,7 @@ export default function BottomTabBar() {
             </button>
           )
         })}
+        </div>
       </div>
     </div>
   )

@@ -257,18 +257,18 @@ export default function Quiz() {
                 key={option}
                 onClick={() => handleAnswerSelect(option)}
                 disabled={shouldShowFeedback}
-                className={`w-full text-left p-4 rounded-lg border-2 transition-all duration-200 ${
+                className={`w-full text-left rounded-xl px-3 py-2 transition-all duration-200 ${
                   selectedAnswer === option
                     ? shouldShowFeedback
                       ? option === currentQuestion.correct
-                        ? 'border-green-500 bg-green-50 text-green-800'
-                        : 'border-orange-400 bg-white text-gray-900 shadow-sm'
+                        ? 'border border-success outline outline-1 outline-black/10 bg-green-50 text-green-800'
+                        : 'border border-black/20 outline outline-1 outline-black/10 bg-white text-gray-900'
                       : isExamMode
-                        ? 'border-gray-300 hover:border-gray-400 hover:bg-gray-50'
-                        : 'border-primary-500 bg-primary-50 text-primary-800'
+                        ? 'border border-black/10 outline outline-1 outline-black/10'
+                        : 'border border-primary-500 outline outline-1 outline-black/10 bg-primary-50 text-primary-800'
                     : shouldShowFeedback && option === currentQuestion.correct
-                    ? 'border-green-500 bg-green-50 text-green-800'
-                    : 'border-gray-300 hover:border-gray-400 hover:bg-gray-50'
+                    ? 'border border-success bg-green-50 text-green-800'
+                    : 'border border-black/10 hover:border-black/20'
                 }`}
               >
                 <div className="flex items-start space-x-3">
@@ -285,11 +285,14 @@ export default function Quiz() {
           {shouldShowFeedback && (
             <div className="mb-8 p-4 rounded-lg bg-gray-50 border border-gray-200">
               <div className="flex items-start space-x-3">
-                <div className={`flex-shrink-0 w-6 h-6 rounded-full flex items-center justify-center text-sm font-medium ${
-                  selectedAnswer === currentQuestion.correct
-                    ? 'bg-green-500 text-white'
-                    : 'bg-orange-400 text-white'
-                }`}>
+                <div 
+                  className="flex-shrink-0 w-6 h-6 rounded-full flex items-center justify-center text-sm font-medium text-white"
+                  style={{ 
+                    backgroundColor: selectedAnswer === currentQuestion.correct 
+                      ? 'var(--success)' 
+                      : 'var(--warning-500)' 
+                  }}
+                >
                   {selectedAnswer === currentQuestion.correct ? '✓' : 'i'}
                 </div>
                 <div>
