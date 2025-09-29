@@ -1,0 +1,10 @@
+# HARD CONSTRAINTS (global)
+- You do NOT have shell/terminal access. Never run or suggest commands.
+- Do NOT use npm/yarn/pnpm/bun (no install/build/test/dev).
+- Do NOT modify package.json or lockfiles or add dependencies.
+- If something “needs a command,” output it only under a **Manual steps** section (text only).
+- Work file-by-file: propose diffs/edits; no migrations, no DB connections, no background tasks.
+
+# HOW TO WORK IN THIS REPO
+- Follow the UX spec docs in /docs and the app schema files.
+- When unsure, ask before changing dependencies or build tooling.

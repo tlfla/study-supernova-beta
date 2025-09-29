@@ -1,46 +1,57 @@
+import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { ArrowLeft, BookOpen, FileText, Download } from 'lucide-react'
+import { ArrowLeft, BookOpen, FileText, Download, Volume2, Play } from 'lucide-react'
 import Card from '../components/common/Card'
 import Button from '../components/common/Button'
+import Toast from '../components/common/Toast'
 
 export default function Study() {
   const navigate = useNavigate()
+  const [toast, setToast] = useState<{ type: 'success' | 'error' | 'warning' | 'info'; title: string; message?: string } | null>(null)
 
   const studySections = [
     {
-      title: 'Deep Dives',
-      description: 'Comprehensive guides on surgical procedures and techniques',
-      icon: BookOpen,
+      title: 'Audio Resources',
+      description: 'Listen to surgical procedures and terminology explanations',
+      icon: Volume2,
       items: [
-        'Asepsis and Sterile Technique',
-        'Surgical Instrumentation',
-        'Anesthesia Principles',
-        'Wound Healing and Closure'
+        'Surgical Procedure Audio Guides',
+        'Medical Terminology Pronunciation',
+        'Case Study Discussions',
+        'Expert Interviews'
       ]
     },
     {
-      title: 'Key Concepts',
-      description: 'Essential terminology and fundamental principles',
+      title: 'Terminology & Flashcards',
+      description: 'Interactive flashcards and terminology drills',
       icon: FileText,
       items: [
-        'Anatomical Positions and Planes',
         'Medical Terminology Basics',
-        'Infection Control Protocols',
-        'Patient Safety Standards'
+        'Surgical Instrument Names',
+        'Anatomical Terms',
+        'Procedure-Specific Vocabulary'
       ]
     },
     {
-      title: 'Reference Sheets',
-      description: 'Quick reference materials and checklists',
+      title: 'Study Guides',
+      description: 'Comprehensive study materials and reference documents',
       icon: Download,
       items: [
-        'Surgical Counts Checklist',
-        'Instrument Identification Guide',
-        'Common Suture Types',
-        'Sterilization Methods'
+        'Surgical Technique Guides',
+        'Anatomy Reference Sheets',
+        'Procedure Checklists',
+        'Study Planning Templates'
       ]
     }
   ]
+
+  const handleAudioPlay = (item: string) => {
+    setToast({
+      type: 'info',
+      title: 'Coming Soon',
+      message: `${item} audio content will be available in a future update.`
+    })
+  }
 
   return (
     <div className="min-h-screen bg-gray-50">
@@ -86,17 +97,28 @@ export default function Study() {
                 {section.items.map((item) => (
                   <Card
                     key={item}
-                    className="bg-white/50 hover:bg-white/70 transition-colors duration-200 cursor-pointer border border-gray-200 hover:border-primary-300"
+                    className="bg-white/70 backdrop-blur-sm shadow-lg rounded-2xl border-border hover:shadow-xl transition-all duration-200 cursor-pointer"
                   >
                     <div className="flex items-center justify-between">
-                      <div>
-                        <h3 className="font-medium text-gray-900">{item}</h3>
-                        <p className="text-sm text-gray-600 mt-1">
-                          Coming soon - detailed study materials
+                      <div className="flex-1">
+                        <h3 className="font-medium text-gray-900 mb-1">{item}</h3>
+                        <p className="text-sm text-gray-600">
+                          {section.title === 'Audio Resources' ? 'Click to play audio guide' : 'Click to open study materials'}
                         </p>
                       </div>
-                      <div className="text-gray-400">
-                        <ArrowLeft className="h-4 w-4 rotate-180" />
+                      <div className="flex items-center space-x-2">
+                        {section.title === 'Audio Resources' && (
+                          <button
+                            onClick={() => handleAudioPlay(item)}
+                            className="p-2 rounded-lg bg-primary-100 text-primary-600 hover:bg-primary-200 transition-colors"
+                            aria-label={`Play ${item}`}
+                          >
+                            <Play className="h-4 w-4" />
+                          </button>
+                        )}
+                        <div className="text-gray-400">
+                          <ArrowLeft className="h-4 w-4 rotate-180" />
+                        </div>
                       </div>
                     </div>
                   </Card>
@@ -116,12 +138,22 @@ export default function Study() {
               Study Materials Coming Soon
             </h3>
             <p className="text-gray-600 max-w-md mx-auto">
-              We're working on comprehensive study materials including swipe-based flashcards,
-              spaced repetition scheduling, and progress tracking. Stay tuned for updates!
+              We're working on comprehensive study materials including audio guides,
+              interactive flashcards, and downloadable reference sheets. Stay tuned for updates!
             </p>
           </div>
         </Card>
       </div>
+
+      {/* Toast */}
+      {toast && (
+        <Toast
+          type={toast.type}
+          title={toast.title}
+          message={toast.message}
+          onClose={() => setToast(null)}
+        />
+      )}
     </div>
   )
 }

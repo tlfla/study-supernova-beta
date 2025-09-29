@@ -74,8 +74,8 @@ export default function Review() {
 
       // Load bookmarked questions
       if (state.currentUser) {
-        const bookmarks = await dataProvider.listBookmarks(state.currentUser.id)
-        setBookmarkedQuestions(new Set(bookmarks.map(b => b.question_id)))
+        const bookmarks = await dataProvider.listBookmarks()
+        setBookmarkedQuestions(new Set(bookmarks.map(b => b.questionId)))
       }
 
       // Load all questions

@@ -21,19 +21,6 @@ const categories = [
   { value: 'Post-Operative Care', label: 'Post-Operative Care' }
 ]
 
-const difficulties = [
-  { value: 'mixed', label: 'Mixed Difficulty' },
-  { value: 'easy', label: 'Easy' },
-  { value: 'medium', label: 'Medium' },
-  { value: 'hard', label: 'Hard' }
-]
-
-const questionCounts = [
-  { value: '10', label: '10 Questions' },
-  { value: '20', label: '20 Questions' },
-  { value: '30', label: '30 Questions' },
-  { value: '50', label: '50 Questions' }
-]
 
 const timeLimits = [
   { value: 'none', label: 'No Time Limit' },
@@ -54,11 +41,19 @@ export default function QuizOptions() {
   const dataProvider = DataProvider.getInstance()
 
   const [selectedCategory, setSelectedCategory] = useState('all')
-  const [selectedDifficulty, setSelectedDifficulty] = useState('mixed')
   const [selectedQuestionCount, setSelectedQuestionCount] = useState('20')
   const [selectedTimeLimit, setSelectedTimeLimit] = useState('none')
   const [selectedMode, setSelectedMode] = useState('practice')
   const [isLoading, setIsLoading] = useState(false)
+
+  useEffect(() => {
+    // Set default time limit based on mode
+    if (selectedMode === 'exam' && selectedTimeLimit === 'none') {
+      setSelectedTimeLimit('30') // Default 30 minutes for exam mode
+    } else if (selectedMode === 'practice' && selectedTimeLimit === '30') {
+      setSelectedTimeLimit('none') // Default no time limit for practice mode
+    }
+  }, [selectedMode, selectedTimeLimit])
 
   const handleStartQuiz = async () => {
     setIsLoading(true)
@@ -67,9 +62,6 @@ export default function QuizOptions() {
       const filters: any = {}
       if (selectedCategory !== 'all') {
         filters.category = selectedCategory
-      }
-      if (selectedDifficulty !== 'mixed') {
-        filters.difficulty = selectedDifficulty
       }
       filters.limit = parseInt(selectedQuestionCount)
 
@@ -89,7 +81,6 @@ export default function QuizOptions() {
 
       const quizSettings = {
         category: selectedCategory,
-        difficulty: selectedDifficulty as 'easy' | 'medium' | 'hard' | 'mixed',
         questionCount: parseInt(selectedQuestionCount),
         timeLimit: selectedTimeLimit !== 'none' ? parseInt(selectedTimeLimit) : undefined,
         mode: selectedMode as 'practice' | 'exam'
@@ -165,18 +156,6 @@ export default function QuizOptions() {
               />
             </div>
 
-            {/* Difficulty Selection */}
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
-                Difficulty Level
-              </label>
-              <Dropdown
-                options={difficulties}
-                value={selectedDifficulty}
-                onChange={setSelectedDifficulty}
-                placeholder="Select difficulty"
-              />
-            </div>
 
             {/* Question Count */}
             <div>
@@ -203,7 +182,27 @@ export default function QuizOptions() {
                 placeholder="Select quiz mode"
               />
               <p className="text-xs text-gray-500 mt-1">
-                Practice: Check answers as you go. Exam: No reveals until summary.
+                Practice: Shows rationales after answer submission; optional timer.
+                Exam: No rationales until results; timer on by default.
+              </p>
+            </div>
+
+            {/* Number of Questions */}
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-2">
+                Number of Questions
+              </label>
+              <input
+                type="number"
+                min="1"
+                max="200"
+                value={selectedQuestionCount}
+                onChange={(e) => setSelectedQuestionCount(e.target.value)}
+                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-primary-500"
+                placeholder="Enter number of questions"
+              />
+              <p className="text-xs text-gray-500 mt-1">
+                Enter a number between 1 and 200
               </p>
             </div>
 
@@ -219,7 +218,7 @@ export default function QuizOptions() {
                 placeholder="Select time limit"
               />
               <p className="text-xs text-gray-500 mt-1">
-                Leave as "No Time Limit" for untimed practice
+                {selectedMode === 'exam' ? 'Timer on by default for exam mode' : 'Leave as "No Time Limit" for untimed practice'}
               </p>
             </div>
           </div>

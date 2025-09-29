@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { Play, BookOpen, RotateCcw, Calendar, Target, TrendingUp } from 'lucide-react'
+import { Play, BookOpen, RotateCcw, Calendar, Target, TrendingUp, ChevronDown, ChevronUp } from 'lucide-react'
 import { useAppContext } from '../state/AppContext'
 import { DataProvider } from '../data/providers/DataProvider'
 import Card from '../components/common/Card'
@@ -12,6 +12,7 @@ export default function Dashboard() {
   const { state, dispatch } = useAppContext()
   const dataProvider = DataProvider.getInstance()
   const [savedQuizData, setSavedQuizData] = useState<any>(null)
+  const [categoryPerformanceExpanded, setCategoryPerformanceExpanded] = useState(false)
 
   useEffect(() => {
     // Check for saved quiz data
@@ -54,12 +55,12 @@ export default function Dashboard() {
     localStorage.removeItem('savedQuiz')
   }
 
-  const handleContinueStudying = () => {
-    navigate('/quiz-options')
-  }
-
   const handleReviewMissed = () => {
     navigate('/review')
+  }
+
+  const handleStudyResources = () => {
+    navigate('/study')
   }
 
   const daysUntilExam = 30 // Mock data
@@ -71,17 +72,34 @@ export default function Dashboard() {
       <div className="bg-white shadow-sm border-b border-gray-200">
         <div className="max-w-7xl mx-auto px-4 py-6">
           <div className="flex items-center justify-between">
-            <div>
-              <h1 className="text-2xl font-bold text-gray-900">
-                Welcome back, {state.currentUser?.name || 'Student'}!
-              </h1>
-              <p className="text-gray-600 mt-1">
-                Ready to continue your surgical tech journey?
-              </p>
+            <div className="flex items-center space-x-3">
+              <div className="bg-primary-100 p-2 rounded-lg">
+                <BookOpen className="h-6 w-6 text-primary-600" />
+              </div>
+              <div>
+                <h1 className="text-2xl font-bold text-gray-900">
+                  Surgical Tech Study
+                </h1>
+              </div>
             </div>
             <div className="text-right">
-              <p className="text-sm text-gray-500">Days until exam</p>
-              <p className="text-3xl font-bold text-primary-600">{daysUntilExam}</p>
+              <div className="flex flex-col items-end space-y-2">
+                <div className="flex items-center space-x-2">
+                  <ProgressRing progress={readinessScore} size={60} />
+                  <div>
+                    <p className="text-xs text-gray-500">{daysUntilExam} days to exam</p>
+                    <p className="text-sm font-medium text-gray-900">{readinessScore}% ready</p>
+                  </div>
+                </div>
+                <div className="w-32 bg-gray-200 rounded-full h-2">
+                  <div
+                    className="bg-primary-500 h-2 rounded-full transition-all duration-300"
+                    style={{
+                      width: `${Math.min(100, (daysUntilExam / 30) * 100)}%`
+                    }}
+                  />
+                </div>
+              </div>
             </div>
           </div>
         </div>
@@ -91,141 +109,127 @@ export default function Dashboard() {
       <div className="max-w-7xl mx-auto px-4 py-6">
         {/* Progress Overview */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
-          {/* Readiness Score */}
+          {/* Days to Exam + Circle */}
           <Card className="bg-white/70 backdrop-blur-sm shadow-lg rounded-2xl border-border">
             <div className="flex items-center justify-between mb-4">
-              <h2 className="text-lg font-semibold text-gray-900">Readiness Score</h2>
-              <TrendingUp className="h-6 w-6 text-primary-500" />
+              <h2 className="text-lg font-semibold text-gray-900">Exam Progress</h2>
+              <Calendar className="h-6 w-6 text-primary-500" />
             </div>
-            <div className="flex items-center justify-center">
-              <ProgressRing progress={readinessScore} size={120} />
-            </div>
-            <p className="text-center text-sm text-gray-600 mt-4">
-              Based on your recent performance
-            </p>
-          </Card>
-
-          {/* Daily Goal */}
-          <Card className="bg-white/70 backdrop-blur-sm shadow-lg rounded-2xl border-border">
-            <div className="flex items-center justify-between mb-4">
-              <h2 className="text-lg font-semibold text-gray-900">Daily Goal</h2>
-              <Target className="h-6 w-6 text-primary-500" />
-            </div>
-            <div className="space-y-3">
+            <div className="space-y-4">
+              {/* Days to Exam Bar */}
               <div>
-                <div className="flex justify-between text-sm mb-1">
-                  <span className="text-gray-600">Questions</span>
-                  <span className="font-medium">
-                    {state.dailyGoal?.completed_questions || 0} / {state.dailyGoal?.target_questions || 20}
-                  </span>
+                <div className="flex justify-between text-sm mb-2">
+                  <span className="text-gray-600">Days until exam</span>
+                  <span className="font-medium text-primary-600">{daysUntilExam}</span>
                 </div>
                 <div className="w-full bg-gray-200 rounded-full h-2">
                   <div
                     className="bg-primary-500 h-2 rounded-full transition-all duration-300"
                     style={{
-                      width: `${Math.min(100, ((state.dailyGoal?.completed_questions || 0) / (state.dailyGoal?.target_questions || 20)) * 100)}%`
+                      width: `${Math.min(100, (daysUntilExam / 30) * 100)}%`
                     }}
                   />
                 </div>
               </div>
-              <div>
-                <div className="flex justify-between text-sm mb-1">
-                  <span className="text-gray-600">Time</span>
-                  <span className="font-medium">
-                    {Math.round((state.dailyGoal?.completed_time || 0) / 60)} / {state.dailyGoal?.target_time || 30} min
-                  </span>
-                </div>
-                <div className="w-full bg-gray-200 rounded-full h-2">
-                  <div
-                    className="bg-secondary-500 h-2 rounded-full transition-all duration-300"
-                    style={{
-                      width: `${Math.min(100, ((state.dailyGoal?.completed_time || 0) / 60 / (state.dailyGoal?.target_time || 30)) * 100)}%`
-                    }}
-                  />
-                </div>
+
+              {/* Circular Progress Ring */}
+              <div className="flex items-center justify-center">
+                <ProgressRing progress={readinessScore} size={120} />
               </div>
+              <p className="text-center text-sm text-gray-600">
+                {readinessScore}% study completion
+              </p>
             </div>
           </Card>
         </div>
 
-        {/* Action Tiles */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
-          {savedQuizData && (
-            <Card
-              className="cursor-pointer hover:shadow-md transition-shadow duration-200 bg-white/70 backdrop-blur-sm shadow-lg rounded-2xl border-border"
-              onClick={handleResumeQuiz}
-            >
-              <div className="flex items-center space-x-3">
-                <div className="bg-green-100 p-3 rounded-lg">
-                  <Play className="h-6 w-6 text-green-600" />
-                </div>
-                <div>
-                  <h3 className="font-semibold text-gray-900">Resume Quiz</h3>
-                  <p className="text-sm text-gray-600">Continue where you left off</p>
-                </div>
-              </div>
-            </Card>
-          )}
-
+        {/* Hero Actions - Exactly 3 centered and tall */}
+        <div className="flex justify-center gap-6 mb-12">
           <Card
-            className="cursor-pointer hover:shadow-md transition-shadow duration-200 bg-white/70 backdrop-blur-sm shadow-lg rounded-2xl border-border"
+            className="cursor-pointer hover:shadow-lg transition-all duration-200 bg-white/70 backdrop-blur-sm shadow-lg rounded-2xl border-border min-h-[120px] w-80 flex flex-col justify-center"
             onClick={handleStartQuiz}
           >
-            <div className="flex items-center space-x-3">
-              <div className="bg-primary-100 p-3 rounded-lg">
-                <Play className="h-6 w-6 text-primary-600" />
+            <div className="text-center">
+              <div className="bg-primary-500 w-12 h-12 rounded-full flex items-center justify-center mx-auto mb-4">
+                <Play className="h-6 w-6 text-white" />
               </div>
-              <div>
-                <h3 className="font-semibold text-gray-900">Quiz of the Day</h3>
-                <p className="text-sm text-gray-600">Start your daily practice</p>
-              </div>
+              <h3 className="font-semibold text-gray-900 text-lg mb-2">Start New Quiz</h3>
+              <p className="text-sm text-gray-600">Begin your practice session</p>
             </div>
           </Card>
 
           <Card
-            className="cursor-pointer hover:shadow-md transition-shadow duration-200 bg-white/70 backdrop-blur-sm shadow-lg rounded-2xl border-border"
-            onClick={handleContinueStudying}
-          >
-            <div className="flex items-center space-x-3">
-              <div className="bg-secondary-100 p-3 rounded-lg">
-                <BookOpen className="h-6 w-6 text-secondary-600" />
-              </div>
-              <div>
-                <h3 className="font-semibold text-gray-900">Continue Studying</h3>
-                <p className="text-sm text-gray-600">Pick up where you left off</p>
-              </div>
-            </div>
-          </Card>
-
-          <Card
-            className="cursor-pointer hover:shadow-md transition-shadow duration-200 bg-white/70 backdrop-blur-sm shadow-lg rounded-2xl border-border"
+            className="cursor-pointer hover:shadow-lg transition-all duration-200 bg-white/70 backdrop-blur-sm shadow-lg rounded-2xl border-border min-h-[120px] w-80 flex flex-col justify-center hover:bg-primary-50/70"
             onClick={handleReviewMissed}
           >
-            <div className="flex items-center space-x-3">
-              <div className="bg-orange-100 p-3 rounded-lg">
-                <RotateCcw className="h-6 w-6 text-orange-600" />
+            <div className="text-center">
+              <div className="bg-primary-100 w-12 h-12 rounded-full flex items-center justify-center mx-auto mb-4">
+                <RotateCcw className="h-6 w-6 text-primary-600" />
               </div>
-              <div>
-                <h3 className="font-semibold text-gray-900">Review Missed</h3>
-                <p className="text-sm text-gray-600">Focus on weak areas</p>
-              </div>
+              <h3 className="font-semibold text-gray-900 text-lg mb-2">Review Missed Questions</h3>
+              <p className="text-sm text-gray-600">Focus on areas that need work</p>
             </div>
           </Card>
 
           <Card
-            className="cursor-pointer hover:shadow-md transition-shadow duration-200 opacity-50 bg-white/70 backdrop-blur-sm shadow-lg rounded-2xl border-border"
+            className="cursor-pointer hover:shadow-lg transition-all duration-200 bg-white/70 backdrop-blur-sm shadow-lg rounded-2xl border-border min-h-[120px] w-80 flex flex-col justify-center hover:bg-primary-50/70"
+            onClick={handleStudyResources}
           >
-            <div className="flex items-center space-x-3">
-              <div className="bg-gray-100 p-3 rounded-lg">
-                <Calendar className="h-6 w-6 text-gray-600" />
+            <div className="text-center">
+              <div className="bg-primary-100 w-12 h-12 rounded-full flex items-center justify-center mx-auto mb-4">
+                <BookOpen className="h-6 w-6 text-primary-600" />
               </div>
-              <div>
-                <h3 className="font-semibold text-gray-900">Study Schedule</h3>
-                <p className="text-sm text-gray-600">Coming soon</p>
-              </div>
+              <h3 className="font-semibold text-gray-900 text-lg mb-2">Study Resources</h3>
+              <p className="text-sm text-gray-600">Access study materials and guides</p>
             </div>
           </Card>
         </div>
+
+        {/* Category Performance */}
+        <Card className="bg-white/70 backdrop-blur-sm shadow-lg rounded-2xl border-border mb-8">
+          <button
+            onClick={() => setCategoryPerformanceExpanded(!categoryPerformanceExpanded)}
+            className="flex items-center justify-between w-full text-left"
+          >
+            <h2 className="text-xl font-semibold text-gray-900">Category Performance</h2>
+            <div className="flex items-center space-x-2">
+              <div className="text-sm text-gray-600">
+                {categoryPerformanceExpanded ? 'Collapse' : 'Expand'}
+              </div>
+              {categoryPerformanceExpanded ? (
+                <ChevronUp className="h-5 w-5 text-gray-400" />
+              ) : (
+                <ChevronDown className="h-5 w-5 text-gray-400" />
+              )}
+            </div>
+          </button>
+
+          {categoryPerformanceExpanded && (
+            <div className="mt-6 pt-6 border-t border-gray-200">
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                {['Anatomy & Physiology', 'Surgical Procedures', 'Instrumentation'].map((category) => (
+                  <div key={category} className="space-y-3">
+                    <h3 className="font-medium text-gray-900">{category}</h3>
+                    <div className="space-y-2">
+                      {/* Mock line graph placeholder */}
+                      <div className="h-16 bg-gray-100 rounded-lg flex items-end justify-between p-2">
+                        <div className="w-2 h-8 bg-primary-300 rounded-t"></div>
+                        <div className="w-2 h-12 bg-primary-400 rounded-t"></div>
+                        <div className="w-2 h-6 bg-primary-500 rounded-t"></div>
+                        <div className="w-2 h-10 bg-primary-600 rounded-t"></div>
+                        <div className="w-2 h-14 bg-primary-700 rounded-t"></div>
+                      </div>
+                      <div className="flex justify-between text-sm text-gray-600">
+                        <span>Practice this week: 12</span>
+                        <span>Best score: 85%</span>
+                      </div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
+        </Card>
 
         {/* Quick Stats */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">

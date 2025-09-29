@@ -3,25 +3,38 @@ import { render, screen, fireEvent } from '@testing-library/react'
 import { MemoryRouter } from 'react-router-dom'
 import { createMemoryRouter, RouterProvider } from 'react-router-dom'
 import App from '../App'
+import { AppProvider } from '../state/AppContext'
+import Dashboard from '../pages/Dashboard'
+import QuizOptions from '../pages/QuizOptions'
+import Quiz from '../pages/Quiz'
+import Results from '../pages/Results'
+import Review from '../pages/Review'
+import Study from '../pages/Study'
+import Profile from '../pages/Profile'
+import Setup from '../pages/Setup'
 
 describe('App', () => {
   it('renders without crashing', () => {
     render(
-      <MemoryRouter>
-        <App />
-      </MemoryRouter>
+      <AppProvider>
+        <MemoryRouter>
+          <App />
+        </MemoryRouter>
+      </AppProvider>
     )
     expect(document.body).toBeTruthy()
   })
 
   it('displays dashboard by default', () => {
     render(
-      <MemoryRouter>
-        <App />
-      </MemoryRouter>
+      <AppProvider>
+        <MemoryRouter>
+          <App />
+        </MemoryRouter>
+      </AppProvider>
     )
     // Check for dashboard content
-    expect(screen.getByText(/welcome back/i)).toBeTruthy()
+    expect(screen.getByText(/surgical tech study/i)).toBeTruthy()
   })
 
   it('Start Quiz button navigates to quiz options, not directly to quiz', async () => {
@@ -37,7 +50,7 @@ describe('App', () => {
     render(<RouterProvider router={router} />)
 
     // Click the Start Quiz button
-    const startButton = screen.getByText(/quiz of the day/i)
+    const startButton = screen.getByText(/start new quiz/i)
     fireEvent.click(startButton)
 
     // Should navigate to quiz options, not directly to quiz

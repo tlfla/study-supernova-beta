@@ -24,6 +24,7 @@ export default function Quiz() {
 
   // Check if we're in practice mode and should show feedback
   const isPracticeMode = quizSettings?.mode === 'practice'
+  const isExamMode = quizSettings?.mode === 'exam'
   const shouldShowFeedback = isPracticeMode ? showFeedback : false
 
   useEffect(() => {
@@ -186,10 +187,9 @@ export default function Quiz() {
               <Button
                 variant="outline"
                 size="sm"
-                onClick={() => navigate('/quiz-options')}
+                onClick={() => setShowSaveExitModal(true)}
               >
-                <ArrowLeft className="h-4 w-4 mr-2" />
-                Options
+                Quit Quiz
               </Button>
               <div>
                 <p className="text-sm text-gray-600">
@@ -214,17 +214,11 @@ export default function Quiz() {
                 onClick={handleBookmarkToggle}
                 className={`p-2 rounded-lg transition-colors duration-200 ${
                   isBookmarked
-                    ? 'bg-bookmark-active text-white'
-                    : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
+                    ? 'text-bookmark-500 hover:text-bookmark-600'
+                    : 'text-gray-400 hover:text-bookmark-500'
                 }`}
               >
                 <Bookmark className="h-4 w-4" />
-              </button>
-              <button
-                onClick={() => setShowSaveExitModal(true)}
-                className="p-2 rounded-lg text-gray-400 hover:text-gray-600 hover:bg-gray-100 transition-colors duration-200"
-              >
-                <Save className="h-4 w-4" />
               </button>
             </div>
           </div>
@@ -250,9 +244,6 @@ export default function Quiz() {
               <span className="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-primary-100 text-primary-800">
                 {currentQuestion.category}
               </span>
-              <span className="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-gray-100 text-gray-800">
-                {currentQuestion.difficulty}
-              </span>
             </div>
             <h2 className="text-xl font-semibold text-gray-900 leading-relaxed">
               {currentQuestion.question}
@@ -272,7 +263,9 @@ export default function Quiz() {
                       ? option === currentQuestion.correct
                         ? 'border-green-500 bg-green-50 text-green-800'
                         : 'border-red-500 bg-red-50 text-red-800'
-                      : 'border-primary-500 bg-primary-50 text-primary-800'
+                      : isExamMode
+                        ? 'border-gray-300 hover:border-gray-400 hover:bg-gray-50'
+                        : 'border-primary-500 bg-primary-50 text-primary-800'
                     : shouldShowFeedback && option === currentQuestion.correct
                     ? 'border-green-500 bg-green-50 text-green-800'
                     : 'border-gray-300 hover:border-gray-400 hover:bg-gray-50'

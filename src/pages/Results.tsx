@@ -241,11 +241,7 @@ export default function Results() {
             {results.map((result) => (
               <div
                 key={result.question.id}
-                className={`p-4 rounded-lg border-2 ${
-                  result.isCorrect
-                    ? 'border-green-200 bg-green-50'
-                    : 'border-red-200 bg-red-50'
-                }`}
+                className="p-4 rounded-lg border border-gray-200"
               >
                 <div className="flex items-start justify-between mb-3">
                   <div className="flex items-center space-x-2">
@@ -286,9 +282,9 @@ export default function Results() {
                         key={option}
                         className={`p-2 rounded text-sm ${
                           isCorrectAnswer
-                            ? 'bg-green-200 text-green-800 font-medium'
+                            ? 'bg-green-200 text-green-800 font-medium border border-green-300'
                             : isUserAnswer
-                            ? 'bg-red-200 text-red-800'
+                            ? 'bg-gray-100 text-gray-700 border border-red-300'
                             : 'bg-gray-100 text-gray-700'
                         }`}
                       >
