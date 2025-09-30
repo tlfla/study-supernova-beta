@@ -51,7 +51,7 @@ export default function Quiz() {
   const [showFeedback, setShowFeedback] = useState(false)
   const [isBookmarked, setIsBookmarked] = useState(false)
   const [timeElapsed, setTimeElapsed] = useState(0)
-  const [showSaveExitModal, setShowSaveExitModal] = useState(false)
+  const [showQuitModal, setShowQuitModal] = useState(false)
 
   const quizState = state.quizState
   const quizSettings = state.quizSettings
@@ -178,6 +178,16 @@ export default function Quiz() {
     setIsBookmarked(newBookmarkState)
   }
 
+  const handleQuitClick = () => {
+    setShowQuitModal(true)
+  }
+
+  const handleExitWithoutSaving = () => {
+    localStorage.removeItem('savedQuiz')
+    dispatch({ type: 'RESET_QUIZ' })
+    navigate('/')
+  }
+
   const handleSaveAndExit = () => {
     if (!quizState || !quizSettings) return
 
@@ -192,7 +202,7 @@ export default function Quiz() {
     }
 
     localStorage.setItem('savedQuiz', JSON.stringify(savedQuizState))
-    setShowSaveExitModal(false)
+    setShowQuitModal(false)
 
     // Navigate back to dashboard
     navigate('/')
@@ -214,65 +224,100 @@ export default function Quiz() {
   const progress = ((quizState.currentQuestionIndex + 1) / quizState.questions.length) * 100
 
   return (
-    <div className="min-h-screen-safe bg-gray-50 pb-safe">
-      {/* Header */}
-      <div className="bg-white shadow-sm border-b border-gray-200 safe-area-padding-top">
-        <div className="max-w-4xl mx-auto px-4 py-4 safe-area-padding-left safe-area-padding-right">
-          <div className="flex items-center justify-between">
-            <div className="flex items-center space-x-4">
-              <Button
-                variant="outline"
-                size="sm"
-                onClick={() => setShowSaveExitModal(true)}
-              >
-                Quit Quiz
-              </Button>
-              <div>
-                <p className="text-sm text-gray-600">
-                  Question {quizState.currentQuestionIndex + 1} of {quizState.questions.length}
-                </p>
-              </div>
-            </div>
-            <div className="flex items-center space-x-4">
-              <div className="flex items-center space-x-2 text-sm">
-                <Clock className="h-4 w-4 text-gray-500" />
-                <span className="font-mono">{formatTime(timeElapsed)}</span>
-              </div>
-              {quizState.timeRemaining && (
-                <div className="flex items-center space-x-2 text-sm">
-                  <Flag className="h-4 w-4 text-orange-500" />
-                  <span className="font-mono text-orange-600">
-                    {formatTimeRemaining(quizState.timeRemaining)}
-                  </span>
-                </div>
-              )}
-              <button
-                onClick={handleBookmarkToggle}
-                className="p-2 rounded-lg border transition-colors duration-200"
-                style={isBookmarked 
-                  ? { backgroundColor: 'var(--bookmark-500)', borderColor: 'var(--bookmark-600)', color: 'var(--text-primary)' }
-                  : { borderColor: 'var(--border-strong)', color: 'var(--text-secondary)' }
-                }
-              >
-                <Bookmark className={`h-4 w-4 ${isBookmarked ? 'fill-current' : ''}`} />
-              </button>
-            </div>
+    <div className="min-h-screen" style={{ backgroundColor: 'var(--bg-base)' }}>
+      {/* Layer 1: Minimal Header - Quit Only */}
+      <div className="sticky top-0 z-50 border-b" style={{
+        backgroundColor: 'white',
+        borderColor: 'var(--border-muted)',
+        height: '56px',
+        display: 'flex',
+        alignItems: 'center',
+        padding: '0 16px'
+      }}>
+        <button 
+          onClick={handleQuitClick}
+          className="p-2 -ml-2 rounded-lg transition-colors"
+          style={{ 
+            width: '40px',
+            height: '40px',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center'
+          }}
+          onMouseEnter={(e) => e.currentTarget.style.backgroundColor = getPrimaryWithOpacity(0.1)}
+          onMouseLeave={(e) => e.currentTarget.style.backgroundColor = 'transparent'}
+          aria-label="Quit quiz"
+        >
+          <X className="w-5 h-5" style={{ color: 'var(--text-primary)' }} />
+        </button>
+      </div>
+
+      {/* Layer 2: Control Bar - Stats & Actions */}
+      <div className="sticky z-40 border-b px-4 py-3" style={{
+        top: '56px',
+        backgroundColor: 'var(--bg-raised)',
+        borderColor: 'var(--stroke-soft)'
+      }}>
+        <div className="flex items-center justify-between max-w-4xl mx-auto">
+          {/* Timer */}
+          <div className="flex items-center gap-2 px-3 py-1.5 rounded-lg" 
+               style={{ backgroundColor: 'white', border: '1px solid var(--stroke-soft)' }}>
+            <Clock className="w-4 h-4" style={{ color: 'var(--text-secondary)' }} />
+            <span className="font-mono text-sm font-semibold" style={{ color: 'var(--text-primary)' }}>
+              {formatTime(timeElapsed)}
+            </span>
           </div>
 
-          {/* Progress Bar */}
-          <div className="mt-4">
-            <div className="w-full rounded-full h-1.5" style={{ backgroundColor: 'var(--bg-raised)' }}>
-              <div
-                className="h-full rounded-full transition-all duration-300"
-                style={{ width: `${progress}%`, backgroundColor: 'var(--primary-500)' }}
-              />
-            </div>
+          {/* Question Counter */}
+          <div className="text-sm font-semibold" style={{ color: 'var(--text-primary)' }}>
+            Question <span style={{ color: 'var(--primary-600)' }}>{quizState.currentQuestionIndex + 1}</span> of {quizState.questions.length}
           </div>
+
+          {/* Bookmark */}
+          <button 
+            onClick={handleBookmarkToggle}
+            className="p-2 rounded-lg transition-colors"
+            style={{ 
+              backgroundColor: isBookmarked ? 'rgba(255, 180, 54, 0.1)' : 'transparent',
+              border: '1px solid',
+              borderColor: isBookmarked ? 'var(--bookmark-500)' : 'var(--stroke-soft)'
+            }}
+            aria-label={isBookmarked ? 'Remove bookmark' : 'Add bookmark'}
+          >
+            <Bookmark 
+              className="w-5 h-5" 
+              style={{ color: isBookmarked ? 'var(--bookmark-500)' : 'var(--text-secondary)' }}
+              fill={isBookmarked ? 'var(--bookmark-500)' : 'none'}
+            />
+          </button>
         </div>
       </div>
 
-      {/* Question Content */}
-      <div className="max-w-4xl mx-auto px-4 py-8 safe-area-padding-left safe-area-padding-right safe-area-padding-bottom">
+      {/* Layer 3: Progress Bar */}
+      <div className="sticky h-2" style={{ 
+        top: '113px',
+        zIndex: 40,
+        backgroundColor: '#E5E7EB'
+      }}>
+        <div 
+          className="h-full transition-all duration-300"
+          style={{
+            width: `${((quizState.currentQuestionIndex + 1) / quizState.questions.length) * 100}%`,
+            backgroundColor: 'var(--primary-500)'
+          }}
+        />
+      </div>
+
+      {/* Question Content Area - starts after all fixed elements */}
+      <div 
+        className="overflow-y-auto"
+        style={{ 
+          paddingTop: '131px',
+          paddingBottom: '24px',
+          minHeight: '100vh'
+        }}
+      >
+        <div className="max-w-2xl mx-auto px-4 py-6">
         <div className="rounded-2xl border p-5" style={{ backgroundColor: 'var(--bg-card)', boxShadow: 'var(--shadow-raised)', borderColor: 'var(--stroke-soft)' }}>
           {/* Question Header */}
           <div className="mb-6">
@@ -412,33 +457,82 @@ export default function Quiz() {
             )}
           </div>
         </div>
-      </div>
+      </div> {/* Close max-w-2xl */}
+    </div> {/* Close overflow-y-auto */}
 
-      {/* Save & Exit Modal */}
-      <Modal
-        isOpen={showSaveExitModal}
-        onClose={() => setShowSaveExitModal(false)}
-        title="Save progress and exit?"
+    {/* Quit Modal */}
+    {showQuitModal && (
+      <div 
+        className="fixed inset-0 z-[60] flex items-center justify-center p-4"
+        style={{ backgroundColor: 'rgba(0, 0, 0, 0.5)' }}
+        onClick={() => setShowQuitModal(false)}
       >
-        <p className="text-gray-600">
-          Your current quiz will be saved so you can resume later.
-        </p>
-        <div className="flex gap-3 mt-6">
-          <Button
-            variant="outline"
-            onClick={() => setShowSaveExitModal(false)}
-            className="flex-1"
-          >
-            Cancel
-          </Button>
-          <Button
-            onClick={handleSaveAndExit}
-            className="flex-1 bg-[var(--primary-500)] text-white hover:bg-[var(--primary-600)]"
-          >
-            Save & Exit
-          </Button>
+        <div 
+          className="rounded-2xl shadow-xl max-w-md w-full"
+          style={{ backgroundColor: 'white' }}
+          onClick={(e) => e.stopPropagation()}
+        >
+          {/* Header */}
+          <div className="p-6 border-b" style={{ borderColor: 'var(--stroke-soft)' }}>
+            <h3 className="text-xl font-bold" style={{ color: 'var(--text-primary)' }}>
+              Save progress and exit?
+            </h3>
+            <p className="mt-2 text-sm" style={{ color: 'var(--text-secondary)' }}>
+              Your current quiz will be saved so you can resume later.
+            </p>
+          </div>
+
+          {/* Actions */}
+          <div className="p-6 space-y-3">
+            {/* Primary: Save & Exit */}
+            <button
+              onClick={handleSaveAndExit}
+              className="w-full py-3 px-4 rounded-xl font-semibold transition-colors"
+              style={{
+                backgroundColor: 'var(--primary-500)',
+                color: 'white'
+              }}
+              onMouseEnter={(e) => e.currentTarget.style.backgroundColor = 'var(--primary-600)'}
+              onMouseLeave={(e) => e.currentTarget.style.backgroundColor = 'var(--primary-500)'}
+            >
+              Save & Exit
+            </button>
+
+            {/* Secondary: Exit Without Saving */}
+            <button
+              onClick={handleExitWithoutSaving}
+              className="w-full py-3 px-4 rounded-xl font-semibold transition-colors"
+              style={{
+                border: '2px solid var(--danger-500)',
+                color: 'var(--danger-700)',
+                backgroundColor: 'transparent'
+              }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.backgroundColor = 'var(--danger-500)';
+                e.currentTarget.style.color = 'white';
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.backgroundColor = 'transparent';
+                e.currentTarget.style.color = 'var(--danger-700)';
+              }}
+            >
+              Exit Without Saving
+            </button>
+
+            {/* Tertiary: Cancel */}
+            <button
+              onClick={() => setShowQuitModal(false)}
+              className="w-full py-3 px-4 rounded-xl font-medium transition-colors"
+              style={{ color: 'var(--text-secondary)' }}
+              onMouseEnter={(e) => e.currentTarget.style.backgroundColor = 'var(--bg-raised)'}
+              onMouseLeave={(e) => e.currentTarget.style.backgroundColor = 'transparent'}
+            >
+              Cancel
+            </button>
+          </div>
         </div>
-      </Modal>
-    </div>
+      </div>
+    )}
+  </div>
   )
 }

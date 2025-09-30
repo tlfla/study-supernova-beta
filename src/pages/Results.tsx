@@ -5,6 +5,7 @@ import { useAppContext } from '../state/AppContext'
 import { DataProvider } from '../data/providers/DataProvider'
 import Card from '../components/common/Card'
 import Button from '../components/common/Button'
+import MinimalHeader from '../components/common/MinimalHeader'
 
 export default function Results() {
   const navigate = useNavigate()
@@ -140,20 +141,22 @@ export default function Results() {
   const incorrectAnswers = totalQuestions - correctAnswers
 
   return (
-    <div className="min-h-screen-safe pb-20" style={{ backgroundColor: 'var(--bg-base)' }}>
-      {/* Header */}
-      <div className="bg-white shadow-sm border-b border-gray-200 safe-area-padding-top">
-        <div className="max-w-4xl mx-auto px-4 py-6 safe-area-padding-left safe-area-padding-right">
-          <div className="text-center">
-            <h1 className="text-3xl font-bold text-gray-900 mb-2">Quiz Complete!</h1>
-            <p className="text-gray-600">Here's how you performed</p>
-          </div>
-        </div>
-      </div>
+    <div className="min-h-screen pb-20" style={{ backgroundColor: 'var(--bg-base)', paddingTop: '72px' }}>
+      <MinimalHeader title="Quiz Summary" />
 
       {/* Results Summary */}
       <div className="max-w-4xl mx-auto px-4 py-8 safe-area-padding-left safe-area-padding-right safe-area-padding-bottom">
-        {/* Horizontal Score Cards */}
+        {/* Header */}
+        <div className="text-center pt-6 pb-4">
+          <h1 className="text-2xl font-bold mb-2" style={{ color: 'var(--text-primary)' }}>
+            Quiz Complete!
+          </h1>
+          <p className="text-base" style={{ color: 'var(--text-secondary)' }}>
+            Here's how you performed
+          </p>
+        </div>
+
+        {/* Score Cards */}
         <div className="grid grid-cols-3 gap-3 mb-6">
           <div className="rounded-2xl border p-4 text-center" style={{ backgroundColor: 'var(--bg-card)', boxShadow: 'var(--shadow-raised)', borderColor: 'var(--stroke-soft)' }}>
             <div className="text-3xl font-bold mb-1" style={{ color: 'var(--success-500)' }}>

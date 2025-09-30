@@ -317,9 +317,11 @@ export default function Review() {
                       Explanation
                     </summary>
                     <div 
-                      className="mt-3 p-4 rounded-lg text-sm leading-relaxed"
+                      className="mt-3 p-4 rounded-xl border-l-4 text-sm leading-relaxed"
                       style={{
-                        backgroundColor: 'rgba(56, 189, 248, 0.12)',
+                        backgroundColor: 'rgba(56, 189, 248, 0.08)',
+                        borderColor: 'var(--info-500)',
+                        borderLeft: '4px solid var(--info-500)',
                         color: 'var(--text-primary)'
                       }}
                     >
