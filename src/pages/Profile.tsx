@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { User, Bell, Shield, Palette, Save, Edit, Check } from 'lucide-react'
+import { User, Bell, Shield, Palette, Save, Edit, Check, X } from 'lucide-react'
 import { useAppContext } from '../state/AppContext'
 import Card from '../components/common/Card'
 import Button from '../components/common/Button'
@@ -40,8 +40,9 @@ export default function Profile() {
   const navigate = useNavigate()
   const { state, dispatch } = useAppContext()
 
-  const [isEditing, setIsEditing] = useState(false)
-  const [name, setName] = useState(state.currentUser?.name || 'Student')
+  const [showEditModal, setShowEditModal] = useState(false)
+  const [name, setName] = useState(state.currentUser?.name || 'John Doe')
+  const [email, setEmail] = useState(state.currentUser?.email || 'student@example.com')
   const [examDate, setExamDate] = useState('2024-12-15')
 
   const [settings, setSettings] = useState({
@@ -50,6 +51,24 @@ export default function Profile() {
     darkMode: false,
     highContrast: false
   })
+
+  const formatDate = (dateString: string) => {
+    const date = new Date(dateString)
+    return date.toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' })
+  }
+
+  const handleSave = async () => {
+    // TODO: Save to database
+    dispatch({
+      type: 'SHOW_TOAST',
+      payload: {
+        type: 'success',
+        title: 'Profile Updated',
+        message: 'Your changes have been saved successfully.'
+      }
+    })
+    setShowEditModal(false)
+  }
 
   const handleSaveSettings = () => {
     // In a real app, you would save these to localStorage or send to backend
@@ -74,90 +93,175 @@ export default function Profile() {
 
   return (
     <div className="min-h-screen-safe bg-gray-50 pb-20">
-      <MinimalHeader 
-        title="Profile"
-        rightAction={
-          <button 
-            onClick={() => setIsEditing(!isEditing)}
-            className="p-2 rounded-lg transition-colors"
-            style={{ color: isEditing ? 'var(--success-500)' : 'var(--primary-500)' }}
-            onMouseEnter={(e) => e.currentTarget.style.backgroundColor = isEditing ? 'rgba(45, 201, 138, 0.1)' : 'rgba(17, 181, 164, 0.1)'}
-            onMouseLeave={(e) => e.currentTarget.style.backgroundColor = 'transparent'}
-          >
-            {isEditing ? (
-              <Check className="w-5 h-5" />
-            ) : (
-              <Edit className="w-5 h-5" />
-            )}
-          </button>
-        }
-      />
+      <MinimalHeader title="Profile" />
 
       {/* Content */}
       <main className="pt-16 px-4 py-8 max-w-4xl mx-auto safe-area-padding-left safe-area-padding-right safe-area-padding-bottom">
-        {/* User Info */}
-        <div className="bg-white rounded-2xl shadow-sm p-6 mb-6">
-          <div className="flex items-center gap-4">
-            <div 
-              className="w-16 h-16 rounded-full flex items-center justify-center"
-              style={{ backgroundColor: 'rgba(17, 181, 164, 0.1)' }}
-            >
-              <User className="w-8 h-8" style={{ color: 'var(--primary-600)' }} />
+        {/* User Info Card - Simplified */}
+        <div className="bg-white rounded-2xl shadow-sm border p-6 mb-6" style={{ borderColor: 'var(--stroke-soft)' }}>
+          <div className="flex items-start justify-between">
+            <div className="flex items-center gap-4">
+              <div 
+                className="w-16 h-16 rounded-full flex items-center justify-center flex-shrink-0"
+                style={{ backgroundColor: 'rgba(17, 181, 164, 0.1)' }}
+              >
+                <User className="w-8 h-8" style={{ color: 'var(--primary-600)' }} />
+              </div>
+              <div>
+                <h2 className="text-xl font-bold mb-1" style={{ color: 'var(--text-primary)' }}>
+                  {name}
+                </h2>
+                <p className="text-sm" style={{ color: 'var(--text-secondary)' }}>
+                  {email}
+                </p>
+              </div>
             </div>
-            <div>
-              <h2 className="text-xl font-bold" style={{ color: 'var(--text-primary)' }}>
-                {state.currentUser?.name || 'John Doe'}
-              </h2>
-              <p className="text-sm" style={{ color: 'var(--text-secondary)' }}>
-                {state.currentUser?.email || 'student@example.com'}
-              </p>
+            
+            {/* Edit button inline */}
+            <button
+              onClick={() => setShowEditModal(true)}
+              className="p-2 rounded-lg transition-colors"
+              style={{ color: 'var(--primary-500)' }}
+              onMouseEnter={(e) => e.currentTarget.style.backgroundColor = 'rgba(17, 181, 164, 0.1)'}
+              onMouseLeave={(e) => e.currentTarget.style.backgroundColor = 'transparent'}
+            >
+              <Edit className="w-5 h-5" />
+            </button>
+          </div>
+          
+          {/* Exam Date Display */}
+          <div className="mt-4 pt-4 border-t" style={{ borderColor: 'var(--stroke-soft)' }}>
+            <div className="flex items-center justify-between">
+              <span className="text-sm font-medium" style={{ color: 'var(--text-secondary)' }}>
+                Exam Date
+              </span>
+              <span className="text-base font-semibold" style={{ color: 'var(--text-primary)' }}>
+                {formatDate(examDate)}
+              </span>
             </div>
           </div>
         </div>
 
-        {/* Editable Profile Info */}
-        <div className="bg-white rounded-2xl shadow-sm p-5 mb-6">
-          <h3 className="text-lg font-bold mb-4" style={{ color: 'var(--text-primary)' }}>
-            Profile Information
-          </h3>
-          <div className="space-y-4">
-            <div>
-              <label className="block text-sm font-semibold mb-2" style={{ color: 'var(--text-primary)' }}>
-                Full Name
-              </label>
-              <input
-                type="text"
-                value={name}
-                onChange={(e) => setName(e.target.value)}
-                disabled={!isEditing}
-                className={`w-full px-4 py-3 rounded-xl border transition-all ${
-                  isEditing 
-                    ? 'border-[var(--primary-500)] bg-white focus:ring-2 focus:ring-[var(--primary-500)]/20' 
-                    : 'border-[var(--border-muted)] bg-[var(--bg-raised)] text-[var(--text-secondary)]'
-                }`}
-                style={{ color: isEditing ? 'var(--text-primary)' : 'var(--text-secondary)' }}
-              />
-            </div>
-            
-            <div>
-              <label className="block text-sm font-semibold mb-2" style={{ color: 'var(--text-primary)' }}>
-                Exam Date
-              </label>
-              <input
-                type="date"
-                value={examDate}
-                onChange={(e) => setExamDate(e.target.value)}
-                disabled={!isEditing}
-                className={`w-full px-4 py-3 rounded-xl border transition-all ${
-                  isEditing 
-                    ? 'border-[var(--primary-500)] bg-white focus:ring-2 focus:ring-[var(--primary-500)]/20' 
-                    : 'border-[var(--border-muted)] bg-[var(--bg-raised)] text-[var(--text-secondary)]'
-                }`}
-                style={{ color: isEditing ? 'var(--text-primary)' : 'var(--text-secondary)' }}
-              />
+        {/* Edit Modal */}
+        {showEditModal && (
+          <div 
+            className="fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4" 
+            onClick={() => setShowEditModal(false)}
+          >
+            <div 
+              className="bg-white rounded-2xl shadow-xl max-w-md w-full p-6" 
+              onClick={(e) => e.stopPropagation()}
+            >
+              <div className="flex items-center justify-between mb-6">
+                <h3 className="text-xl font-bold" style={{ color: 'var(--text-primary)' }}>
+                  Edit Profile
+                </h3>
+                <button 
+                  onClick={() => setShowEditModal(false)} 
+                  className="p-2 hover:bg-gray-100 rounded-lg"
+                >
+                  <X className="w-5 h-5" style={{ color: 'var(--text-secondary)' }} />
+                </button>
+              </div>
+              
+              <div className="space-y-4 mb-6">
+                <div>
+                  <label className="block text-sm font-semibold mb-2" style={{ color: 'var(--text-primary)' }}>
+                    Full Name
+                  </label>
+                  <input
+                    type="text"
+                    value={name}
+                    onChange={(e) => setName(e.target.value)}
+                    className="w-full px-4 py-3 rounded-xl border-2 bg-white transition-all focus:outline-none"
+                    style={{ 
+                      borderColor: 'var(--border-muted)', 
+                      color: 'var(--text-primary)' 
+                    }}
+                    onFocus={(e) => {
+                      e.currentTarget.style.borderColor = 'var(--primary-500)'
+                      e.currentTarget.style.boxShadow = '0 0 0 3px rgba(17, 181, 164, 0.2)'
+                    }}
+                    onBlur={(e) => {
+                      e.currentTarget.style.borderColor = 'var(--border-muted)'
+                      e.currentTarget.style.boxShadow = 'none'
+                    }}
+                  />
+                </div>
+                
+                <div>
+                  <label className="block text-sm font-semibold mb-2" style={{ color: 'var(--text-primary)' }}>
+                    Email
+                  </label>
+                  <input
+                    type="email"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    className="w-full px-4 py-3 rounded-xl border-2 bg-white transition-all focus:outline-none"
+                    style={{ 
+                      borderColor: 'var(--border-muted)', 
+                      color: 'var(--text-primary)' 
+                    }}
+                    onFocus={(e) => {
+                      e.currentTarget.style.borderColor = 'var(--primary-500)'
+                      e.currentTarget.style.boxShadow = '0 0 0 3px rgba(17, 181, 164, 0.2)'
+                    }}
+                    onBlur={(e) => {
+                      e.currentTarget.style.borderColor = 'var(--border-muted)'
+                      e.currentTarget.style.boxShadow = 'none'
+                    }}
+                  />
+                </div>
+                
+                <div>
+                  <label className="block text-sm font-semibold mb-2" style={{ color: 'var(--text-primary)' }}>
+                    Exam Date
+                  </label>
+                  <input
+                    type="date"
+                    value={examDate}
+                    onChange={(e) => setExamDate(e.target.value)}
+                    className="w-full px-4 py-3 rounded-xl border-2 bg-white transition-all focus:outline-none"
+                    style={{ 
+                      borderColor: 'var(--border-muted)', 
+                      color: 'var(--text-primary)' 
+                    }}
+                    onFocus={(e) => {
+                      e.currentTarget.style.borderColor = 'var(--primary-500)'
+                      e.currentTarget.style.boxShadow = '0 0 0 3px rgba(17, 181, 164, 0.2)'
+                    }}
+                    onBlur={(e) => {
+                      e.currentTarget.style.borderColor = 'var(--border-muted)'
+                      e.currentTarget.style.boxShadow = 'none'
+                    }}
+                  />
+                </div>
+              </div>
+              
+              <div className="flex gap-3">
+                <button
+                  onClick={() => setShowEditModal(false)}
+                  className="flex-1 py-3 rounded-xl border-2 font-semibold transition-all hover:bg-gray-50"
+                  style={{ 
+                    borderColor: 'var(--border-muted)', 
+                    color: 'var(--text-primary)' 
+                  }}
+                >
+                  Cancel
+                </button>
+                <button
+                  onClick={handleSave}
+                  className="flex-1 py-3 rounded-xl text-white font-semibold transition-all shadow-md"
+                  style={{ backgroundColor: 'var(--primary-500)' }}
+                  onMouseEnter={(e) => e.currentTarget.style.backgroundColor = 'var(--primary-600)'}
+                  onMouseLeave={(e) => e.currentTarget.style.backgroundColor = 'var(--primary-500)'}
+                >
+                  Save Changes
+                </button>
+              </div>
             </div>
           </div>
-        </div>
+        )}
 
         {/* Settings */}
         <Card className="mb-8">

@@ -128,20 +128,27 @@ export default function QuizOptions() {
   }
 
   return (
-    <div className="min-h-screen-safe bg-gray-50 pb-20">
+    <div className="min-h-screen-safe pb-20" style={{ backgroundColor: 'var(--bg-base)' }}>
       <MinimalHeader title="Quiz Options" />
 
       {/* Main Content */}
       <main className="pt-16 px-4 pb-8 max-w-4xl mx-auto safe-area-padding-left safe-area-padding-right safe-area-padding-bottom">
         <div className="py-6">
-          <h2 className="text-lg font-bold mb-6" style={{ color: 'var(--text-primary)' }}>
-            Quiz Configuration
-          </h2>
-          <Card className="mb-8 rounded-xl shadow-sm" style={{ borderWidth: '1px', borderStyle: 'solid', borderColor: 'var(--border-muted)', backgroundColor: 'var(--bg-card)' }}>
-            <div className="space-y-6">
+          <div 
+            className="rounded-2xl border p-6" 
+            style={{ 
+              backgroundColor: 'var(--bg-card)', 
+              boxShadow: 'var(--shadow-raised)',
+              borderColor: 'var(--stroke-soft)'
+            }}
+          >
+            <h2 className="text-lg font-bold mb-6" style={{ color: 'var(--text-primary)' }}>
+              Quiz Configuration
+            </h2>
+            <div className="space-y-5">
             {/* Category */}
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
+              <label className="block text-sm font-semibold mb-2" style={{ color: 'var(--text-primary)' }}>
                 Category
               </label>
               <Dropdown
@@ -154,7 +161,7 @@ export default function QuizOptions() {
 
             {/* Question Source */}
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
+              <label className="block text-sm font-semibold mb-2" style={{ color: 'var(--text-primary)' }}>
                 Question Source
               </label>
               <Dropdown
@@ -167,7 +174,7 @@ export default function QuizOptions() {
 
             {/* Question Count */}
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
+              <label className="block text-sm font-semibold mb-2" style={{ color: 'var(--text-primary)' }}>
                 Number of Questions
               </label>
               <input
@@ -201,7 +208,7 @@ export default function QuizOptions() {
 
             {/* Quiz Mode */}
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
+              <label className="block text-sm font-semibold mb-2" style={{ color: 'var(--text-primary)' }}>
                 Quiz Mode
               </label>
               <Dropdown
@@ -218,7 +225,7 @@ export default function QuizOptions() {
 
             {/* Time Limit */}
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
+              <label className="block text-sm font-semibold mb-2" style={{ color: 'var(--text-primary)' }}>
                 Time Limit (Optional)
               </label>
               <Dropdown
@@ -232,10 +239,10 @@ export default function QuizOptions() {
               </p>
             </div>
           </div>
-        </Card>
+        </div>
 
         {/* Start Quiz Button */}
-        <div className="flex justify-center">
+        <div className="flex justify-center mt-6">
           <button
             onClick={handleStartQuiz}
             disabled={isLoading}

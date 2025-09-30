@@ -258,7 +258,10 @@ export default function Review() {
                 >
                   {/* Bookmark Button - Top Right Corner */}
                   <button
-                    onClick={() => handleToggleBookmark(question.id)}
+                    onClick={(e) => {
+                      e.stopPropagation()
+                      handleToggleBookmark(question.id)
+                    }}
                     className="absolute top-4 right-4 p-2 rounded-lg transition-colors duration-200 z-10"
                     style={{
                       backgroundColor: bookmarkedQuestions.has(question.id) 
@@ -267,10 +270,11 @@ export default function Review() {
                     }}
                     onMouseEnter={(e) => !bookmarkedQuestions.has(question.id) && (e.currentTarget.style.backgroundColor = 'rgba(255, 180, 54, 0.1)')}
                     onMouseLeave={(e) => !bookmarkedQuestions.has(question.id) && (e.currentTarget.style.backgroundColor = 'transparent')}
+                    aria-label={bookmarkedQuestions.has(question.id) ? "Remove bookmark" : "Add bookmark"}
                   >
                     <Bookmark 
-                      className={`h-5 w-5 ${bookmarkedQuestions.has(question.id) ? 'fill-current' : ''}`}
-                      style={{ color: 'var(--bookmark-500)' }}
+                      className={`h-5 w-5 transition-colors ${bookmarkedQuestions.has(question.id) ? 'fill-current' : ''}`}
+                      style={{ color: bookmarkedQuestions.has(question.id) ? 'var(--bookmark-500)' : 'var(--text-secondary)' }}
                     />
                   </button>
 
