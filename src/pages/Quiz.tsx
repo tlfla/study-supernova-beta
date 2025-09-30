@@ -1,12 +1,14 @@
 import React, { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { ArrowLeft, ArrowRight, Bookmark, Clock, Flag, Save } from 'lucide-react'
+import { ArrowLeft, ArrowRight, Bookmark, Clock, Flag, Save, X, CheckCircle, XCircle } from 'lucide-react'
 import { useAppContext } from '../state/AppContext'
 import { DataProvider } from '../data/providers/DataProvider'
 import Button from '../components/common/Button'
 import Modal from '../components/common/Modal'
+import { getCategoryColor } from '../lib/categoryColors'
+import { getPrimaryWithOpacity } from '../lib/colors'
 
-function getCategoryColor(category: string, opacity: number = 1) {
+function getCategoryColorLegacy(category: string, opacity: number = 1) {
   const colors: Record<string, string> = {
     'Anatomy & Physiology': '#E85D75',
     'Microbiology': '#4CAF82',
@@ -37,6 +39,8 @@ function getCategoryColor(category: string, opacity: number = 1) {
   }
   return baseColor;
 }
+
+// Note: Remove getCategoryColorLegacy after testing - using shared utility now
 
 export default function Quiz() {
   const navigate = useNavigate()
@@ -269,7 +273,7 @@ export default function Quiz() {
 
       {/* Question Content */}
       <div className="max-w-4xl mx-auto px-4 py-8 safe-area-padding-left safe-area-padding-right safe-area-padding-bottom">
-        <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-8">
+        <div className="rounded-2xl border p-5" style={{ backgroundColor: 'var(--bg-card)', boxShadow: 'var(--shadow-raised)', borderColor: 'var(--stroke-soft)' }}>
           {/* Question Header */}
           <div className="mb-6">
             <div className="mb-4">

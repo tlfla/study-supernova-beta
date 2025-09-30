@@ -135,11 +135,11 @@ export default function QuizOptions() {
       <main className="pt-16 px-4 pb-8 max-w-4xl mx-auto safe-area-padding-left safe-area-padding-right safe-area-padding-bottom">
         <div className="py-6">
           <div 
-            className="rounded-2xl border p-6" 
+            className="rounded-2xl border-2 p-6" 
             style={{ 
               backgroundColor: 'var(--bg-card)', 
-              boxShadow: 'var(--shadow-raised)',
-              borderColor: 'var(--stroke-soft)'
+              boxShadow: 'var(--shadow-emphasis)',
+              borderColor: 'var(--border-muted)'
             }}
           >
             <h2 className="text-lg font-bold mb-6" style={{ color: 'var(--text-primary)' }}>
@@ -184,8 +184,8 @@ export default function QuizOptions() {
                 step="5"
                 value={selectedQuestionCount}
                 onChange={(e) => setSelectedQuestionCount(e.target.value)}
-                className="w-full rounded-xl px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[var(--primary-500)]"
-                style={{ backgroundColor: 'var(--bg-card)', borderWidth: '1px', borderStyle: 'solid', borderColor: 'var(--border-muted)' }}
+                className="w-full rounded-xl text-center text-lg font-semibold focus:outline-none focus:ring-2 focus:ring-[var(--primary-500)]"
+                style={{ backgroundColor: 'white', borderWidth: '2px', borderStyle: 'solid', borderColor: 'var(--border-muted)', color: 'var(--text-primary)', padding: '12px' }}
               />
               <div className="flex gap-2 mt-2">
                 {['10', '20', '30'].map((count) => (

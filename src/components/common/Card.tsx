@@ -12,12 +12,18 @@ export default function Card({
   children,
   ...props
 }: CardProps) {
-  const baseClasses = 'bg-white rounded-xl p-6'
+  const baseClasses = 'rounded-2xl border p-6'
 
   const variantClasses = {
-    default: 'shadow-sm border border-gray-200',
-    elevated: 'shadow-lg border border-gray-200',
-    outlined: 'border-2 border-gray-300'
+    default: '',
+    elevated: '',
+    outlined: 'border-2'
+  }
+
+  const baseStyles = {
+    backgroundColor: 'var(--bg-card)',
+    boxShadow: 'var(--shadow-raised)',
+    borderColor: 'var(--stroke-soft)'
   }
 
   const classes = clsx(
@@ -27,7 +33,7 @@ export default function Card({
   )
 
   return (
-    <div className={classes} {...props}>
+    <div className={classes} style={{ ...baseStyles, ...props.style }} {...props}>
       {children}
     </div>
   )

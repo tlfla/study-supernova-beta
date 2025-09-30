@@ -6,35 +6,8 @@ import Card from '../components/common/Card'
 import Button from '../components/common/Button'
 import Toast from '../components/common/Toast'
 import MinimalHeader from '../components/common/MinimalHeader'
-
-function getCategoryColor(category: string): string {
-  const colors: Record<string, string> = {
-    'Anatomy & Physiology': '#E85D75',
-    'Microbiology': '#4CAF82',
-    'Pharmacology': '#4A9FE8',
-    'Sterilization and Decontamination': '#8B7BC7',
-    'Cardiovascular': '#E85D6B',
-    'General Surgery': '#6B7280',
-    'Genitourinary': '#F5B947',
-    'Neurology': '#5A7C99',
-    'Ophthalmic': '#FF9F5A',
-    'Orthopedic': '#5BA3D4',
-    'Otorhinolaryngology': '#64B5F6',
-    'Peripheral Vascular': '#F08C84',
-    'Plastics and Reconstructive': '#EDAD5C',
-    'Obstetrics and Gynecology': '#E88A8A',
-    'Preoperative': '#52C9B0',
-    'Postoperative': '#F4D03F',
-    'Professional and Administrative Responsibilities': '#B591D6',
-    'Surgical Procedures': '#6B7280',
-    'Instrumentation': '#5BA3D4',
-    'Patient Care': '#52C9B0',
-    'Medical Ethics': '#B591D6',
-    'Emergency Procedures': '#E85D6B',
-    'Post-Operative Care': '#F4D03F'
-  };
-  return colors[category] || '#11B5A4';
-}
+import { getCategoryColor } from '../lib/categoryColors'
+import { getPrimaryWithOpacity } from '../lib/colors'
 
 export default function Profile() {
   const navigate = useNavigate()
@@ -92,13 +65,13 @@ export default function Profile() {
   }
 
   return (
-    <div className="min-h-screen-safe bg-gray-50 pb-20">
+    <div className="min-h-screen-safe pb-20" style={{ backgroundColor: 'var(--bg-base)' }}>
       <MinimalHeader title="Profile" />
 
       {/* Content */}
       <main className="pt-16 px-4 py-8 max-w-4xl mx-auto safe-area-padding-left safe-area-padding-right safe-area-padding-bottom">
         {/* User Info Card - Simplified */}
-        <div className="bg-white rounded-2xl shadow-sm border p-6 mb-6" style={{ borderColor: 'var(--stroke-soft)' }}>
+        <div className="rounded-2xl border p-6 mb-6" style={{ backgroundColor: 'var(--bg-card)', boxShadow: 'var(--shadow-raised)', borderColor: 'var(--stroke-soft)' }}>
           <div className="flex items-start justify-between">
             <div className="flex items-center gap-4">
               <div 
@@ -398,16 +371,16 @@ export default function Profile() {
                   <span className="text-sm font-bold" style={{ color: getCategoryColor(category.name) }}>
                     {category.score}%
                   </span>
-                </div>
-                <div className="h-2 rounded-full overflow-hidden" style={{ backgroundColor: 'var(--bg-raised)' }}>
-                  <div 
-                    className="h-full rounded-full transition-all"
-                    style={{ 
-                      width: `${category.score}%`,
-                      backgroundColor: getCategoryColor(category.name)
-                    }}
-                  />
-                </div>
+                    </div>
+                    <div className="h-3 rounded-full overflow-hidden" style={{ backgroundColor: 'var(--bg-raised)' }}>
+                      <div 
+                        className="h-full rounded-full transition-all duration-300"
+                        style={{ 
+                          width: `${category.score}%`,
+                          backgroundColor: getCategoryColor(category.name, 1)
+                        }}
+                      />
+                    </div>
                 <p className="text-xs mt-1" style={{ color: 'var(--text-secondary)' }}>
                   {category.attempted} attempted
                 </p>

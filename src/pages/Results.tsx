@@ -140,7 +140,7 @@ export default function Results() {
   const incorrectAnswers = totalQuestions - correctAnswers
 
   return (
-    <div className="min-h-screen-safe bg-gray-50 pb-20">
+    <div className="min-h-screen-safe pb-20" style={{ backgroundColor: 'var(--bg-base)' }}>
       {/* Header */}
       <div className="bg-white shadow-sm border-b border-gray-200 safe-area-padding-top">
         <div className="max-w-4xl mx-auto px-4 py-6 safe-area-padding-left safe-area-padding-right">
@@ -155,7 +155,7 @@ export default function Results() {
       <div className="max-w-4xl mx-auto px-4 py-8 safe-area-padding-left safe-area-padding-right safe-area-padding-bottom">
         {/* Horizontal Score Cards */}
         <div className="grid grid-cols-3 gap-3 mb-6">
-          <div className="bg-white rounded-xl shadow-sm p-4 text-center">
+          <div className="rounded-2xl border p-4 text-center" style={{ backgroundColor: 'var(--bg-card)', boxShadow: 'var(--shadow-raised)', borderColor: 'var(--stroke-soft)' }}>
             <div className="text-3xl font-bold mb-1" style={{ color: 'var(--success-500)' }}>
               {correctAnswers}
             </div>
@@ -164,7 +164,7 @@ export default function Results() {
             </div>
           </div>
           
-          <div className="bg-white rounded-xl shadow-sm p-4 text-center">
+          <div className="rounded-2xl border p-4 text-center" style={{ backgroundColor: 'var(--bg-card)', boxShadow: 'var(--shadow-raised)', borderColor: 'var(--stroke-soft)' }}>
             <div className="text-3xl font-bold mb-1" style={{ color: 'var(--danger-500)' }}>
               {incorrectAnswers}
             </div>
@@ -173,7 +173,7 @@ export default function Results() {
             </div>
           </div>
           
-          <div className="bg-white rounded-xl shadow-sm p-4 text-center">
+          <div className="rounded-2xl border p-4 text-center" style={{ backgroundColor: 'var(--bg-card)', boxShadow: 'var(--shadow-raised)', borderColor: 'var(--stroke-soft)' }}>
             <div className="text-3xl font-bold mb-1" style={{ color: 'var(--primary-600)' }}>
               {score}%
             </div>
@@ -233,10 +233,11 @@ export default function Results() {
           </h2>
           <div className="space-y-4">
             {results.map((result) => (
-              <div
-                key={result.question.id}
-                className="p-4 rounded-lg border border-gray-200"
-              >
+            <div
+              key={result.question.id}
+              className="rounded-2xl border p-5"
+              style={{ backgroundColor: 'var(--bg-card)', boxShadow: 'var(--shadow-raised)', borderColor: 'var(--stroke-soft)' }}
+            >
                 <div className="flex items-start justify-between mb-3">
                   <div className="flex items-center space-x-2">
                     <span className="text-sm font-medium text-gray-600">

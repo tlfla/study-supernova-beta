@@ -7,6 +7,7 @@ import Card from '../components/common/Card'
 import Button from '../components/common/Button'
 import Dropdown from '../components/common/Dropdown'
 import MinimalHeader from '../components/common/MinimalHeader'
+import { getCategoryColor } from '../lib/categoryColors'
 
 const categories = [
   { value: 'all', label: 'All Categories' },
@@ -22,12 +23,7 @@ const categories = [
   { value: 'Post-Operative Care', label: 'Post-Operative Care' }
 ]
 
-const difficulties = [
-  { value: 'all', label: 'All Difficulties' },
-  { value: 'easy', label: 'Easy' },
-  { value: 'medium', label: 'Medium' },
-  { value: 'hard', label: 'Hard' }
-]
+// Removed difficulty filter - not using difficulty levels in current implementation
 
 const filterOptions = [
   { value: 'all', label: 'All Questions' },
@@ -46,7 +42,6 @@ export default function Review() {
   const [filteredQuestions, setFilteredQuestions] = useState<Question[]>([])
   const [bookmarkedQuestions, setBookmarkedQuestions] = useState<Set<string>>(new Set())
   const [selectedCategory, setSelectedCategory] = useState('all')
-  const [selectedDifficulty, setSelectedDifficulty] = useState('all')
   const [selectedFilter, setSelectedFilter] = useState('all')
   const [searchTerm, setSearchTerm] = useState('')
   const [isLoading, setIsLoading] = useState(true)
@@ -67,7 +62,7 @@ export default function Review() {
 
   useEffect(() => {
     filterQuestions()
-  }, [questions, selectedCategory, selectedDifficulty, selectedFilter, searchTerm])
+  }, [questions, selectedCategory, selectedFilter, searchTerm])
 
   const loadQuestions = async () => {
     try {
@@ -95,11 +90,6 @@ export default function Review() {
     // Category filter
     if (selectedCategory !== 'all') {
       filtered = filtered.filter(q => q.category === selectedCategory)
-    }
-
-    // Difficulty filter
-    if (selectedDifficulty !== 'all') {
-      filtered = filtered.filter(q => q.difficulty === selectedDifficulty)
     }
 
     // Filter type
@@ -138,12 +128,15 @@ export default function Review() {
   }
 
   return (
-    <div className="min-h-screen-safe bg-gray-50 pb-20">
+    <div className="min-h-screen-safe pb-20" style={{ backgroundColor: 'var(--bg-base)' }}>
       <MinimalHeader title="Review & Study" />
 
       {/* Filters */}
       <main className="pt-16 px-4 py-6 max-w-7xl mx-auto safe-area-padding-left safe-area-padding-right safe-area-padding-bottom">
-        <Card className="mb-6 bg-white/70 backdrop-blur-sm shadow-lg rounded-2xl border-border">
+        <Card className="mb-6 border-2" style={{
+          borderColor: 'var(--border-muted)',
+          boxShadow: 'var(--shadow-emphasis)'
+        }}>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-2">
@@ -169,17 +162,6 @@ export default function Review() {
 
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-2">
-                Difficulty
-              </label>
-              <Dropdown
-                options={difficulties}
-                value={selectedDifficulty}
-                onChange={setSelectedDifficulty}
-              />
-            </div>
-
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
                 Search
               </label>
               <div className="relative">
@@ -198,7 +180,7 @@ export default function Review() {
 
         {/* Results */}
         {isLoading ? (
-          <Card className="bg-white/70 backdrop-blur-sm shadow-lg rounded-2xl border-border">
+          <Card>
             <div className="text-center py-12">
               <div className="inline-flex items-center justify-center w-16 h-16 bg-gray-100 rounded-full mb-4">
                 <BookOpen className="h-8 w-8 text-gray-400" />
@@ -207,7 +189,7 @@ export default function Review() {
             </div>
           </Card>
         ) : filteredQuestions.length === 0 ? (
-          <Card className="bg-white/70 backdrop-blur-sm shadow-lg rounded-2xl border-border">
+          <Card>
             <div className="text-center py-12">
               <div className="inline-flex items-center justify-center w-16 h-16 bg-gray-100 rounded-full mb-4">
                 <BookOpen className="h-8 w-8 text-gray-400" />
@@ -218,7 +200,6 @@ export default function Review() {
                 onClick={() => {
                   setSelectedFilter('all')
                   setSelectedCategory('all')
-                  setSelectedDifficulty('all')
                   setSearchTerm('')
                 }}
               >

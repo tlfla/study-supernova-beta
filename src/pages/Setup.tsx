@@ -9,7 +9,7 @@ export default function Setup() {
   }
 
   return (
-    <div className="min-h-screen-safe bg-gray-50 flex items-center justify-center pb-20">
+    <div className="min-h-screen-safe flex items-center justify-center pb-20" style={{ backgroundColor: 'var(--bg-base)' }}>
       <div className="max-w-2xl mx-auto px-4">
         <Card className="text-center">
           <div className="inline-flex items-center justify-center w-16 h-16 bg-primary-100 rounded-full mb-6">

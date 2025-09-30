@@ -1,6 +1,7 @@
 import { useLocation, useNavigate } from 'react-router-dom'
 import { Home, BookOpen, RotateCcw, GraduationCap, User, Play } from 'lucide-react'
 import { clsx } from 'clsx'
+import { getPrimaryWithOpacity } from '../../lib/colors'
 
 interface TabItem {
   path: string
@@ -19,6 +20,9 @@ const tabs: TabItem[] = [
 export default function BottomTabBar() {
   const location = useLocation()
   const navigate = useNavigate()
+
+  // Hide bottom nav during active quiz
+  if (location.pathname === '/quiz') return null
 
   return (
     <nav className="fixed bottom-0 left-0 right-0 safe-area-inset-bottom z-50">
@@ -41,18 +45,18 @@ export default function BottomTabBar() {
                 onClick={() => navigate(tab.path)}
                 className="flex flex-col items-center justify-center px-4 py-2 rounded-xl transition-all duration-200 min-w-0"
                 style={{
-                  color: isActive ? 'var(--primary-600)' : '#64748B',
-                  backgroundColor: isActive ? 'rgba(17, 181, 164, 0.1)' : 'transparent'
+                  color: isActive ? 'var(--primary-600)' : 'var(--text-secondary)',
+                  backgroundColor: isActive ? getPrimaryWithOpacity(0.1) : 'transparent'
                 }}
                 onMouseEnter={(e) => {
                   if (!isActive) {
                     e.currentTarget.style.color = 'var(--primary-500)'
-                    e.currentTarget.style.backgroundColor = 'rgba(17, 181, 164, 0.05)'
+                    e.currentTarget.style.backgroundColor = getPrimaryWithOpacity(0.05)
                   }
                 }}
                 onMouseLeave={(e) => {
                   if (!isActive) {
-                    e.currentTarget.style.color = '#64748B'
+                    e.currentTarget.style.color = 'var(--text-secondary)'
                     e.currentTarget.style.backgroundColor = 'transparent'
                   }
                 }}

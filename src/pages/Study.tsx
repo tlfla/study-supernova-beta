@@ -72,7 +72,7 @@ export default function Study() {
   }
 
   return (
-    <div className="min-h-screen-safe bg-gray-50 pb-20">
+    <div className="min-h-screen-safe pb-20" style={{ backgroundColor: 'var(--bg-base)' }}>
       {/* Header */}
       <div className="bg-white shadow-sm border-b border-gray-200 safe-area-padding-top">
         <div className="max-w-7xl mx-auto px-4 py-4 safe-area-padding-left safe-area-padding-right">
