@@ -64,26 +64,18 @@ export class MockDataProvider implements IDataProvider {
 
   private loadQuestionsSync(): void {
     try {
-      // For testing, we'll create a simple question
-      // In production, this would load from the JSON file
-      const sampleQuestions: Question[] = [
-        {
-          id: 'question-1',
-          category: 'Anatomy & Physiology',
-          question: 'What is the primary function of the heart?',
-          options: {
-            A: 'Pump blood',
-            B: 'Filter toxins',
-            C: 'Store oxygen',
-            D: 'Digest food'
-          },
-          correct: 'A',
-          explanation: 'The heart is responsible for pumping blood throughout the body.',
-          difficulty: 'easy',
-          tags: ['cardiovascular', 'basic']
-        }
-      ]
-      this.storage.set('questions', sampleQuestions)
+      // Import the questions from JSON file
+      import('../mock/questions.json').then((module) => {
+        const questionsData = module.default || module
+        const questions: Question[] = questionsData.map((q: any) => 
+          this.mapQuestionForBackwardCompat(q)
+        )
+        this.storage.set('questions', questions)
+        console.log(`✅ Loaded ${questions.length} questions from questions.json`)
+      }).catch((error) => {
+        console.error('Failed to load questions.json:', error)
+        this.storage.set('questions', [])
+      })
     } catch (error) {
       console.error('Failed to load questions:', error)
       this.storage.set('questions', [])

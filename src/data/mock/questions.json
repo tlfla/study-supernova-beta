@@ -1,1047 +1,227 @@
 [
   {
     "id": "question-1",
-    "category": "Post-Operative Care",
-    "question": "Discharge instructions for abdominal surgery should include activity restrictions.",
-    "options": {},
-    "correct": "A",
-    "explanation": "",
-    "difficulty": "easy",
-    "tags": [
-      "geriatric",
-      "pediatric",
-      "elective"
-    ]
+    "category": "General Surgery",
+    "question": "What condition is treated with a Nissen fundoplication?",
+    "options": {
+      "A": "Repeated attacks of volvulus",
+      "B": "Antireflux disease",
+      "C": "Bladder prolapse",
+      "D": "Gastroesophageal stenosis"
+    },
+    "correct": "B",
+    "explanation": "Nissen fundoplication is a surgical procedure used to treat gastroesophageal reflux disease (GERD) by reinforcing the lower esophageal sphincter.",
+    "difficulty": "medium",
+    "tags": ["gastroesophageal", "surgical-technique", "reflux"]
   },
   {
     "id": "question-2",
-    "category": "Surgical Procedures",
-    "question": "The sequence of steps in cholecystectomy includes: incision, dissection, ligation, closure.",
-    "options": {},
-    "correct": "A",
-    "explanation": "",
+    "category": "General Surgery",
+    "question": "What is a small roll of heavy cotton tape used as a dissecting sponge called?",
+    "options": {
+      "A": "Kittner",
+      "B": "Peanut",
+      "C": "Tonsil",
+      "D": "Both A and B"
+    },
+    "correct": "D",
+    "explanation": "Both Kittners and peanuts are small dissecting sponges used for blunt dissection. They are often interchangeable in terminology.",
     "difficulty": "easy",
-    "tags": [
-      "trauma",
-      "neurological",
-      "ophthalmic"
-    ]
+    "tags": ["instrumentation", "surgical-supplies", "technique"]
   },
   {
     "id": "question-3",
-    "category": "Instrumentation",
-    "question": "The Kocher forceps is used for grasping tissue during surgical procedures.",
+    "category": "General Surgery",
+    "question": "How are peanuts and dissecting sponges typically prepared for use?",
     "options": {
-      "A": "Crile forceps",
-      "B": "Pean forceps",
-      "C": "Kocher forceps",
-      "D": "Allis forceps"
+      "A": "Used dry",
+      "B": "Moistened with saline",
+      "C": "Moistened with water",
+      "D": "Moistened with antibiotic solution"
     },
-    "correct": "C",
-    "rationale": "The Kocher forceps is used for grasping tissue.",
-    "difficulty": "medium",
-    "tags": [
-      "cardiovascular",
-      "neurological",
-      "elective"
-    ]
+    "correct": "B",
+    "explanation": "Dissecting sponges are moistened with saline to reduce tissue trauma and improve handling.",
+    "difficulty": "easy",
+    "tags": ["surgical-supplies", "technique", "preparation"]
   },
   {
     "id": "question-4",
-    "category": "Surgical Procedures",
-    "question": "Which instrument is most commonly used during appendectomy?",
+    "category": "General Surgery",
+    "question": "How are lap pads most often used intra-abdominally?",
     "options": {
-      "A": "clamp",
-      "B": "scalpel",
-      "C": "retractor",
-      "D": "forceps"
+      "A": "Dry",
+      "B": "Moistened with saline",
+      "C": "Moistened with water",
+      "D": "Moistened with glycine solution"
     },
-    "correct": "A",
-    "rationale": "The clamp is most commonly used during appendectomy.",
-    "difficulty": "hard",
-    "tags": [
-      "cardiovascular",
-      "orthopedic",
-      "pediatric"
-    ]
+    "correct": "B",
+    "explanation": "Moistening lap pads with saline prevents tissue desiccation and reduces the risk of adhesion formation.",
+    "difficulty": "easy",
+    "tags": ["surgical-supplies", "abdominal", "technique"]
   },
   {
     "id": "question-5",
-    "category": "Microbiology",
-    "question": "Which of the following is the most common cause of urinary tract infections in surgical wounds?",
+    "category": "General Surgery",
+    "question": "Specimens may be passed off the sterile field using all of the following EXCEPT:",
     "options": {
-      "A": "pneumonia",
-      "B": "bloodstream infections",
-      "C": "surgical site infections",
-      "D": "urinary tract infections"
+      "A": "Sponge",
+      "B": "Towel",
+      "C": "Basin",
+      "D": "Paper"
     },
-    "correct": "D",
-    "rationale": "Candida albicans is the most common cause of urinary tract infections.",
-    "difficulty": "hard",
-    "tags": [
-      "otolaryngologic",
-      "cardiovascular",
-      "orthopedic"
-    ]
+    "correct": "A",
+    "explanation": "Sponges are considered contaminated and should not be used to transfer specimens off the sterile field.",
+    "difficulty": "medium",
+    "tags": ["sterile-technique", "specimen-handling", "asepsis"]
   },
   {
     "id": "question-6",
-    "category": "Post-Operative Care",
-    "question": "Discharge instructions for abdominal surgery should include activity restrictions.",
-    "options": {},
+    "category": "General Surgery",
+    "question": "Which catheter is commonly used in a gastrostomy?",
+    "options": {
+      "A": "Mushroom",
+      "B": "Rehfuss",
+      "C": "Cantor",
+      "D": "Sengstaken–Blakemore"
+    },
     "correct": "A",
-    "explanation": "",
-    "difficulty": "hard",
-    "tags": [
-      "trauma",
-      "geriatric",
-      "ophthalmic"
-    ]
+    "explanation": "A mushroom catheter (e.g., Malecot or Pezzer) is often used for gastrostomy due to its retention design.",
+    "difficulty": "medium",
+    "tags": ["catheter", "gastrostomy", "equipment"]
   },
   {
     "id": "question-7",
-    "category": "Medical Ethics",
-    "question": "The principle of beneficence requires healthcare providers to act in patient's best interest.",
+    "category": "General Surgery",
+    "question": "Before handing a Penrose drain to the surgeon, you should:",
     "options": {
-      "A": "justice",
-      "B": "beneficence",
-      "C": "non-maleficence",
-      "D": "autonomy"
+      "A": "Place it on an Allis clamp",
+      "B": "Attach a safety pin to it",
+      "C": "Cut it to the desired length",
+      "D": "Moisten it in saline"
     },
-    "correct": "B",
-    "rationale": "The principle of beneficence requires healthcare providers to act in patient's best interest.",
+    "correct": "D",
+    "explanation": "Moistening the Penrose drain makes it more pliable and easier to manipulate during placement.",
     "difficulty": "easy",
-    "tags": [
-      "plastic",
-      "trauma",
-      "cardiovascular"
-    ]
+    "tags": ["drains", "technique", "preparation"]
   },
   {
     "id": "question-8",
-    "category": "Instrumentation",
-    "question": "The Kocher forceps should be tested for proper function before being passed to the surgeon.",
+    "category": "General Surgery",
+    "question": "Which stapler is used to join two tubular structures after resection?",
     "options": {
-      "A": "Kocher forceps",
-      "B": "Allis forceps",
-      "C": "Pean forceps",
-      "D": "Kelly forceps"
+      "A": "TA linear",
+      "B": "LDS",
+      "C": "EEA",
+      "D": "GIA"
     },
-    "correct": "A",
-    "rationale": "The Kocher forceps is used for grasping tissue.",
+    "correct": "C",
+    "explanation": "The EEA (End-to-End Anastomosis) stapler is specifically designed for joining tubular structures like bowel segments.",
     "difficulty": "medium",
-    "tags": [
-      "pediatric",
-      "cardiovascular",
-      "orthopedic"
-    ]
+    "tags": ["instrumentation", "staplers", "anastomosis"]
   },
   {
     "id": "question-9",
-    "category": "Post-Operative Care",
-    "question": "The immediate phase begins immediately after surgery is complete.",
-    "options": {},
-    "correct": "A",
-    "explanation": "",
-    "difficulty": "medium",
-    "tags": [
-      "neurological",
-      "gastrointestinal",
-      "emergency"
-    ]
+    "category": "General Surgery",
+    "question": "Transduodenal sphincterotomy involves incision into which structure?",
+    "options": {
+      "A": "Cardiac sphincter",
+      "B": "Ileocecal sphincter",
+      "C": "Sphincter of Oddi",
+      "D": "Pyloric sphincter"
+    },
+    "correct": "C",
+    "explanation": "This procedure targets the sphincter of Oddi to relieve biliary or pancreatic duct obstruction.",
+    "difficulty": "hard",
+    "tags": ["anatomy", "biliary", "surgical-procedure"]
   },
   {
     "id": "question-10",
-    "category": "Patient Care",
-    "question": "When positioning a patient for spinal surgery, the surgical technologist should ensure protection of pressure points.",
+    "category": "General Surgery",
+    "question": "In surgery, \"cancer technique\" refers to:",
     "options": {
-      "A": "protection of pressure points",
-      "B": "quick procedure completion",
-      "C": "minimal staff involvement",
-      "D": "reduced monitoring"
+      "A": "Administration of anticancer drugs",
+      "B": "Discarding instruments after tumor contact",
+      "C": "Use of radiation therapy",
+      "D": "Identification of the lesion"
     },
-    "correct": "A",
-    "rationale": "Patient positioning requires protection of pressure points to prevent injury.",
-    "difficulty": "easy",
-    "tags": [
-      "plastic",
-      "gastrointestinal",
-      "neurological"
-    ]
+    "correct": "B",
+    "explanation": "Cancer technique involves changing instruments and gloves after contact with tumor tissue to prevent seeding.",
+    "difficulty": "medium",
+    "tags": ["oncology", "sterile-technique", "contamination-prevention"]
   },
   {
     "id": "question-11",
-    "category": "Sterilization",
-    "question": "Items sterilized by steam can be stored for 30 days if properly stored.",
+    "category": "General Surgery",
+    "question": "Why are gowns, gloves, drapes, and instruments changed after a breast biopsy before mastectomy?",
     "options": {
-      "A": "steam",
-      "B": "hydrogen peroxide plasma",
-      "C": "ethylene oxide",
-      "D": "dry heat"
+      "A": "Respect surgeon's choice",
+      "B": "Follow aseptic principles",
+      "C": "Accommodate two incisions",
+      "D": "Protect healthy tissue from tumor cells"
     },
-    "correct": "A",
-    "rationale": "steam sterilization is most appropriate for surgical instruments.",
+    "correct": "D",
+    "explanation": "This practice helps prevent tumor cell transfer and protects clean margins during mastectomy.",
     "difficulty": "medium",
-    "tags": [
-      "neurological",
-      "gastrointestinal",
-      "geriatric"
-    ]
+    "tags": ["oncology", "breast-surgery", "contamination-prevention"]
   },
   {
     "id": "question-12",
-    "category": "Emergency Procedures",
-    "question": "During a anaphylaxis, the surgical technologist should call for help first.",
-    "options": {},
+    "category": "General Surgery",
+    "question": "A complication from glove powder entering a wound is:",
+    "options": {
+      "A": "Granulomata",
+      "B": "Infection",
+      "C": "Inflammation",
+      "D": "Keloid formation"
+    },
     "correct": "A",
-    "explanation": "",
-    "difficulty": "hard",
-    "tags": [
-      "emergency",
-      "pediatric",
-      "trauma"
-    ]
+    "explanation": "Glove powder can cause granuloma formation, a foreign body reaction.",
+    "difficulty": "medium",
+    "tags": ["complications", "foreign-body", "wound-healing"]
   },
   {
     "id": "question-13",
-    "category": "Pharmacology",
-    "question": "The medication heparin is used to antibiotic prophylaxis during surgical procedures.",
-    "options": {},
+    "category": "General Surgery",
+    "question": "What is the correct procedure for sterile dressing application?",
+    "options": {
+      "A": "Apply after drape removal",
+      "B": "Apply before drape removal",
+      "C": "Use thick Raytec layer",
+      "D": "Apply in recovery room"
+    },
     "correct": "A",
-    "explanation": "",
-    "difficulty": "medium",
-    "tags": [
-      "ophthalmic",
-      "emergency",
-      "neurological"
-    ]
+    "explanation": "Dressings are applied after drape removal to maintain sterility and avoid contamination.",
+    "difficulty": "easy",
+    "tags": ["sterile-technique", "wound-care", "postoperative"]
   },
   {
     "id": "question-14",
-    "category": "Microbiology",
-    "question": "Which of the following is the most common cause of pneumonia in surgical wounds?",
+    "category": "General Surgery",
+    "question": "When bowel technique is used in intestinal surgery:",
     "options": {
-      "A": "surgical site infections",
-      "B": "pneumonia",
-      "C": "urinary tract infections",
-      "D": "bloodstream infections"
+      "A": "Two Mayo stands are used",
+      "B": "Drapes and gloves are unchanged",
+      "C": "Contaminated instruments discarded, gloves changed",
+      "D": "Separate setup used for closure"
     },
-    "correct": "B",
-    "rationale": "Escherichia coli is the most common cause of pneumonia.",
-    "difficulty": "easy",
-    "tags": [
-      "ophthalmic",
-      "trauma",
-      "genitourinary"
-    ]
+    "correct": "C",
+    "explanation": "Bowel technique involves changing gloves and discarding contaminated instruments to prevent infection.",
+    "difficulty": "medium",
+    "tags": ["sterile-technique", "gastrointestinal", "contamination-prevention"]
   },
   {
     "id": "question-15",
-    "category": "Anatomy & Physiology",
-    "question": "During thoracotomy, the surgical technologist should be aware of the brain because it may be damaged during retraction.",
+    "category": "General Surgery",
+    "question": "The Sengstaken–Blakemore tube is used for:",
     "options": {
-      "A": "Brain",
-      "B": "Stomach",
-      "C": "Pancreas",
-      "D": "Heart"
+      "A": "Esophageal hemorrhage",
+      "B": "Tonsillar hemorrhage",
+      "C": "Uterine hemorrhage",
+      "D": "Nasal hemorrhage"
     },
     "correct": "A",
-    "rationale": "The brain is the correct answer because pumping blood.",
-    "difficulty": "easy",
-    "tags": [
-      "trauma",
-      "plastic",
-      "emergency"
-    ]
-  },
-  {
-    "id": "question-16",
-    "category": "Patient Care",
-    "question": "The primary concern during intraoperative is patient safety and comfort.",
-    "options": {},
-    "correct": "A",
-    "explanation": "",
-    "difficulty": "easy",
-    "tags": [
-      "trauma",
-      "orthopedic",
-      "genitourinary"
-    ]
-  },
-  {
-    "id": "question-17",
-    "category": "Emergency Procedures",
-    "question": "Emergency equipment should be properly maintained and clearly labeled in the operating room.",
-    "options": {},
-    "correct": "A",
-    "explanation": "",
+    "explanation": "This tube is designed to control bleeding from esophageal varices.",
     "difficulty": "medium",
-    "tags": [
-      "orthopedic",
-      "genitourinary",
-      "pediatric"
-    ]
-  },
-  {
-    "id": "question-18",
-    "category": "Pharmacology",
-    "question": "Which of the following is a common side effect of morphine?",
-    "options": {
-      "A": "allergic reaction",
-      "B": "nausea",
-      "C": "bleeding",
-      "D": "respiratory depression"
-    },
-    "correct": "C",
-    "rationale": "bleeding is a common side effect of morphine.",
-    "difficulty": "hard",
-    "tags": [
-      "geriatric",
-      "ophthalmic",
-      "orthopedic"
-    ]
-  },
-  {
-    "id": "question-19",
-    "category": "Instrumentation",
-    "question": "The Kocher forceps should be tested for proper function before being passed to the surgeon.",
-    "options": {
-      "A": "Kocher forceps",
-      "B": "Pean forceps",
-      "C": "Crile forceps",
-      "D": "Allis forceps"
-    },
-    "correct": "A",
-    "rationale": "The Kocher forceps is used for suctioning fluids.",
-    "difficulty": "easy",
-    "tags": [
-      "trauma",
-      "geriatric",
-      "gastrointestinal"
-    ]
-  },
-  {
-    "id": "question-20",
-    "category": "Medical Ethics",
-    "question": "The principle of justice requires healthcare providers to act in patient's best interest.",
-    "options": {
-      "A": "beneficence",
-      "B": "autonomy",
-      "C": "non-maleficence",
-      "D": "justice"
-    },
-    "correct": "D",
-    "rationale": "The principle of justice requires healthcare providers to act in patient's best interest.",
-    "difficulty": "easy",
-    "tags": [
-      "plastic",
-      "genitourinary",
-      "cardiovascular"
-    ]
-  },
-  {
-    "id": "question-21",
-    "category": "Microbiology",
-    "question": "The Pseudomonas aeruginosa is a virus that can cause sepsis in immunocompromised patients.",
-    "options": {
-      "A": "urinary tract infections",
-      "B": "bloodstream infections",
-      "C": "surgical site infections",
-      "D": "pneumonia"
-    },
-    "correct": "A",
-    "rationale": "Pseudomonas aeruginosa is the most common cause of urinary tract infections.",
-    "difficulty": "hard",
-    "tags": [
-      "orthopedic",
-      "trauma",
-      "emergency"
-    ]
-  },
-  {
-    "id": "question-22",
-    "category": "Post-Operative Care",
-    "question": "Following abdominal surgery, patients should be monitored for deep vein thrombosis.",
-    "options": {
-      "A": "deep vein thrombosis",
-      "B": "atelectasis",
-      "C": "bleeding",
-      "D": "infection"
-    },
-    "correct": "A",
-    "rationale": "Following abdominal surgery, patients should be monitored for deep vein thrombosis.",
-    "difficulty": "hard",
-    "tags": [
-      "gastrointestinal",
-      "orthopedic",
-      "ophthalmic"
-    ]
-  },
-  {
-    "id": "question-23",
-    "category": "Emergency Procedures",
-    "question": "Emergency equipment should be regularly checked and easily accessible in the operating room.",
-    "options": {},
-    "correct": "A",
-    "explanation": "",
-    "difficulty": "hard",
-    "tags": [
-      "plastic",
-      "gastrointestinal",
-      "elective"
-    ]
-  },
-  {
-    "id": "question-24",
-    "category": "Pharmacology",
-    "question": "The lidocaine should be administered prior to incision to be most effective.",
-    "options": {},
-    "correct": "A",
-    "explanation": "",
-    "difficulty": "easy",
-    "tags": [
-      "pediatric",
-      "ophthalmic",
-      "neurological"
-    ]
-  },
-  {
-    "id": "question-25",
-    "category": "Medical Ethics",
-    "question": "Patient confidentiality is protected by institutional policies in healthcare settings.",
-    "options": {},
-    "correct": "A",
-    "explanation": "",
-    "difficulty": "hard",
-    "tags": [
-      "trauma",
-      "genitourinary",
-      "gastrointestinal"
-    ]
-  },
-  {
-    "id": "question-26",
-    "category": "Surgical Procedures",
-    "question": "In a appendectomy procedure, the primary incision is typically made in the inguinal region.",
-    "options": {
-      "A": "right lower quadrant",
-      "B": "upper right quadrant",
-      "C": "inguinal region",
-      "D": "breast tissue"
-    },
-    "correct": "C",
-    "rationale": "The primary incision for appendectomy is made in the inguinal region.",
-    "difficulty": "hard",
-    "tags": [
-      "trauma",
-      "genitourinary",
-      "emergency"
-    ]
-  },
-  {
-    "id": "question-27",
-    "category": "Instrumentation",
-    "question": "Which of the following instruments would be appropriate for abdominal surgery?",
-    "options": {
-      "A": "Crile forceps",
-      "B": "Allis forceps",
-      "C": "Kocher forceps",
-      "D": "Pean forceps"
-    },
-    "correct": "C",
-    "rationale": "The Kocher forceps is used for retracting incisions.",
-    "difficulty": "medium",
-    "tags": [
-      "cardiovascular",
-      "plastic",
-      "elective"
-    ]
-  },
-  {
-    "id": "question-28",
-    "category": "Anatomy & Physiology",
-    "question": "During thoracotomy, the surgical technologist should be aware of the pancreas because it may be damaged during retraction.",
-    "options": {
-      "A": "Brain",
-      "B": "Stomach",
-      "C": "Kidneys",
-      "D": "Pancreas"
-    },
-    "correct": "D",
-    "rationale": "The pancreas is the correct answer because digestion.",
-    "difficulty": "medium",
-    "tags": [
-      "ophthalmic",
-      "geriatric",
-      "elective"
-    ]
-  },
-  {
-    "id": "question-29",
-    "category": "Sterilization",
-    "question": "Which sterilization method is most appropriate for surgical instruments?",
-    "options": {
-      "A": "ethylene oxide",
-      "B": "hydrogen peroxide plasma",
-      "C": "steam",
-      "D": "dry heat"
-    },
-    "correct": "C",
-    "rationale": "steam sterilization is most appropriate for surgical instruments.",
-    "difficulty": "medium",
-    "tags": [
-      "genitourinary",
-      "ophthalmic",
-      "geriatric"
-    ]
-  },
-  {
-    "id": "question-30",
-    "category": "Emergency Procedures",
-    "question": "During a anaphylaxis, the surgical technologist should begin CPR first.",
-    "options": {},
-    "correct": "A",
-    "explanation": "",
-    "difficulty": "hard",
-    "tags": [
-      "genitourinary",
-      "ophthalmic",
-      "elective"
-    ]
-  },
-  {
-    "id": "question-31",
-    "category": "Pharmacology",
-    "question": "Which of the following is a common side effect of morphine?",
-    "options": {
-      "A": "respiratory depression",
-      "B": "bleeding",
-      "C": "allergic reaction",
-      "D": "nausea"
-    },
-    "correct": "B",
-    "rationale": "bleeding is a common side effect of morphine.",
-    "difficulty": "medium",
-    "tags": [
-      "genitourinary",
-      "cardiovascular",
-      "trauma"
-    ]
-  },
-  {
-    "id": "question-32",
-    "category": "Post-Operative Care",
-    "question": "Following abdominal surgery, patients should be monitored for infection.",
-    "options": {
-      "A": "pain",
-      "B": "atelectasis",
-      "C": "infection",
-      "D": "bleeding"
-    },
-    "correct": "C",
-    "rationale": "Following abdominal surgery, patients should be monitored for infection.",
-    "difficulty": "easy",
-    "tags": [
-      "plastic",
-      "elective",
-      "neurological"
-    ]
-  },
-  {
-    "id": "question-33",
-    "category": "Microbiology",
-    "question": "Which of the following is the most common cause of pneumonia in surgical wounds?",
-    "options": {
-      "A": "surgical site infections",
-      "B": "bloodstream infections",
-      "C": "urinary tract infections",
-      "D": "pneumonia"
-    },
-    "correct": "D",
-    "rationale": "Staphylococcus aureus is the most common cause of pneumonia.",
-    "difficulty": "easy",
-    "tags": [
-      "cardiovascular",
-      "neurological",
-      "ophthalmic"
-    ]
-  },
-  {
-    "id": "question-34",
-    "category": "Patient Care",
-    "question": "The primary concern during preoperative is patient safety and comfort.",
-    "options": {},
-    "correct": "A",
-    "explanation": "",
-    "difficulty": "hard",
-    "tags": [
-      "gastrointestinal",
-      "genitourinary",
-      "orthopedic"
-    ]
-  },
-  {
-    "id": "question-35",
-    "category": "Sterilization",
-    "question": "The ethylene oxide sterilization process requires proper packaging and exposure time to be effective.",
-    "options": {
-      "A": "steam",
-      "B": "hydrogen peroxide plasma",
-      "C": "dry heat",
-      "D": "ethylene oxide"
-    },
-    "correct": "D",
-    "rationale": "ethylene oxide sterilization is most appropriate for electronic equipment.",
-    "difficulty": "easy",
-    "tags": [
-      "gastrointestinal",
-      "geriatric",
-      "cardiovascular"
-    ]
-  },
-  {
-    "id": "question-36",
-    "category": "Patient Care",
-    "question": "Patient safety during positioning requires maintain proper body alignment.",
-    "options": {},
-    "correct": "A",
-    "explanation": "",
-    "difficulty": "medium",
-    "tags": [
-      "gastrointestinal",
-      "emergency",
-      "geriatric"
-    ]
-  },
-  {
-    "id": "question-37",
-    "category": "Anatomy & Physiology",
-    "question": "During thoracotomy, the surgical technologist should be aware of the heart because it may be damaged during retraction.",
-    "options": {
-      "A": "Lungs",
-      "B": "Liver",
-      "C": "Brain",
-      "D": "Heart"
-    },
-    "correct": "D",
-    "rationale": "The heart is the correct answer because hormone production.",
-    "difficulty": "medium",
-    "tags": [
-      "genitourinary",
-      "neurological",
-      "gastrointestinal"
-    ]
-  },
-  {
-    "id": "question-38",
-    "category": "Medical Ethics",
-    "question": "The principle of justice requires healthcare providers to treat fairly.",
-    "options": {
-      "A": "autonomy",
-      "B": "beneficence",
-      "C": "non-maleficence",
-      "D": "justice"
-    },
-    "correct": "D",
-    "rationale": "The principle of justice requires healthcare providers to treat fairly.",
-    "difficulty": "medium",
-    "tags": [
-      "elective",
-      "geriatric",
-      "plastic"
-    ]
-  },
-  {
-    "id": "question-39",
-    "category": "Emergency Procedures",
-    "question": "The priority in difficult airway is to control bleeding.",
-    "options": {
-      "A": "administer medications",
-      "B": "control bleeding",
-      "C": "maintain circulation",
-      "D": "secure airway"
-    },
-    "correct": "B",
-    "rationale": "The priority in difficult airway is to control bleeding.",
-    "difficulty": "hard",
-    "tags": [
-      "plastic",
-      "cardiovascular",
-      "genitourinary"
-    ]
-  },
-  {
-    "id": "question-40",
-    "category": "Anatomy & Physiology",
-    "question": "Which of the following structures is responsible for hormone production in the nervous?",
-    "options": {
-      "A": "Lungs",
-      "B": "Heart",
-      "C": "Liver",
-      "D": "Stomach"
-    },
-    "correct": "A",
-    "rationale": "The lungs is the correct answer because hormone production.",
-    "difficulty": "easy",
-    "tags": [
-      "emergency",
-      "trauma",
-      "elective"
-    ]
-  },
-  {
-    "id": "question-41",
-    "category": "Microbiology",
-    "question": "Which of the following is the most common cause of pneumonia in surgical wounds?",
-    "options": {
-      "A": "urinary tract infections",
-      "B": "bloodstream infections",
-      "C": "surgical site infections",
-      "D": "pneumonia"
-    },
-    "correct": "D",
-    "rationale": "Pseudomonas aeruginosa is the most common cause of pneumonia.",
-    "difficulty": "medium",
-    "tags": [
-      "ophthalmic",
-      "geriatric",
-      "cardiovascular"
-    ]
-  },
-  {
-    "id": "question-42",
-    "category": "Medical Ethics",
-    "question": "Patient confidentiality is protected by HIPAA in healthcare settings.",
-    "options": {},
-    "correct": "A",
-    "explanation": "",
-    "difficulty": "hard",
-    "tags": [
-      "elective",
-      "ophthalmic",
-      "orthopedic"
-    ]
-  },
-  {
-    "id": "question-43",
-    "category": "Anatomy & Physiology",
-    "question": "The kidneys is located in the thoracic cavity and functions to filtration.",
-    "options": {
-      "A": "Pancreas",
-      "B": "Kidneys",
-      "C": "Stomach",
-      "D": "Brain"
-    },
-    "correct": "B",
-    "rationale": "The kidneys is the correct answer because filtration.",
-    "difficulty": "hard",
-    "tags": [
-      "elective",
-      "geriatric",
-      "emergency"
-    ]
-  },
-  {
-    "id": "question-44",
-    "category": "Emergency Procedures",
-    "question": "The priority in trauma activation is to maintain circulation.",
-    "options": {
-      "A": "control bleeding",
-      "B": "secure airway",
-      "C": "administer medications",
-      "D": "maintain circulation"
-    },
-    "correct": "D",
-    "rationale": "The priority in trauma activation is to maintain circulation.",
-    "difficulty": "medium",
-    "tags": [
-      "elective",
-      "neurological",
-      "pediatric"
-    ]
-  },
-  {
-    "id": "question-45",
-    "category": "Pharmacology",
-    "question": "The medication midazolam is used to pain management during surgical procedures.",
-    "options": {},
-    "correct": "A",
-    "explanation": "",
-    "difficulty": "easy",
-    "tags": [
-      "neurological",
-      "elective",
-      "otolaryngologic"
-    ]
-  },
-  {
-    "id": "question-46",
-    "category": "Medical Ethics",
-    "question": "Informed consent for experimental treatment must include information about risks and benefits.",
-    "options": {},
-    "correct": "A",
-    "explanation": "",
-    "difficulty": "medium",
-    "tags": [
-      "gastrointestinal",
-      "otolaryngologic",
-      "trauma"
-    ]
-  },
-  {
-    "id": "question-47",
-    "category": "Anatomy & Physiology",
-    "question": "Which of the following structures is responsible for filtration in the skeletal?",
-    "options": {
-      "A": "Brain",
-      "B": "Heart",
-      "C": "Lungs",
-      "D": "Stomach"
-    },
-    "correct": "B",
-    "rationale": "The heart is the correct answer because filtration.",
-    "difficulty": "hard",
-    "tags": [
-      "genitourinary",
-      "elective",
-      "gastrointestinal"
-    ]
-  },
-  {
-    "id": "question-48",
-    "category": "Post-Operative Care",
-    "question": "Following abdominal surgery, patients should be monitored for infection.",
-    "options": {
-      "A": "deep vein thrombosis",
-      "B": "pain",
-      "C": "bleeding",
-      "D": "infection"
-    },
-    "correct": "D",
-    "rationale": "Following abdominal surgery, patients should be monitored for infection.",
-    "difficulty": "easy",
-    "tags": [
-      "ophthalmic",
-      "genitourinary",
-      "geriatric"
-    ]
-  },
-  {
-    "id": "question-49",
-    "category": "Anatomy & Physiology",
-    "question": "The brain is located in the thoracic cavity and functions to digestion.",
-    "options": {
-      "A": "Brain",
-      "B": "Stomach",
-      "C": "Lungs",
-      "D": "Pancreas"
-    },
-    "correct": "A",
-    "rationale": "The brain is the correct answer because digestion.",
-    "difficulty": "hard",
-    "tags": [
-      "emergency",
-      "elective",
-      "trauma"
-    ]
-  },
-  {
-    "id": "question-50",
-    "category": "Patient Care",
-    "question": "The primary concern during preoperative is patient safety and comfort.",
-    "options": {},
-    "correct": "A",
-    "explanation": "",
-    "difficulty": "easy",
-    "tags": [
-      "pediatric",
-      "neurological",
-      "gastrointestinal"
-    ]
-  },
-  {
-    "id": "question-51",
-    "category": "Microbiology",
-    "question": "The Candida albicans is a bacterium that can cause antibiotic resistance in immunocompromised patients.",
-    "options": {
-      "A": "pneumonia",
-      "B": "bloodstream infections",
-      "C": "urinary tract infections",
-      "D": "surgical site infections"
-    },
-    "correct": "A",
-    "rationale": "Candida albicans is the most common cause of pneumonia.",
-    "difficulty": "hard",
-    "tags": [
-      "genitourinary",
-      "neurological",
-      "emergency"
-    ]
-  },
-  {
-    "id": "question-52",
-    "category": "Pharmacology",
-    "question": "Which of the following is a common side effect of lidocaine?",
-    "options": {
-      "A": "hypotension",
-      "B": "allergic reaction",
-      "C": "nausea",
-      "D": "respiratory depression"
-    },
-    "correct": "A",
-    "rationale": "hypotension is a common side effect of lidocaine.",
-    "difficulty": "medium",
-    "tags": [
-      "genitourinary",
-      "neurological",
-      "ophthalmic"
-    ]
-  },
-  {
-    "id": "question-53",
-    "category": "Sterilization",
-    "question": "The hydrogen peroxide plasma sterilization process requires proper packaging and exposure time to be effective.",
-    "options": {
-      "A": "hydrogen peroxide plasma",
-      "B": "steam",
-      "C": "ethylene oxide",
-      "D": "dry heat"
-    },
-    "correct": "A",
-    "rationale": "hydrogen peroxide plasma sterilization is most appropriate for surgical instruments.",
-    "difficulty": "hard",
-    "tags": [
-      "plastic",
-      "geriatric",
-      "ophthalmic"
-    ]
-  },
-  {
-    "id": "question-54",
-    "category": "Instrumentation",
-    "question": "The Kocher forceps should be tested for proper function before being passed to the surgeon.",
-    "options": {
-      "A": "Kocher forceps",
-      "B": "Pean forceps",
-      "C": "Crile forceps",
-      "D": "Kelly forceps"
-    },
-    "correct": "A",
-    "rationale": "The Kocher forceps is used for clamping vessels.",
-    "difficulty": "easy",
-    "tags": [
-      "trauma",
-      "pediatric",
-      "plastic"
-    ]
-  },
-  {
-    "id": "question-55",
-    "category": "Post-Operative Care",
-    "question": "Following abdominal surgery, patients should be monitored for infection.",
-    "options": {
-      "A": "infection",
-      "B": "deep vein thrombosis",
-      "C": "pain",
-      "D": "atelectasis"
-    },
-    "correct": "A",
-    "rationale": "Following abdominal surgery, patients should be monitored for infection.",
-    "difficulty": "easy",
-    "tags": [
-      "genitourinary",
-      "elective",
-      "pediatric"
-    ]
-  },
-  {
-    "id": "question-56",
-    "category": "Sterilization",
-    "question": "Which sterilization method is most appropriate for surgical instruments?",
-    "options": {
-      "A": "dry heat",
-      "B": "steam",
-      "C": "ethylene oxide",
-      "D": "hydrogen peroxide plasma"
-    },
-    "correct": "A",
-    "rationale": "dry heat sterilization is most appropriate for surgical instruments.",
-    "difficulty": "medium",
-    "tags": [
-      "plastic",
-      "neurological",
-      "pediatric"
-    ]
-  },
-  {
-    "id": "question-57",
-    "category": "Pharmacology",
-    "question": "The medication lidocaine is used to pain management during surgical procedures.",
-    "options": {},
-    "correct": "A",
-    "explanation": "",
-    "difficulty": "hard",
-    "tags": [
-      "elective",
-      "cardiovascular",
-      "geriatric"
-    ]
-  },
-  {
-    "id": "question-58",
-    "category": "Instrumentation",
-    "question": "Which of the following instruments would be appropriate for abdominal surgery?",
-    "options": {
-      "A": "Kocher forceps",
-      "B": "Pean forceps",
-      "C": "Kelly forceps",
-      "D": "Allis forceps"
-    },
-    "correct": "A",
-    "rationale": "The Kocher forceps is used for clamping vessels.",
-    "difficulty": "medium",
-    "tags": [
-      "neurological",
-      "plastic",
-      "cardiovascular"
-    ]
-  },
-  {
-    "id": "question-59",
-    "category": "Sterilization",
-    "question": "Items sterilized by dry heat can be stored for 30 days if properly stored.",
-    "options": {
-      "A": "ethylene oxide",
-      "B": "steam",
-      "C": "hydrogen peroxide plasma",
-      "D": "dry heat"
-    },
-    "correct": "D",
-    "rationale": "dry heat sterilization is most appropriate for electronic equipment.",
-    "difficulty": "medium",
-    "tags": [
-      "elective",
-      "geriatric",
-      "trauma"
-    ]
-  },
-  {
-    "id": "question-60",
-    "category": "Sterilization",
-    "question": "Items sterilized by ethylene oxide can be stored for 30 days if properly stored.",
-    "options": {
-      "A": "hydrogen peroxide plasma",
-      "B": "ethylene oxide",
-      "C": "dry heat",
-      "D": "steam"
-    },
-    "correct": "B",
-    "rationale": "ethylene oxide sterilization is most appropriate for electronic equipment.",
-    "difficulty": "hard",
-    "tags": [
-      "trauma",
-      "geriatric",
-      "genitourinary"
-    ]
+    "tags": ["equipment", "hemorrhage-control", "esophageal"]
   }
 ]
