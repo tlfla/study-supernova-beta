@@ -16,7 +16,7 @@ export default function MinimalHeader({ title, rightAction }: MinimalHeaderProps
         {/* Home Icon - Better touch target (48x48px min) */}
         <button 
           onClick={() => navigate('/')}
-          className="pl-4 pr-3 py-3 -ml-4 rounded-lg transition-colors"
+          className="p-3 rounded-lg transition-colors"
           style={{ color: 'var(--primary-500)' }}
           onMouseEnter={(e) => e.currentTarget.style.backgroundColor = 'rgba(17, 181, 164, 0.1)'}
           onMouseLeave={(e) => e.currentTarget.style.backgroundColor = 'transparent'}
