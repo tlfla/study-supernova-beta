@@ -47,7 +47,7 @@ export default function Profile() {
       {/* Content */}
       <main className="pt-16 px-4 py-8 max-w-4xl mx-auto safe-area-padding-left safe-area-padding-right safe-area-padding-bottom">
         {/* User Info Card - Simplified */}
-        <div className="rounded-2xl border p-6 mb-6" style={{ backgroundColor: 'var(--bg-card)', boxShadow: 'var(--shadow-raised)', borderColor: 'var(--stroke-soft)' }}>
+        <div className="rounded-2xl border p-6 mb-6" style={{ backgroundColor: 'rgba(17, 181, 164, 0.06)', boxShadow: 'var(--shadow-raised)', borderColor: 'rgba(17, 181, 164, 0.12)' }}>
           <div className="flex items-start justify-between">
             <div className="flex items-center gap-4">
               <div 
@@ -213,7 +213,7 @@ export default function Profile() {
         )}
 
         {/* Your Stats */}
-        <Card className="mb-8">
+        <div className="rounded-2xl border p-6 mb-8" style={{ backgroundColor: 'rgba(17, 181, 164, 0.10)', boxShadow: 'var(--shadow-raised)', borderColor: 'rgba(17, 181, 164, 0.12)' }}>
           <h2 className="text-xl font-semibold text-gray-900 mb-6">Your Stats</h2>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             <div className="text-center">
@@ -238,15 +238,15 @@ export default function Profile() {
               <p className="text-sm text-gray-600 mt-1">Average Score</p>
             </div>
           </div>
-        </Card>
+        </div>
 
         {/* Performance Dashboard */}
         <div 
           className="rounded-2xl border-2 p-5 mb-6" 
           style={{ 
-            backgroundColor: 'var(--bg-card)', 
+            backgroundColor: 'rgba(17, 181, 164, 0.06)', 
             boxShadow: 'var(--shadow-raised)', 
-            borderColor: 'var(--border-muted)',
+            borderColor: 'rgba(17, 181, 164, 0.12)',
             marginTop: '24px',
             marginBottom: '24px'
           }}
@@ -334,7 +334,7 @@ export default function Profile() {
         </div>
 
         {/* App Info */}
-        <Card className="mb-8">
+        <div className="rounded-2xl border p-6 mb-8" style={{ backgroundColor: 'rgba(17, 181, 164, 0.04)', boxShadow: 'var(--shadow-raised)', borderColor: 'rgba(17, 181, 164, 0.12)' }}>
           <h2 className="text-xl font-semibold text-gray-900 mb-6">App Information</h2>
           <div className="space-y-4">
             <div className="flex justify-between items-center">
@@ -345,12 +345,27 @@ export default function Profile() {
               <span className="text-gray-600">Data Provider</span>
               <span className="font-medium" style={{ color: 'var(--primary-500)' }}>Mock Data</span>
             </div>
-            <div className="flex justify-between items-center">
-              <span className="text-gray-600">Questions Available</span>
-              <span className="font-medium">60+</span>
-            </div>
           </div>
-        </Card>
+        </div>
+
+        {/* Terms & Privacy Links */}
+        <div className="flex justify-center gap-6 py-6">
+          <a 
+            href="/terms" 
+            className="text-sm font-medium transition-colors hover:underline"
+            style={{ color: 'var(--text-secondary)' }}
+          >
+            Terms of Service
+          </a>
+          <span style={{ color: 'var(--text-secondary)' }}>•</span>
+          <a 
+            href="/privacy" 
+            className="text-sm font-medium transition-colors hover:underline"
+            style={{ color: 'var(--text-secondary)' }}
+          >
+            Privacy Policy
+          </a>
+        </div>
       </main>
 
       {/* Toast */}
