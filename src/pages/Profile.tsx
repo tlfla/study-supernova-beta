@@ -1,13 +1,11 @@
 import React, { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { User, Bell, Shield, Palette, Save, Edit, Check, X } from 'lucide-react'
+import { User, Edit, X, ChevronRight } from 'lucide-react'
 import { useAppContext } from '../state/AppContext'
 import Card from '../components/common/Card'
-import Button from '../components/common/Button'
 import Toast from '../components/common/Toast'
 import MinimalHeader from '../components/common/MinimalHeader'
 import { getCategoryColor } from '../lib/categoryColors'
-import { getPrimaryWithOpacity } from '../lib/colors'
 
 export default function Profile() {
   const navigate = useNavigate()
@@ -18,12 +16,6 @@ export default function Profile() {
   const [email, setEmail] = useState(state.currentUser?.email || 'student@example.com')
   const [examDate, setExamDate] = useState('2024-12-15')
 
-  const [settings, setSettings] = useState({
-    notifications: true,
-    soundEffects: true,
-    darkMode: false,
-    highContrast: false
-  })
 
   const formatDate = (dateString: string) => {
     const date = new Date(dateString)
@@ -43,25 +35,9 @@ export default function Profile() {
     setShowEditModal(false)
   }
 
-  const handleSaveSettings = () => {
-    // In a real app, you would save these to localStorage or send to backend
-    localStorage.setItem('app-settings', JSON.stringify(settings))
-
-    dispatch({
-      type: 'SHOW_TOAST',
-      payload: {
-        type: 'success',
-        title: 'Settings Saved',
-        message: 'Your preferences have been updated successfully.'
-      }
-    })
-  }
-
-  const handleToggle = (key: keyof typeof settings) => {
-    setSettings(prev => ({
-      ...prev,
-      [key]: !prev[key]
-    }))
+  const handleCategoryClick = (categoryName: string) => {
+    // Navigate to study page with category pre-filtered
+    navigate(`/study?category=${encodeURIComponent(categoryName)}`)
   }
 
   return (
@@ -236,159 +212,6 @@ export default function Profile() {
           </div>
         )}
 
-        {/* Settings */}
-        <Card className="mb-8">
-          <h2 className="text-xl font-semibold text-gray-900 mb-6">Preferences</h2>
-
-          <div className="space-y-6">
-            {/* Notifications */}
-            <div className="flex items-center justify-between">
-              <div className="flex items-center space-x-3">
-                <Bell className="h-5 w-5 text-gray-400" />
-                <div>
-                  <p className="font-medium text-gray-900">Push Notifications</p>
-                  <p className="text-sm text-gray-600">Receive reminders and updates</p>
-                </div>
-              </div>
-              <button
-                onClick={() => handleToggle('notifications')}
-                className="relative inline-flex h-6 w-11 items-center rounded-full transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2"
-                style={{ 
-                  backgroundColor: settings.notifications ? 'var(--primary-500)' : '#E5E7EB',
-                  boxShadow: settings.notifications ? `0 0 0 2px var(--primary-500)` : 'none'
-                }}
-              >
-                <span
-                  className={`inline-block h-4 w-4 transform rounded-full bg-white transition-transform duration-200 ${
-                    settings.notifications ? 'translate-x-6' : 'translate-x-1'
-                  }`}
-                />
-              </button>
-            </div>
-
-            {/* Sound Effects */}
-            <div className="flex items-center justify-between">
-              <div className="flex items-center space-x-3">
-                <div className="h-5 w-5 text-gray-400">🔊</div>
-                <div>
-                  <p className="font-medium text-gray-900">Sound Effects</p>
-                  <p className="text-sm text-gray-600">Play sounds for interactions</p>
-                </div>
-              </div>
-              <button
-                onClick={() => handleToggle('soundEffects')}
-                className="relative inline-flex h-6 w-11 items-center rounded-full transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2"
-                style={{ 
-                  backgroundColor: settings.soundEffects ? 'var(--primary-500)' : '#E5E7EB'
-                }}
-              >
-                <span
-                  className={`inline-block h-4 w-4 transform rounded-full bg-white transition-transform duration-200 ${
-                    settings.soundEffects ? 'translate-x-6' : 'translate-x-1'
-                  }`}
-                />
-              </button>
-            </div>
-
-            {/* Dark Mode */}
-            <div className="flex items-center justify-between">
-              <div className="flex items-center space-x-3">
-                <Palette className="h-5 w-5 text-gray-400" />
-                <div>
-                  <p className="font-medium text-gray-900">Dark Mode</p>
-                  <p className="text-sm text-gray-600">Use dark theme</p>
-                </div>
-              </div>
-              <button
-                onClick={() => handleToggle('darkMode')}
-                className="relative inline-flex h-6 w-11 items-center rounded-full transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2"
-                style={{ 
-                  backgroundColor: settings.darkMode ? 'var(--primary-500)' : '#E5E7EB'
-                }}
-              >
-                <span
-                  className={`inline-block h-4 w-4 transform rounded-full bg-white transition-transform duration-200 ${
-                    settings.darkMode ? 'translate-x-6' : 'translate-x-1'
-                  }`}
-                />
-              </button>
-            </div>
-
-            {/* High Contrast */}
-            <div className="flex items-center justify-between">
-              <div className="flex items-center space-x-3">
-                <Shield className="h-5 w-5 text-gray-400" />
-                <div>
-                  <p className="font-medium text-gray-900">High Contrast Mode</p>
-                  <p className="text-sm text-gray-600">Enhanced visibility for accessibility</p>
-                </div>
-              </div>
-              <button
-                onClick={() => handleToggle('highContrast')}
-                className="relative inline-flex h-6 w-11 items-center rounded-full transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2"
-                style={{ 
-                  backgroundColor: settings.highContrast ? 'var(--primary-500)' : '#E5E7EB'
-                }}
-              >
-                <span
-                  className={`inline-block h-4 w-4 transform rounded-full bg-white transition-transform duration-200 ${
-                    settings.highContrast ? 'translate-x-6' : 'translate-x-1'
-                  }`}
-                />
-              </button>
-            </div>
-          </div>
-
-          <div className="mt-8 pt-6 border-t border-gray-200">
-            <Button onClick={handleSaveSettings} className="w-full sm:w-auto">
-              <Save className="h-4 w-4 mr-2" />
-              Save Settings
-            </Button>
-          </div>
-        </Card>
-
-        {/* Category Performance */}
-        <Card className="mb-8" id="performance">
-          <h2 className="text-xl font-semibold text-gray-900 mb-6">Category Performance</h2>
-          <div className="space-y-4">
-            {[
-              { name: 'Anatomy & Physiology', score: 85, attempted: 45 },
-              { name: 'Surgical Procedures', score: 78, attempted: 38 },
-              { name: 'Instrumentation', score: 92, attempted: 52 },
-              { name: 'Sterilization', score: 88, attempted: 41 },
-              { name: 'Patient Care', score: 76, attempted: 35 },
-              { name: 'Microbiology', score: 81, attempted: 28 },
-              { name: 'Pharmacology', score: 73, attempted: 30 },
-              { name: 'Medical Ethics', score: 90, attempted: 22 },
-              { name: 'Emergency Procedures', score: 69, attempted: 18 },
-              { name: 'Post-Operative Care', score: 84, attempted: 25 }
-            ].map((category) => (
-              <div key={category.name} className="mb-4">
-                <div className="flex justify-between items-center mb-2">
-                  <span className="text-sm font-medium" style={{ color: 'var(--text-primary)' }}>
-                    {category.name}
-                  </span>
-                  <span className="text-sm font-bold" style={{ color: getCategoryColor(category.name) }}>
-                    {category.score}%
-                  </span>
-                    </div>
-                    <div className="h-3 rounded-full overflow-hidden" style={{ backgroundColor: 'var(--bg-raised)' }}>
-                      <div 
-                        className="h-full rounded-full transition-all duration-300"
-                        style={{ 
-                          width: `${category.score}%`,
-                          backgroundColor: getCategoryColor(category.name, 1)
-                        }}
-                      />
-                    </div>
-                <p className="text-xs mt-1" style={{ color: 'var(--text-secondary)' }}>
-                  {category.attempted} attempted
-                </p>
-              </div>
-            ))}
-          </div>
-        </Card>
-
         {/* Your Stats */}
         <Card className="mb-8">
           <h2 className="text-xl font-semibold text-gray-900 mb-6">Your Stats</h2>
@@ -416,6 +239,99 @@ export default function Profile() {
             </div>
           </div>
         </Card>
+
+        {/* Performance Dashboard */}
+        <div 
+          className="rounded-2xl border-2 p-5 mb-6" 
+          style={{ 
+            backgroundColor: 'var(--bg-card)', 
+            boxShadow: 'var(--shadow-raised)', 
+            borderColor: 'var(--border-muted)',
+            marginTop: '24px',
+            marginBottom: '24px'
+          }}
+        >
+          <div className="mb-4">
+            <h2 className="text-xl font-bold mb-1" style={{ color: 'var(--text-primary)' }}>
+              📊 Your Performance Dashboard
+            </h2>
+            <p className="text-sm" style={{ color: 'var(--text-secondary)' }}>
+              Tap any category to study
+            </p>
+          </div>
+
+          <div className="space-y-3">
+            {[
+              { name: 'Anatomy & Physiology', score: 85, attempted: 45 },
+              { name: 'Surgical Procedures', score: 78, attempted: 38 },
+              { name: 'Instrumentation', score: 92, attempted: 52 },
+              { name: 'Sterilization', score: 88, attempted: 41 },
+              { name: 'Patient Care', score: 76, attempted: 35 },
+              { name: 'Microbiology', score: 81, attempted: 28 },
+              { name: 'Pharmacology', score: 73, attempted: 30 },
+              { name: 'Medical Ethics', score: 90, attempted: 22 },
+              { name: 'Emergency Procedures', score: 69, attempted: 18 },
+              { name: 'Post-Operative Care', score: 84, attempted: 25 }
+            ].map((category) => (
+              <button
+                key={category.name}
+                onClick={() => handleCategoryClick(category.name)}
+                className="w-full text-left p-4 rounded-xl border transition-all"
+                style={{ 
+                  backgroundColor: 'var(--bg-base)',
+                  borderColor: 'var(--stroke-soft)'
+                }}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.backgroundColor = 'rgba(17, 181, 164, 0.05)'
+                  e.currentTarget.style.borderColor = getCategoryColor(category.name, 0.3)
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.backgroundColor = 'var(--bg-base)'
+                  e.currentTarget.style.borderColor = 'var(--stroke-soft)'
+                }}
+              >
+                <div className="flex items-center gap-3">
+                  {/* Category color dot */}
+                  <div 
+                    className="w-3 h-3 rounded-full flex-shrink-0"
+                    style={{ backgroundColor: getCategoryColor(category.name) }}
+                  />
+                  
+                  <div className="flex-1 min-w-0">
+                    {/* Category name and percentage */}
+                    <div className="flex items-center justify-between mb-2">
+                      <span className="text-sm font-semibold truncate" style={{ color: 'var(--text-primary)' }}>
+                        {category.name}
+                      </span>
+                      <div className="flex items-center gap-2 flex-shrink-0 ml-2">
+                        <span className="text-sm font-bold" style={{ color: getCategoryColor(category.name) }}>
+                          {category.score}%
+                        </span>
+                        <ChevronRight className="w-4 h-4" style={{ color: 'var(--text-tertiary)' }} />
+                      </div>
+                    </div>
+                    
+                    {/* Progress bar */}
+                    <div className="h-2 rounded-full overflow-hidden mb-2" style={{ backgroundColor: 'var(--bg-raised)' }}>
+                      <div 
+                        className="h-full rounded-full transition-all duration-300"
+                        style={{ 
+                          width: `${category.score}%`,
+                          backgroundColor: getCategoryColor(category.name)
+                        }}
+                      />
+                    </div>
+                    
+                    {/* Attempted count */}
+                    <p className="text-xs" style={{ color: 'var(--text-secondary)' }}>
+                      {category.attempted} attempted
+                    </p>
+                  </div>
+                </div>
+              </button>
+            ))}
+          </div>
+        </div>
 
         {/* App Info */}
         <Card className="mb-8">
