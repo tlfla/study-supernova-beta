@@ -64,21 +64,24 @@ export default function Study() {
       count: 300,
       category: 'Anatomy & Physiology',
       description: 'Master essential medical terms with audio pronunciation',
-      hasAudio: true
+      hasAudio: true,
+      route: '/study/flashcards/terminology'
     },
     {
       title: 'Surgical Instruments',
       count: 150,
       category: 'Instrumentation',
       description: 'Visual identification and proper usage',
-      hasAudio: false
+      hasAudio: false,
+      route: '/study/flashcards/instruments'
     },
     {
       title: 'Anatomy & Physiology',
       count: 200,
       category: 'Anatomy & Physiology',
       description: 'Interactive diagrams and body systems',
-      hasAudio: false
+      hasAudio: false,
+      route: '/study/flashcards/anatomy'
     }
   ]
 
@@ -107,7 +110,7 @@ export default function Study() {
       {/* Content */}
       <div className="max-w-7xl mx-auto px-4 py-8 safe-area-padding-left safe-area-padding-right safe-area-padding-bottom">
         {/* Hero Section */}
-        <div className="mb-8">
+        <div className="mb-8 px-4 md:px-0">
           <h1 className="text-2xl font-bold mb-2" style={{ color: 'var(--text-primary)' }}>
             Study Resources
           </h1>
@@ -327,11 +330,7 @@ export default function Study() {
                     </div>
                     
                     <button
-                      onClick={() => setToast({
-                        type: 'info',
-                        title: 'Coming Soon',
-                        message: 'Flashcard sets will be available soon!'
-                      })}
+                      onClick={() => navigate(set.route)}
                       className="w-full py-2 px-4 rounded-lg font-medium text-sm transition-colors"
                       style={{
                         backgroundColor: 'var(--primary-500)',
