@@ -17,6 +17,8 @@ export default function AudioDetail() {
   const [expandedCards, setExpandedCards] = useState<Set<string>>(new Set())
   const [currentAudio, setCurrentAudio] = useState<AudioContent | null>(null)
   const [isPlaying, setIsPlaying] = useState(false)
+  const [progress, setProgress] = useState(0)
+  const audioRef = React.useRef<HTMLAudioElement | null>(null)
   
   const decodedCategory = decodeURIComponent(category || '')
 
@@ -77,12 +79,71 @@ export default function AudioDetail() {
     } else {
       setCurrentAudio(audio)
       setIsPlaying(true)
+      setProgress(0)
     }
   }
 
   const handleClosePlayer = () => {
+    if (audioRef.current) {
+      audioRef.current.pause()
+      audioRef.current.currentTime = 0
+    }
     setCurrentAudio(null)
     setIsPlaying(false)
+    setProgress(0)
+  }
+
+  // Handle audio loading and playback
+  useEffect(() => {
+    if (!currentAudio || !audioRef.current) return
+
+    const audio = audioRef.current
+    audio.src = currentAudio.file_url
+
+    if (isPlaying) {
+      const playPromise = audio.play()
+      if (playPromise !== undefined) {
+        playPromise.catch(error => {
+          console.error('Audio playback failed:', error)
+          setIsPlaying(false)
+        })
+      }
+    } else {
+      audio.pause()
+    }
+  }, [currentAudio, isPlaying])
+
+  // Handle time updates for progress bar
+  useEffect(() => {
+    if (!audioRef.current) return
+
+    const audio = audioRef.current
+
+    const handleTimeUpdate = () => {
+      if (audio.duration) {
+        const progressPercent = (audio.currentTime / audio.duration) * 100
+        setProgress(progressPercent)
+      }
+    }
+
+    const handleEnded = () => {
+      setIsPlaying(false)
+      setProgress(0)
+    }
+
+    audio.addEventListener('timeupdate', handleTimeUpdate)
+    audio.addEventListener('ended', handleEnded)
+
+    return () => {
+      audio.removeEventListener('timeupdate', handleTimeUpdate)
+      audio.removeEventListener('ended', handleEnded)
+    }
+  }, [])
+
+  const handleSeek = (seconds: number) => {
+    if (audioRef.current) {
+      audioRef.current.currentTime = Math.max(0, audioRef.current.currentTime + seconds)
+    }
   }
 
   return (
@@ -473,7 +534,7 @@ export default function AudioDetail() {
                 <div
                   className="h-full transition-all"
                   style={{
-                    width: '30%', // Mock progress
+                    width: `${progress}%`,
                     backgroundColor: 'var(--primary-500)'
                   }}
                 />
@@ -482,6 +543,9 @@ export default function AudioDetail() {
           </div>
         </div>
       )}
+
+      {/* Hidden Audio Element */}
+      <audio ref={audioRef} preload="metadata" />
 
       <style>{`
         @keyframes highlight-pulse {

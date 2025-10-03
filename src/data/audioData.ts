@@ -41,7 +41,7 @@ export const mockAudioContent: AudioContent[] = [
     id: 'audio-3',
     title: 'Sterilization Techniques Deep Dive',
     description: 'Complete guide to sterilization methods, equipment handling, and contamination prevention',
-    file_url: 'https://cdn.example.com/audio/sterilization-guide.mp3',
+    file_url: 'https://pub-a0256e55e50541f88412507bf8c0ece6.r2.dev/AG%20STERILIZATION%201SG.mp3',
     duration_seconds: 2400, // 40 min
     type: 'study_guide',
     category: 'Sterilization',
@@ -53,7 +53,7 @@ export const mockAudioContent: AudioContent[] = [
     id: 'audio-4',
     title: 'Sterilization Q&A',
     description: 'Frequently asked questions about sterilization processes and best practices',
-    file_url: 'https://cdn.example.com/audio/sterilization-qa.mp3',
+    file_url: 'https://pub-a0256e55e50541f88412507bf8c0ece6.r2.dev/AG%20STERILIZATION%201QA.mp3',
     duration_seconds: 1800, // 30 min
     type: 'qa',
     category: 'Sterilization',
