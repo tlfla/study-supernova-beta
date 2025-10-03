@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useAppContext } from '../state/AppContext'
 import { DataProvider } from '../data/providers/DataProvider'
+import { Layers, FileQuestion, Hash, Zap, Clock } from 'lucide-react'
 import Card from '../components/common/Card'
 import Button from '../components/common/Button'
 import Dropdown from '../components/common/Dropdown'
@@ -132,7 +133,7 @@ export default function QuizOptions() {
       <MinimalHeader title="Quiz Options" />
 
       {/* Main Content */}
-      <main className="pt-16 px-4 pb-8 max-w-4xl mx-auto safe-area-padding-left safe-area-padding-right safe-area-padding-bottom">
+      <main className="pt-16 px-4 pb-8 max-w-2xl md:max-w-6xl mx-auto safe-area-padding-left safe-area-padding-right safe-area-padding-bottom">
         <div className="py-6">
           <div 
             className="rounded-2xl border-2 p-6" 
@@ -148,7 +149,8 @@ export default function QuizOptions() {
             <div className="space-y-5">
             {/* Category */}
             <div>
-              <label className="block text-sm font-semibold mb-2" style={{ color: 'var(--text-primary)' }}>
+              <label className="flex items-center gap-2 text-sm font-semibold mb-2" style={{ color: 'var(--text-primary)' }}>
+                <Layers className="w-4 h-4" style={{ color: 'var(--primary-500)' }} />
                 Category
               </label>
               <Dropdown
@@ -161,7 +163,8 @@ export default function QuizOptions() {
 
             {/* Question Source */}
             <div>
-              <label className="block text-sm font-semibold mb-2" style={{ color: 'var(--text-primary)' }}>
+              <label className="flex items-center gap-2 text-sm font-semibold mb-2" style={{ color: 'var(--text-primary)' }}>
+                <FileQuestion className="w-4 h-4" style={{ color: 'var(--primary-500)' }} />
                 Question Source
               </label>
               <Dropdown
@@ -174,7 +177,8 @@ export default function QuizOptions() {
 
             {/* Question Count */}
             <div>
-              <label className="block text-sm font-semibold mb-2" style={{ color: 'var(--text-primary)' }}>
+              <label className="flex items-center gap-2 text-sm font-semibold mb-2" style={{ color: 'var(--text-primary)' }}>
+                <Hash className="w-4 h-4" style={{ color: 'var(--primary-500)' }} />
                 Number of Questions
               </label>
               <input
@@ -192,13 +196,23 @@ export default function QuizOptions() {
                   <button
                     key={count}
                     onClick={() => setSelectedQuestionCount(count)}
-                    className="px-3 py-1 text-sm rounded-lg border transition-colors"
+                    className="flex-1 px-4 py-2.5 text-base font-semibold rounded-xl border-2 transition-all"
                     style={selectedQuestionCount === count 
-                      ? { backgroundColor: 'var(--primary-500)', borderColor: 'var(--primary-500)', color: 'white' } 
-                      : { borderColor: 'var(--border-muted)', color: 'var(--text-primary)' }
+                      ? { backgroundColor: 'var(--primary-500)', borderColor: 'var(--primary-500)', color: 'white', boxShadow: '0 4px 12px rgba(17, 181, 164, 0.3)' } 
+                      : { borderColor: 'var(--border-muted)', color: 'var(--text-primary)', backgroundColor: 'white' }
                     }
-                    onMouseEnter={(e) => selectedQuestionCount !== count && (e.currentTarget.style.borderColor = 'var(--border-strong)')}
-                    onMouseLeave={(e) => selectedQuestionCount !== count && (e.currentTarget.style.borderColor = 'var(--border-muted)')}
+                    onMouseEnter={(e) => {
+                      if (selectedQuestionCount !== count) {
+                        e.currentTarget.style.borderColor = 'var(--primary-400)'
+                        e.currentTarget.style.backgroundColor = 'rgba(17, 181, 164, 0.05)'
+                      }
+                    }}
+                    onMouseLeave={(e) => {
+                      if (selectedQuestionCount !== count) {
+                        e.currentTarget.style.borderColor = 'var(--border-muted)'
+                        e.currentTarget.style.backgroundColor = 'white'
+                      }
+                    }}
                   >
                     {count}
                   </button>
@@ -208,7 +222,8 @@ export default function QuizOptions() {
 
             {/* Quiz Mode */}
             <div>
-              <label className="block text-sm font-semibold mb-2" style={{ color: 'var(--text-primary)' }}>
+              <label className="flex items-center gap-2 text-sm font-semibold mb-2" style={{ color: 'var(--text-primary)' }}>
+                <Zap className="w-4 h-4" style={{ color: 'var(--primary-500)' }} />
                 Quiz Mode
               </label>
               <Dropdown
@@ -225,7 +240,8 @@ export default function QuizOptions() {
 
             {/* Time Limit */}
             <div>
-              <label className="block text-sm font-semibold mb-2" style={{ color: 'var(--text-primary)' }}>
+              <label className="flex items-center gap-2 text-sm font-semibold mb-2" style={{ color: 'var(--text-primary)' }}>
+                <Clock className="w-4 h-4" style={{ color: 'var(--primary-500)' }} />
                 Time Limit (Optional)
               </label>
               <Dropdown

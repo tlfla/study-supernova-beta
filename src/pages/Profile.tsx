@@ -45,9 +45,9 @@ export default function Profile() {
       <MinimalHeader title="Profile" />
 
       {/* Content */}
-      <main className="pt-16 px-4 py-8 max-w-4xl mx-auto safe-area-padding-left safe-area-padding-right safe-area-padding-bottom">
+      <main className="pt-16 px-4 py-8 max-w-2xl md:max-w-6xl mx-auto safe-area-padding-left safe-area-padding-right safe-area-padding-bottom">
         {/* User Info Card - Simplified */}
-        <div className="rounded-2xl border p-6 mb-6" style={{ backgroundColor: 'rgba(17, 181, 164, 0.06)', boxShadow: 'var(--shadow-raised)', borderColor: 'rgba(17, 181, 164, 0.12)' }}>
+        <div className="rounded-2xl border p-6 mb-6" style={{ backgroundColor: 'white', boxShadow: 'var(--shadow-raised)', borderColor: 'var(--stroke-soft)' }}>
           <div className="flex items-start justify-between">
             <div className="flex items-center gap-4">
               <div 
@@ -244,9 +244,9 @@ export default function Profile() {
         <div 
           className="rounded-2xl border-2 p-5 mb-6" 
           style={{ 
-            backgroundColor: 'rgba(17, 181, 164, 0.06)', 
+            backgroundColor: 'white', 
             boxShadow: 'var(--shadow-raised)', 
-            borderColor: 'rgba(17, 181, 164, 0.12)',
+            borderColor: 'var(--stroke-soft)',
             marginTop: '24px',
             marginBottom: '24px'
           }}
@@ -334,7 +334,7 @@ export default function Profile() {
         </div>
 
         {/* App Info */}
-        <div className="rounded-2xl border p-6 mb-8" style={{ backgroundColor: 'rgba(17, 181, 164, 0.04)', boxShadow: 'var(--shadow-raised)', borderColor: 'rgba(17, 181, 164, 0.12)' }}>
+        <div className="rounded-2xl border p-6 mb-8" style={{ backgroundColor: 'white', boxShadow: 'var(--shadow-raised)', borderColor: 'var(--stroke-soft)' }}>
           <h2 className="text-xl font-semibold text-gray-900 mb-6">App Information</h2>
           <div className="space-y-4">
             <div className="flex justify-between items-center">
