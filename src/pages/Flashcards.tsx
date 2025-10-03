@@ -310,12 +310,19 @@ export default function Flashcards() {
                     </p>
                   </div>
 
-                  <p className="text-2xl font-bold text-center mb-2" style={{ color: 'var(--text-primary)' }}>
+                  <p className="text-2xl font-bold text-center mb-4" style={{ color: 'var(--text-primary)' }}>
                     {currentCard.question}
                   </p>
-                  <p className="text-sm" style={{ color: 'var(--text-secondary)' }}>
+                  <div
+                    className="inline-flex items-center px-4 py-2 rounded-full text-sm font-medium"
+                    style={{
+                      backgroundColor: 'rgba(17, 181, 164, 0.1)',
+                      color: 'var(--primary-600)',
+                      border: '1px solid rgba(17, 181, 164, 0.3)'
+                    }}
+                  >
                     {getCardActionText()}
-                  </p>
+                  </div>
                 </div>
               )}
             </div>
