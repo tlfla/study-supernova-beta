@@ -1,12 +1,13 @@
 import React, { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { ArrowLeft, BookOpen, FileText, Download, Volume2, Play } from 'lucide-react'
+import { BookOpen, FileText, Headphones, Play, Clock, TrendingUp, Award, CheckCircle, FileCheck } from 'lucide-react'
 import Card from '../components/common/Card'
 import Button from '../components/common/Button'
 import Toast from '../components/common/Toast'
 import Dropdown from '../components/common/Dropdown'
 import MinimalHeader from '../components/common/MinimalHeader'
 import DesktopHeader from '../components/common/DesktopHeader'
+import { getCategoryColor } from '../lib/categoryColors'
 
 export default function Study() {
   const navigate = useNavigate()
@@ -26,43 +27,68 @@ export default function Study() {
     { value: 'emergency', label: 'Emergency Procedures' }
   ]
 
-  const studySections = [
-    {
-      title: 'Audio Resources',
-      category: 'all',
-      description: 'Listen to surgical procedures and terminology explanations',
-      icon: Volume2,
-      items: [
-        'Surgical Procedure Audio Guides',
-        'Medical Terminology Pronunciation',
-        'Case Study Discussions',
-        'Expert Interviews'
-      ]
+  const audioResources = [
+    { 
+      title: 'Surgical Procedures', 
+      duration: '45 min', 
+      category: 'Surgical Procedures',
+      popular: true,
+      episodeCount: 12 
     },
-    {
-      title: 'Terminology & Flashcards',
-      category: 'all',
-      description: 'Interactive flashcards and terminology drills',
-      icon: FileText,
-      items: [
-        'Medical Terminology Basics',
-        'Surgical Instrument Names',
-        'Anatomical Terms',
-        'Procedure-Specific Vocabulary'
-      ]
+    { 
+      title: 'Medical Terminology', 
+      duration: '30 min', 
+      category: 'Anatomy & Physiology',
+      popular: false,
+      episodeCount: 8 
     },
-    {
-      title: 'Study Guides',
-      category: 'all',
-      description: 'Comprehensive study materials and reference documents',
-      icon: Download,
-      items: [
-        'Surgical Technique Guides',
-        'Anatomy Reference Sheets',
-        'Procedure Checklists',
-        'Study Planning Templates'
-      ]
+    { 
+      title: 'Case Studies', 
+      duration: '60 min', 
+      category: 'Patient Care',
+      popular: false,
+      episodeCount: 15 
+    },
+    { 
+      title: 'Expert Interviews', 
+      duration: '40 min', 
+      category: 'Medical Ethics',
+      popular: false,
+      episodeCount: 10 
     }
+  ]
+
+  const flashcardSets = [
+    {
+      title: 'Medical Terminology',
+      count: 300,
+      category: 'Anatomy & Physiology',
+      description: 'Master essential medical terms with audio pronunciation',
+      hasAudio: true
+    },
+    {
+      title: 'Surgical Instruments',
+      count: 150,
+      category: 'Instrumentation',
+      description: 'Visual identification and proper usage',
+      hasAudio: false
+    },
+    {
+      title: 'Anatomy & Physiology',
+      count: 200,
+      category: 'Anatomy & Physiology',
+      description: 'Interactive diagrams and body systems',
+      hasAudio: false
+    }
+  ]
+
+  const studyMaterials = [
+    { title: 'Surgical Technique Guides', available: true, category: 'Surgical Procedures' },
+    { title: 'Anatomy Reference Sheets', available: true, category: 'Anatomy & Physiology' },
+    { title: 'Sterilization Protocols', available: false, category: 'Sterilization' },
+    { title: 'Procedure Checklists', available: false, category: 'Patient Care' },
+    { title: 'Emergency Response Guide', available: true, category: 'Emergency Procedures' },
+    { title: 'Study Planning Templates', available: false, category: 'Medical Ethics' }
   ]
 
   const handleAudioPlay = (item: string) => {
@@ -80,100 +106,357 @@ export default function Study() {
 
       {/* Content */}
       <div className="max-w-7xl mx-auto px-4 py-8 safe-area-padding-left safe-area-padding-right safe-area-padding-bottom">
-        {/* Subtitle card */}
-        <div 
-          className="mb-6 p-4 rounded-xl border"
-          style={{
-            backgroundColor: 'rgba(17, 181, 164, 0.05)',
-            borderColor: 'rgba(17, 181, 164, 0.2)'
-          }}
-        >
-          <p className="text-sm text-center" style={{ color: 'var(--text-secondary)' }}>
-            Deep dive into surgical technology concepts
+        {/* Hero Section */}
+        <div className="mb-8">
+          <h1 className="text-2xl font-bold mb-2" style={{ color: 'var(--text-primary)' }}>
+            Study Resources
+          </h1>
+          <p className="text-base" style={{ color: 'var(--text-secondary)' }}>
+            Master surgical technology through interactive learning
           </p>
         </div>
         
         {/* Category Filter */}
-        <Card className="mb-8 bg-white/70 backdrop-blur-sm shadow-lg rounded-2xl border-border">
-          <div className="flex items-center justify-between">
-            <h2 className="text-lg font-semibold text-gray-900">Filter by Category</h2>
-            <Dropdown
-              options={studyCategories}
-              value={selectedCategory}
-              onChange={setSelectedCategory}
-              placeholder="Select category"
-            />
-          </div>
-        </Card>
-
-        <div className="space-y-8">
-          {studySections
-            .filter(section => selectedCategory === 'all' || section.category === selectedCategory)
-            .map((section) => (
-            <Card
-              key={section.title}
-              className="bg-white/70 backdrop-blur-sm shadow-lg rounded-2xl border-border"
-            >
-              <div className="flex items-center space-x-4 mb-6">
-                <div className="bg-primary-100 p-3 rounded-lg">
-                  <section.icon className="h-6 w-6 text-primary-600" />
-                </div>
-                <div>
-                  <h2 className="text-xl font-semibold text-gray-900">{section.title}</h2>
-                  <p className="text-gray-600">{section.description}</p>
-                </div>
-              </div>
-
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                {section.items.map((item) => (
-                  <Card
-                    key={item}
-                    className="bg-white/70 backdrop-blur-sm shadow-lg rounded-2xl border-border hover:shadow-xl transition-all duration-200 cursor-pointer"
-                  >
-                    <div className="flex items-center justify-between">
-                      <div className="flex-1">
-                        <h3 className="font-medium text-gray-900 mb-1">{item}</h3>
-                        <p className="text-sm text-gray-600">
-                          {section.title === 'Audio Resources' ? 'Click to play audio guide' : 'Click to open study materials'}
-                        </p>
-                      </div>
-                      <div className="flex items-center space-x-2">
-                        {section.title === 'Audio Resources' && (
-                          <button
-                            onClick={() => handleAudioPlay(item)}
-                            className="p-2 rounded-lg bg-primary-100 text-primary-600 hover:bg-primary-200 transition-colors"
-                            aria-label={`Play ${item}`}
-                          >
-                            <Play className="h-4 w-4" />
-                          </button>
-                        )}
-                        <div className="text-gray-400">
-                          <ArrowLeft className="h-4 w-4 rotate-180" />
-                        </div>
-                      </div>
-                    </div>
-                  </Card>
-                ))}
-              </div>
-            </Card>
-          ))}
+        <div className="mb-8">
+          <label className="block text-sm font-semibold mb-2" style={{ color: 'var(--text-primary)' }}>
+            Filter by Category
+          </label>
+          <select
+            value={selectedCategory}
+            onChange={(e) => setSelectedCategory(e.target.value)}
+            className="w-full md:w-96 px-4 rounded-xl transition-all focus:outline-none"
+            style={{
+              height: '48px',
+              borderWidth: '2px',
+              borderStyle: 'solid',
+              borderColor: 'var(--border-muted)',
+              backgroundColor: 'white',
+              color: 'var(--text-primary)'
+            }}
+            onFocus={(e) => {
+              e.currentTarget.style.borderColor = 'var(--primary-500)'
+              e.currentTarget.style.boxShadow = '0 0 0 3px rgba(17, 181, 164, 0.2)'
+            }}
+            onBlur={(e) => {
+              e.currentTarget.style.borderColor = 'var(--border-muted)'
+              e.currentTarget.style.boxShadow = 'none'
+            }}
+          >
+            {studyCategories.map((cat) => (
+              <option key={cat.value} value={cat.value}>
+                {cat.label}
+              </option>
+            ))}
+          </select>
         </div>
 
-        {/* Coming Soon Notice */}
-        <Card className="mt-12 bg-white/70 backdrop-blur-sm shadow-lg rounded-2xl border-border text-center">
-          <div className="py-8">
-            <div className="inline-flex items-center justify-center w-16 h-16 bg-primary-100 rounded-full mb-6">
-              <BookOpen className="h-8 w-8 text-primary-600" />
+        <div className="space-y-6">
+          {/* Audio Learning Section */}
+          <div 
+            className="rounded-2xl border p-6"
+            style={{ 
+              backgroundColor: 'var(--bg-card)', 
+              boxShadow: 'var(--shadow-raised)',
+              borderColor: 'var(--stroke-soft)'
+            }}
+          >
+            <div className="flex items-center gap-3 mb-4">
+              <div 
+                className="p-2 rounded-lg"
+                style={{ backgroundColor: 'rgba(17, 181, 164, 0.1)' }}
+              >
+                <Headphones className="w-6 h-6" style={{ color: 'var(--primary-500)' }} />
+              </div>
+              <div>
+                <h2 className="text-xl font-semibold" style={{ color: 'var(--text-primary)' }}>
+                  Audio Learning
+                </h2>
+                <p className="text-sm" style={{ color: 'var(--text-secondary)' }}>
+                  Learn on the go with expert-narrated content
+                </p>
+              </div>
             </div>
-            <h3 className="text-xl font-semibold text-gray-900 mb-4">
-              Study Materials Coming Soon
-            </h3>
-            <p className="text-gray-600 max-w-md mx-auto">
-              We're working on comprehensive study materials including audio guides,
-              interactive flashcards, and downloadable reference sheets. Stay tuned for updates!
-            </p>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              {audioResources.map((audio) => (
+                <button
+                  key={audio.title}
+                  onClick={() => handleAudioPlay(audio.title)}
+                  className="rounded-xl border p-4 text-left transition-all hover:-translate-y-0.5"
+                  style={{
+                    backgroundColor: 'white',
+                    borderColor: 'var(--stroke-soft)',
+                    boxShadow: 'var(--shadow-raised)'
+                  }}
+                  onMouseEnter={(e) => {
+                    e.currentTarget.style.boxShadow = 'var(--shadow-emphasis)'
+                  }}
+                  onMouseLeave={(e) => {
+                    e.currentTarget.style.boxShadow = 'var(--shadow-raised)'
+                  }}
+                >
+                  <div className="flex items-start justify-between mb-3">
+                    <div className="flex items-center gap-2">
+                      <div 
+                        className="p-2 rounded-lg"
+                        style={{ backgroundColor: 'rgba(17, 181, 164, 0.1)' }}
+                      >
+                        <Play className="w-4 h-4" style={{ color: 'var(--primary-500)' }} />
+                      </div>
+                      <div>
+                        <h3 className="font-semibold text-base" style={{ color: 'var(--text-primary)' }}>
+                          {audio.title}
+                        </h3>
+                        {audio.popular && (
+                          <span 
+                            className="inline-block text-xs font-semibold px-2 py-0.5 rounded-full mt-1"
+                            style={{
+                              backgroundColor: 'rgba(251, 191, 36, 0.15)',
+                              color: '#F59E0B'
+                            }}
+                          >
+                            Most Popular
+                          </span>
+                        )}
+                      </div>
+                    </div>
+                  </div>
+                  
+                  <div className="flex items-center justify-between">
+                    <div className="flex items-center gap-3">
+                      <div className="flex items-center gap-1">
+                        <Clock className="w-4 h-4" style={{ color: 'var(--text-secondary)' }} />
+                        <span className="text-sm" style={{ color: 'var(--text-secondary)' }}>
+                          {audio.duration}
+                        </span>
+                      </div>
+                      <span className="text-sm" style={{ color: 'var(--text-secondary)' }}>
+                        {audio.episodeCount} episodes
+                      </span>
+                    </div>
+                    <span 
+                      className="text-xs font-semibold px-2 py-1 rounded-full"
+                      style={{
+                        backgroundColor: getCategoryColor(audio.category, 0.15),
+                        color: getCategoryColor(audio.category)
+                      }}
+                    >
+                      {audio.category}
+                    </span>
+                  </div>
+                </button>
+              ))}
+            </div>
           </div>
-        </Card>
+
+          {/* Interactive Flashcards Section */}
+          <div 
+            className="rounded-2xl border p-6"
+            style={{ 
+              backgroundColor: 'var(--bg-card)', 
+              boxShadow: 'var(--shadow-raised)',
+              borderColor: 'var(--stroke-soft)'
+            }}
+          >
+            <div className="flex items-center gap-3 mb-4">
+              <div 
+                className="p-2 rounded-lg"
+                style={{ backgroundColor: 'rgba(17, 181, 164, 0.1)' }}
+              >
+                <BookOpen className="w-6 h-6" style={{ color: 'var(--primary-500)' }} />
+              </div>
+              <div>
+                <h2 className="text-xl font-semibold" style={{ color: 'var(--text-primary)' }}>
+                  Interactive Flashcards
+                </h2>
+                <p className="text-sm" style={{ color: 'var(--text-secondary)' }}>
+                  Memorize and test your knowledge effectively
+                </p>
+              </div>
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+              {flashcardSets.map((set) => (
+                <div
+                  key={set.title}
+                  className="rounded-xl border p-5 transition-all hover:-translate-y-0.5"
+                  style={{
+                    backgroundColor: 'white',
+                    borderColor: 'var(--stroke-soft)',
+                    boxShadow: 'var(--shadow-raised)'
+                  }}
+                  onMouseEnter={(e) => {
+                    e.currentTarget.style.boxShadow = 'var(--shadow-emphasis)'
+                  }}
+                  onMouseLeave={(e) => {
+                    e.currentTarget.style.boxShadow = 'var(--shadow-raised)'
+                  }}
+                >
+                  <div className="mb-4">
+                    <div 
+                      className="w-12 h-12 rounded-xl flex items-center justify-center mb-3"
+                      style={{ backgroundColor: getCategoryColor(set.category, 0.15) }}
+                    >
+                      <FileText className="w-6 h-6" style={{ color: getCategoryColor(set.category) }} />
+                    </div>
+                    <h3 className="font-semibold text-base mb-1" style={{ color: 'var(--text-primary)' }}>
+                      {set.title}
+                    </h3>
+                    <p className="text-sm mb-3" style={{ color: 'var(--text-secondary)' }}>
+                      {set.description}
+                    </p>
+                  </div>
+
+                  <div className="space-y-3">
+                    <div className="flex items-center justify-between">
+                      <span className="text-sm font-medium" style={{ color: 'var(--text-secondary)' }}>
+                        {set.count}+ terms
+                      </span>
+                      {set.hasAudio && (
+                        <span 
+                          className="text-xs font-semibold px-2 py-1 rounded-full flex items-center gap-1"
+                          style={{
+                            backgroundColor: 'rgba(17, 181, 164, 0.1)',
+                            color: 'var(--primary-600)'
+                          }}
+                        >
+                          <Headphones className="w-3 h-3" />
+                          Audio
+                        </span>
+                      )}
+                    </div>
+                    
+                    <button
+                      onClick={() => setToast({
+                        type: 'info',
+                        title: 'Coming Soon',
+                        message: 'Flashcard sets will be available soon!'
+                      })}
+                      className="w-full py-2 px-4 rounded-lg font-medium text-sm transition-colors"
+                      style={{
+                        backgroundColor: 'var(--primary-500)',
+                        color: 'white'
+                      }}
+                      onMouseEnter={(e) => e.currentTarget.style.backgroundColor = 'var(--primary-600)'}
+                      onMouseLeave={(e) => e.currentTarget.style.backgroundColor = 'var(--primary-500)'}
+                    >
+                      Start Learning
+                    </button>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {/* Reference Materials Section */}
+          <div 
+            className="rounded-2xl border p-6"
+            style={{ 
+              backgroundColor: 'var(--bg-card)', 
+              boxShadow: 'var(--shadow-raised)',
+              borderColor: 'var(--stroke-soft)'
+            }}
+          >
+            <div className="flex items-center gap-3 mb-4">
+              <div 
+                className="p-2 rounded-lg"
+                style={{ backgroundColor: 'rgba(17, 181, 164, 0.1)' }}
+              >
+                <FileCheck className="w-6 h-6" style={{ color: 'var(--primary-500)' }} />
+              </div>
+              <div>
+                <h2 className="text-xl font-semibold" style={{ color: 'var(--text-primary)' }}>
+                  Reference Materials
+                </h2>
+                <p className="text-sm" style={{ color: 'var(--text-secondary)' }}>
+                  Comprehensive guides and study resources
+                </p>
+              </div>
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              {studyMaterials.map((material) => (
+                <div
+                  key={material.title}
+                  className="rounded-xl border p-4 flex items-center justify-between transition-all"
+                  style={{
+                    backgroundColor: material.available ? 'white' : 'var(--bg-raised)',
+                    borderColor: 'var(--stroke-soft)',
+                    opacity: material.available ? 1 : 0.6,
+                    boxShadow: material.available ? 'var(--shadow-raised)' : 'none'
+                  }}
+                  onMouseEnter={(e) => {
+                    if (material.available) {
+                      e.currentTarget.style.boxShadow = 'var(--shadow-emphasis)'
+                    }
+                  }}
+                  onMouseLeave={(e) => {
+                    if (material.available) {
+                      e.currentTarget.style.boxShadow = 'var(--shadow-raised)'
+                    }
+                  }}
+                >
+                  <div className="flex items-center gap-3">
+                    <div 
+                      className="p-2 rounded-lg"
+                      style={{ 
+                        backgroundColor: material.available 
+                          ? getCategoryColor(material.category, 0.15)
+                          : 'var(--bg-base)'
+                      }}
+                    >
+                      <FileText 
+                        className="w-5 h-5" 
+                        style={{ 
+                          color: material.available 
+                            ? getCategoryColor(material.category)
+                            : 'var(--text-secondary)'
+                        }} 
+                      />
+                    </div>
+                    <div>
+                      <h3 
+                        className="font-medium text-sm"
+                        style={{ color: material.available ? 'var(--text-primary)' : 'var(--text-secondary)' }}
+                      >
+                        {material.title}
+                      </h3>
+                      <span 
+                        className="text-xs"
+                        style={{ color: 'var(--text-secondary)' }}
+                      >
+                        {material.category}
+                      </span>
+                    </div>
+                  </div>
+
+                  {material.available ? (
+                    <span 
+                      className="text-xs font-semibold px-2 py-1 rounded-full flex items-center gap-1"
+                      style={{
+                        backgroundColor: 'rgba(34, 197, 94, 0.15)',
+                        color: '#16A34A'
+                      }}
+                    >
+                      <CheckCircle className="w-3 h-3" />
+                      Available
+                    </span>
+                  ) : (
+                    <span 
+                      className="text-xs font-semibold px-2 py-1 rounded-full"
+                      style={{
+                        backgroundColor: 'var(--bg-raised)',
+                        color: 'var(--text-secondary)'
+                      }}
+                    >
+                      Coming Soon
+                    </span>
+                  )}
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
       </div>
 
       {/* Toast */}
