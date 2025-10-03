@@ -173,7 +173,7 @@ export default function Flashcards() {
   }
 
   return (
-    <div className="min-h-screen pb-20 md:pb-0" style={{ backgroundColor: 'var(--bg-base)' }}>
+    <div className="min-h-screen-safe" style={{ backgroundColor: 'var(--bg-base)' }}>
       <MinimalHeader title={getTitle()} />
       <DesktopHeader />
 

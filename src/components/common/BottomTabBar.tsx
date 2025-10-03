@@ -21,8 +21,8 @@ export default function BottomTabBar() {
   const location = useLocation()
   const navigate = useNavigate()
 
-  // Hide bottom nav during active quiz
-  if (location.pathname === '/quiz') return null
+  // Hide bottom nav during active quiz and flashcard sessions
+  if (location.pathname === '/quiz' || location.pathname.includes('/study/flashcards/')) return null
 
   return (
     <nav className="md:hidden fixed bottom-0 left-0 right-0 safe-area-inset-bottom z-50">
