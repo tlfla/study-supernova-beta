@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
-import { ArrowLeft, ChevronLeft, ChevronRight, Volume2, Home } from 'lucide-react'
+import { ArrowLeft, ChevronLeft, ChevronRight, Volume2, Home, ArrowRight } from 'lucide-react'
 import { FlashcardData, terminologyFlashcards, instrumentsFlashcards, anatomyFlashcards } from '../data/flashcardsData'
 import { getCategoryColor } from '../lib/categoryColors'
 import { useAppContext } from '../state/AppContext'
@@ -8,6 +8,19 @@ import MinimalHeader from '../components/common/MinimalHeader'
 import DesktopHeader from '../components/common/DesktopHeader'
 
 type FlashcardType = 'terminology' | 'instruments' | 'anatomy'
+
+const useIsMobile = () => {
+  const [isMobile, setIsMobile] = useState(false)
+  
+  useEffect(() => {
+    const checkDevice = () => setIsMobile(window.innerWidth < 768)
+    checkDevice()
+    window.addEventListener('resize', checkDevice)
+    return () => window.removeEventListener('resize', checkDevice)
+  }, [])
+  
+  return isMobile
+}
 
 const useSwipeNavigation = (
   onNext: () => void,
@@ -54,6 +67,7 @@ export default function Flashcards() {
   const [currentIndex, setCurrentIndex] = useState(0)
   const [isFlipped, setIsFlipped] = useState(false)
   const cardRef = useRef<HTMLDivElement>(null)
+  const isMobile = useIsMobile()
 
   // Get flashcard data based on type
   const getFlashcards = (): FlashcardData[] => {
@@ -142,6 +156,21 @@ export default function Flashcards() {
   )
 
   const progress = ((currentIndex + 1) / flashcards.length) * 100
+  const isLastCard = currentIndex === flashcards.length - 1
+
+  const getInstructionText = () => {
+    if (isMobile) {
+      return 'Swipe to navigate'
+    }
+    if (type !== 'terminology') {
+      return 'Use arrow keys to navigate • Space/Enter to flip'
+    }
+    return 'Use arrow keys to navigate'
+  }
+
+  const getCardActionText = () => {
+    return isMobile ? 'Tap to reveal answer' : 'Click to reveal answer'
+  }
 
   return (
     <div className="min-h-screen pb-20 md:pb-0" style={{ backgroundColor: 'var(--bg-base)' }}>
@@ -285,7 +314,7 @@ export default function Flashcards() {
                     {currentCard.question}
                   </p>
                   <p className="text-sm" style={{ color: 'var(--text-secondary)' }}>
-                    Tap to reveal answer
+                    {getCardActionText()}
                   </p>
                 </div>
               )}
@@ -358,44 +387,72 @@ export default function Flashcards() {
             <span className="hidden sm:inline">Previous</span>
           </button>
 
-          <button
-            onClick={handleNext}
-            disabled={currentIndex === flashcards.length - 1}
-            className="flex items-center gap-2 px-6 py-3 rounded-xl font-semibold transition-all disabled:opacity-40 disabled:cursor-not-allowed"
-            style={{
-              backgroundColor: currentIndex === flashcards.length - 1 ? 'var(--bg-raised)' : 'var(--primary-500)',
-              border: '2px solid',
-              borderColor: currentIndex === flashcards.length - 1 ? 'var(--stroke-soft)' : 'var(--primary-500)',
-              color: currentIndex === flashcards.length - 1 ? 'var(--text-primary)' : 'white'
-            }}
-            onMouseEnter={(e) => {
-              if (currentIndex < flashcards.length - 1) {
+          {isLastCard ? (
+            <button
+              onClick={() => navigate('/study')}
+              className="flex items-center gap-2 px-6 py-3 rounded-xl font-semibold transition-all"
+              style={{
+                backgroundColor: 'var(--primary-500)',
+                border: '2px solid var(--primary-500)',
+                color: 'white'
+              }}
+              onMouseEnter={(e) => {
                 e.currentTarget.style.backgroundColor = 'var(--primary-600)'
+                e.currentTarget.style.borderColor = 'var(--primary-600)'
                 e.currentTarget.style.transform = 'translateY(-2px)'
                 e.currentTarget.style.boxShadow = 'var(--shadow-emphasis)'
-              }
-            }}
-            onMouseLeave={(e) => {
-              if (currentIndex < flashcards.length - 1) {
+              }}
+              onMouseLeave={(e) => {
                 e.currentTarget.style.backgroundColor = 'var(--primary-500)'
+                e.currentTarget.style.borderColor = 'var(--primary-500)'
                 e.currentTarget.style.transform = 'translateY(0)'
                 e.currentTarget.style.boxShadow = 'none'
-              }
-            }}
-            aria-label="Next card"
-          >
-            <span className="hidden sm:inline">Next</span>
-            <ChevronRight className="w-5 h-5" />
-          </button>
+              }}
+              aria-label="Back to Study page"
+            >
+              <span>Back to Study</span>
+              <ArrowRight className="w-5 h-5" />
+            </button>
+          ) : (
+            <button
+              onClick={handleNext}
+              className="flex items-center gap-2 px-6 py-3 rounded-xl font-semibold transition-all"
+              style={{
+                backgroundColor: 'var(--primary-500)',
+                border: '2px solid var(--primary-500)',
+                color: 'white'
+              }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.backgroundColor = 'var(--primary-600)'
+                e.currentTarget.style.borderColor = 'var(--primary-600)'
+                e.currentTarget.style.transform = 'translateY(-2px)'
+                e.currentTarget.style.boxShadow = 'var(--shadow-emphasis)'
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.backgroundColor = 'var(--primary-500)'
+                e.currentTarget.style.borderColor = 'var(--primary-500)'
+                e.currentTarget.style.transform = 'translateY(0)'
+                e.currentTarget.style.boxShadow = 'none'
+              }}
+              aria-label="Next card"
+            >
+              <span className="hidden sm:inline">Next</span>
+              <ChevronRight className="w-5 h-5" />
+            </button>
+          )}
         </div>
 
-        {/* Keyboard Hints */}
-        <div className="mt-8 text-center">
-          <p className="text-sm" style={{ color: 'var(--text-secondary)' }}>
-            <span className="hidden md:inline">Use arrow keys to navigate • </span>
-            {type !== 'terminology' && <span>Space/Enter to flip • </span>}
-            Swipe on mobile
-          </p>
+        {/* Device-Specific Instructions */}
+        <div className="mt-8 flex justify-center">
+          <span
+            className="text-xs px-3 py-1.5 rounded-full"
+            style={{
+              backgroundColor: 'rgba(100, 116, 139, 0.1)',
+              color: 'var(--text-secondary)'
+            }}
+          >
+            {getInstructionText()}
+          </span>
         </div>
       </div>
     </div>
