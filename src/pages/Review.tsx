@@ -309,14 +309,14 @@ export default function Review() {
                   </div>
 
                   {/* Expandable Explanation */}
-                  <details className="px-5 pb-4">
+                  <details className="px-5 pb-4 group">
                     <summary 
-                      className="text-sm font-semibold cursor-pointer flex items-center gap-2 py-2 transition-colors"
+                      className="text-sm font-semibold cursor-pointer flex items-center gap-2 py-2 transition-colors list-none"
                       style={{ color: '#38BDF8' }}
                       onMouseEnter={(e) => e.currentTarget.style.color = '#0284C7'}
                       onMouseLeave={(e) => e.currentTarget.style.color = '#38BDF8'}
                     >
-                      <ChevronDown className="w-4 h-4 transition-transform" />
+                      <ChevronDown className="w-4 h-4 transition-transform group-open:rotate-180" />
                       Explanation
                     </summary>
                     <div 
