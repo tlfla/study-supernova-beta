@@ -8,6 +8,7 @@ import Dropdown from '../components/common/Dropdown'
 import MinimalHeader from '../components/common/MinimalHeader'
 import DesktopHeader from '../components/common/DesktopHeader'
 import { getCategoryColor } from '../lib/categoryColors'
+import { mockAudioContent, getCategorySummary, formatDuration } from '../data/audioData'
 
 export default function Study() {
   const navigate = useNavigate()
@@ -27,36 +28,8 @@ export default function Study() {
     { value: 'emergency', label: 'Emergency Procedures' }
   ]
 
-  const audioResources = [
-    { 
-      title: 'Surgical Procedures', 
-      duration: '45 min', 
-      category: 'Surgical Procedures',
-      popular: true,
-      episodeCount: 12 
-    },
-    { 
-      title: 'Medical Terminology', 
-      duration: '30 min', 
-      category: 'Anatomy & Physiology',
-      popular: false,
-      episodeCount: 8 
-    },
-    { 
-      title: 'Case Studies', 
-      duration: '60 min', 
-      category: 'Patient Care',
-      popular: false,
-      episodeCount: 15 
-    },
-    { 
-      title: 'Expert Interviews', 
-      duration: '40 min', 
-      category: 'Medical Ethics',
-      popular: false,
-      episodeCount: 10 
-    }
-  ]
+  // Get audio category summaries from mock data
+  const audioCategories = getCategorySummary(mockAudioContent)
 
   const flashcardSets = [
     {
@@ -181,10 +154,10 @@ export default function Study() {
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              {audioResources.map((audio) => (
+              {audioCategories.map((categoryData, index) => (
                 <button
-                  key={audio.title}
-                  onClick={() => handleAudioPlay(audio.title)}
+                  key={categoryData.category}
+                  onClick={() => navigate(`/study/audio/${encodeURIComponent(categoryData.category)}`)}
                   className="rounded-xl border p-4 text-left transition-all hover:-translate-y-0.5"
                   style={{
                     backgroundColor: 'white',
@@ -202,15 +175,15 @@ export default function Study() {
                     <div className="flex items-center gap-2">
                       <div 
                         className="p-2 rounded-lg"
-                        style={{ backgroundColor: 'rgba(17, 181, 164, 0.1)' }}
+                        style={{ backgroundColor: getCategoryColor(categoryData.category, 0.1) }}
                       >
-                        <Play className="w-4 h-4" style={{ color: 'var(--primary-500)' }} />
+                        <Play className="w-4 h-4" style={{ color: getCategoryColor(categoryData.category) }} />
                       </div>
                       <div>
                         <h3 className="font-semibold text-base" style={{ color: 'var(--text-primary)' }}>
-                          {audio.title}
+                          {categoryData.category}
                         </h3>
-                        {audio.popular && (
+                        {index === 0 && (
                           <span 
                             className="inline-block text-xs font-semibold px-2 py-0.5 rounded-full mt-1"
                             style={{
@@ -230,21 +203,21 @@ export default function Study() {
                       <div className="flex items-center gap-1">
                         <Clock className="w-4 h-4" style={{ color: 'var(--text-secondary)' }} />
                         <span className="text-sm" style={{ color: 'var(--text-secondary)' }}>
-                          {audio.duration}
+                          {formatDuration(categoryData.totalDuration)}
                         </span>
                       </div>
                       <span className="text-sm" style={{ color: 'var(--text-secondary)' }}>
-                        {audio.episodeCount} episodes
+                        {categoryData.fileCount} {categoryData.fileCount === 1 ? 'episode' : 'episodes'}
                       </span>
                     </div>
                     <span 
                       className="text-xs font-semibold px-2 py-1 rounded-full"
                       style={{
-                        backgroundColor: getCategoryColor(audio.category, 0.15),
-                        color: getCategoryColor(audio.category)
+                        backgroundColor: getCategoryColor(categoryData.category, 0.15),
+                        color: getCategoryColor(categoryData.category)
                       }}
                     >
-                      {audio.category}
+                      {categoryData.category}
                     </span>
                   </div>
                 </button>

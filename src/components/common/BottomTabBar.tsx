@@ -21,8 +21,12 @@ export default function BottomTabBar() {
   const location = useLocation()
   const navigate = useNavigate()
 
-  // Hide bottom nav during active quiz and flashcard sessions
-  if (location.pathname === '/quiz' || location.pathname.includes('/study/flashcards/')) return null
+  // Hide bottom nav during active quiz, flashcard sessions, and audio detail pages
+  if (
+    location.pathname === '/quiz' || 
+    location.pathname.includes('/study/flashcards/') ||
+    location.pathname.includes('/study/audio/')
+  ) return null
 
   return (
     <nav className="md:hidden fixed bottom-0 left-0 right-0 safe-area-inset-bottom z-50">
@@ -34,7 +38,7 @@ export default function BottomTabBar() {
           boxShadow: '0 -4px 16px rgba(15, 23, 42, 0.04)'
         }}
       >
-        <div className="flex justify-around items-center h-16 px-4 safe-area-padding-bottom safe-area-padding-left safe-area-padding-right">
+        <div className="flex justify-around items-center h-16 px-2 safe-area-padding-bottom safe-area-padding-left safe-area-padding-right">
           {tabs.map((tab) => {
             const Icon = tab.icon
             const isActive = location.pathname === tab.path
@@ -43,10 +47,11 @@ export default function BottomTabBar() {
               <button
                 key={tab.path}
                 onClick={() => navigate(tab.path)}
-                className="flex flex-col items-center justify-center px-4 py-2 rounded-xl transition-all duration-200 min-w-0"
+                className="flex flex-col items-center justify-center px-1 py-2 rounded-xl transition-all duration-200 min-w-0 flex-1"
                 style={{
                   color: isActive ? 'var(--primary-600)' : 'var(--text-secondary)',
-                  backgroundColor: isActive ? getPrimaryWithOpacity(0.1) : 'transparent'
+                  backgroundColor: isActive ? getPrimaryWithOpacity(0.1) : 'transparent',
+                  maxWidth: '80px'
                 }}
                 onMouseEnter={(e) => {
                   if (!isActive) {
@@ -61,10 +66,9 @@ export default function BottomTabBar() {
                   }
                 }}
               >
-                <Icon className="h-6 w-6 mb-1 transition-colors duration-200" />
+                <Icon className="h-5 w-5 mb-1 transition-colors duration-200" />
                 <span 
-                  className="text-[12px] leading-tight font-medium truncate w-full text-center"
-                  style={{ fontSize: 'max(12px, 1rem)' }}
+                  className="text-[10px] leading-tight font-medium truncate w-full text-center"
                 >
                   {tab.label}
                 </span>

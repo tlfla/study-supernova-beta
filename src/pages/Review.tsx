@@ -9,6 +9,7 @@ import Dropdown from '../components/common/Dropdown'
 import MinimalHeader from '../components/common/MinimalHeader'
 import DesktopHeader from '../components/common/DesktopHeader'
 import { getCategoryColor } from '../lib/categoryColors'
+import { mockAudioContent } from '../data/audioData'
 
 const categories = [
   { value: 'all', label: 'All Categories' },
@@ -343,16 +344,46 @@ export default function Review() {
                       <ExternalLink className="w-4 h-4" />
                       Study More: {question.category}
                     </button>
-                    <button 
-                      className="flex items-center gap-2 text-sm transition-colors"
-                      style={{ color: 'var(--text-secondary)' }}
-                      onMouseEnter={(e) => e.currentTarget.style.color = 'var(--primary-600)'}
-                      onMouseLeave={(e) => e.currentTarget.style.color = 'var(--text-secondary)'}
-                      disabled
-                    >
-                      <Headphones className="w-4 h-4" />
-                      Audio (Coming Soon)
-                    </button>
+                    {(() => {
+                      // Find audio files for this category
+                      const categoryAudio = mockAudioContent.filter(
+                        audio => audio.is_active && audio.category === question.category
+                      )
+                      
+                      if (categoryAudio.length > 0) {
+                        // Use the first matching audio for highlight
+                        const firstAudio = categoryAudio[0]
+                        return (
+                          <button 
+                            onClick={() => navigate(`/study/audio/${encodeURIComponent(question.category)}?highlight=${firstAudio.id}`)}
+                            className="flex items-center gap-2 text-sm font-medium transition-colors"
+                            style={{ color: 'var(--primary-600)' }}
+                            onMouseEnter={(e) => {
+                              e.currentTarget.style.color = 'var(--primary-700)'
+                              e.currentTarget.style.textDecoration = 'underline'
+                            }}
+                            onMouseLeave={(e) => {
+                              e.currentTarget.style.color = 'var(--primary-600)'
+                              e.currentTarget.style.textDecoration = 'none'
+                            }}
+                          >
+                            <Headphones className="w-4 h-4" />
+                            🎧 Listen: {question.category}
+                          </button>
+                        )
+                      }
+                      
+                      return (
+                        <button 
+                          className="flex items-center gap-2 text-sm transition-colors"
+                          style={{ color: 'var(--text-secondary)', opacity: 0.5 }}
+                          disabled
+                        >
+                          <Headphones className="w-4 h-4" />
+                          Audio (Coming Soon)
+                        </button>
+                      )
+                    })()}
                   </div>
                 </div>
               )

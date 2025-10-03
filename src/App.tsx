@@ -8,6 +8,7 @@ import Results from './pages/Results'
 import Review from './pages/Review'
 import Study from './pages/Study'
 import Flashcards from './pages/Flashcards'
+import AudioDetail from './pages/AudioDetail'
 import Profile from './pages/Profile'
 import Setup from './pages/Setup'
 import Admin from './pages/Admin'
@@ -38,6 +39,7 @@ function App() {
           <Route path="/review" element={<Review />} />
           <Route path="/study" element={<Study />} />
           <Route path="/study/flashcards/:type" element={<Flashcards />} />
+          <Route path="/study/audio/:category" element={<AudioDetail />} />
           <Route path="/flashcards" element={<Flashcards />} />
           <Route path="/profile" element={<Profile />} />
           <Route path="/setup" element={<Setup />} />
