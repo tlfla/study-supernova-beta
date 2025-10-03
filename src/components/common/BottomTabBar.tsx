@@ -25,7 +25,7 @@ export default function BottomTabBar() {
   if (location.pathname === '/quiz') return null
 
   return (
-    <nav className="fixed bottom-0 left-0 right-0 safe-area-inset-bottom z-50">
+    <nav className="md:hidden fixed bottom-0 left-0 right-0 safe-area-inset-bottom z-50">
       <div 
         className="backdrop-blur-xl border-t"
         style={{

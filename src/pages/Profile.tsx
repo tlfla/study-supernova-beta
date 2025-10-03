@@ -5,6 +5,7 @@ import { useAppContext } from '../state/AppContext'
 import Card from '../components/common/Card'
 import Toast from '../components/common/Toast'
 import MinimalHeader from '../components/common/MinimalHeader'
+import DesktopHeader from '../components/common/DesktopHeader'
 import { getCategoryColor } from '../lib/categoryColors'
 
 export default function Profile() {
@@ -41,11 +42,12 @@ export default function Profile() {
   }
 
   return (
-    <div className="min-h-screen-safe pb-20" style={{ backgroundColor: 'var(--bg-base)' }}>
+    <div className="min-h-screen-safe pb-20 md:pb-0" style={{ backgroundColor: 'var(--bg-base)' }}>
       <MinimalHeader title="Profile" />
+      <DesktopHeader />
 
       {/* Content */}
-      <main className="pt-16 px-4 py-8 max-w-2xl md:max-w-6xl mx-auto safe-area-padding-left safe-area-padding-right safe-area-padding-bottom">
+      <main className="pt-16 md:pt-24 px-4 py-8 max-w-2xl md:max-w-6xl mx-auto safe-area-padding-left safe-area-padding-right safe-area-padding-bottom">
         {/* User Info Card - Simplified */}
         <div className="rounded-2xl border p-6 mb-6" style={{ backgroundColor: 'white', boxShadow: 'var(--shadow-raised)', borderColor: 'var(--stroke-soft)' }}>
           <div className="flex items-start justify-between">

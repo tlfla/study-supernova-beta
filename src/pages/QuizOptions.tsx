@@ -7,6 +7,7 @@ import Card from '../components/common/Card'
 import Button from '../components/common/Button'
 import Dropdown from '../components/common/Dropdown'
 import MinimalHeader from '../components/common/MinimalHeader'
+import DesktopHeader from '../components/common/DesktopHeader'
 
 const categories = [
   { value: 'all', label: 'All Categories' },
@@ -129,11 +130,12 @@ export default function QuizOptions() {
   }
 
   return (
-    <div className="min-h-screen-safe pb-20" style={{ backgroundColor: 'var(--bg-base)' }}>
+    <div className="min-h-screen-safe pb-20 md:pb-0" style={{ backgroundColor: 'var(--bg-base)' }}>
       <MinimalHeader title="Quiz Options" />
+      <DesktopHeader />
 
       {/* Main Content */}
-      <main className="pt-16 px-4 pb-8 max-w-2xl md:max-w-6xl mx-auto safe-area-padding-left safe-area-padding-right safe-area-padding-bottom">
+      <main className="pt-16 md:pt-24 px-4 pb-8 max-w-2xl md:max-w-6xl mx-auto safe-area-padding-left safe-area-padding-right safe-area-padding-bottom">
         <div className="py-6">
           <div 
             className="rounded-2xl border-2 p-6" 

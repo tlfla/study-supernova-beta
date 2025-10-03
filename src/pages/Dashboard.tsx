@@ -6,6 +6,7 @@ import { DataProvider } from '../data/providers/DataProvider'
 import Card from '../components/common/Card'
 import ProgressRing from '../components/common/ProgressRing'
 import Button from '../components/common/Button'
+import DesktopHeader from '../components/common/DesktopHeader'
 import { getCategoryColor } from '../lib/categoryColors'
 import { getPrimaryWithOpacity } from '../lib/colors'
 
@@ -69,15 +70,12 @@ export default function Dashboard() {
   const readinessScore = 75 // Mock data
 
   return (
-    <div className="min-h-screen-safe pb-20" style={{ backgroundColor: 'var(--bg-base)' }}>
+    <div className="min-h-screen-safe pb-20 md:pb-0" style={{ backgroundColor: 'var(--bg-base)' }}>
+        <DesktopHeader />
         {/* Main Content */}
-        <div className="max-w-2xl md:max-w-6xl mx-auto px-4 pt-6 safe-area-padding-top safe-area-padding-left safe-area-padding-right safe-area-padding-bottom">
-          {/* Desktop 2-column layout */}
-          <div className="md:grid md:grid-cols-2 md:gap-6">
-            {/* Left Column - Progress & Actions */}
-            <div className="md:col-span-1">
-              {/* Study Progress Card with Exam Countdown */}
-              <div className="rounded-2xl border p-6 mb-6" style={{ backgroundColor: 'white', boxShadow: 'var(--shadow-raised)', borderColor: 'var(--stroke-soft)' }}>
+        <div className="max-w-2xl md:max-w-6xl mx-auto px-4 pt-6 md:pt-24 safe-area-padding-top safe-area-padding-left safe-area-padding-right safe-area-padding-bottom">
+          {/* Study Progress Card with Exam Countdown */}
+          <div className="rounded-2xl border p-6 mb-6" style={{ backgroundColor: 'white', boxShadow: 'var(--shadow-raised)', borderColor: 'var(--stroke-soft)' }}>
             <div className="flex items-center justify-between mb-6">
               <h2 className="text-lg font-semibold" style={{ color: 'var(--text-primary)' }}>
                 Study Progress
@@ -100,7 +98,7 @@ export default function Dashboard() {
           </div>
 
           {/* Main Action Buttons */}
-          <div className="mb-6">
+          <div className="max-w-2xl mx-auto px-4 mb-6">
             <div className="flex flex-col gap-3">
               <Button
                 size="lg"
@@ -137,12 +135,9 @@ export default function Dashboard() {
               </Button>
             </div>
           </div>
-            </div>
 
-            {/* Right Column - Categories */}
-            <div className="md:col-span-1">
-              {/* Category Performance Snippet */}
-              <div className="rounded-2xl border p-5 mb-6" style={{ backgroundColor: 'white', boxShadow: 'var(--shadow-raised)', borderColor: 'var(--stroke-soft)' }}>
+          {/* Category Performance Snippet */}
+          <div className="rounded-2xl border p-5 mb-6" style={{ backgroundColor: 'white', boxShadow: 'var(--shadow-raised)', borderColor: 'var(--stroke-soft)' }}>
           <div className="flex justify-between items-center mb-4">
             <h3 className="text-lg font-bold" style={{ color: 'var(--text-primary)' }}>
               Top Categories
@@ -188,8 +183,6 @@ export default function Dashboard() {
               </div>
             ))}
               </div>
-              </div>
-            </div>
           </div>
         </div>
     </div>
