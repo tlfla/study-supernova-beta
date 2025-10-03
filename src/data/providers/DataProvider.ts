@@ -163,6 +163,7 @@ export interface IDataProvider {
   // User operations
   getCurrentUser(): Promise<User | null>
   getUsers(campusId?: string): Promise<User[]>
+  signOut(): Promise<void>
 
   // Campus and class operations
   getCampuses(): Promise<Campus[]>

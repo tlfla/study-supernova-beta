@@ -472,6 +472,11 @@ export class MockDataProvider implements IDataProvider {
     return users
   }
 
+  async signOut(): Promise<void> {
+    // For mock provider, just clear the current user
+    this.currentUser = null
+  }
+
   // Campus and class operations
   async getCampuses(): Promise<Campus[]> {
     return this.storage.get<Campus>('campuses')

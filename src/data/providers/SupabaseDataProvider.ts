@@ -127,6 +127,13 @@ export class SupabaseDataProvider implements IDataProvider {
     throw new Error('SupabaseDataProvider not implemented. See class documentation for setup instructions.')
   }
 
+  async signOut(): Promise<void> {
+    // When Supabase is configured, call auth.signOut()
+    if (this.supabase?.auth) {
+      await this.supabase.auth.signOut()
+    }
+  }
+
   async getCampuses(): Promise<never> {
     throw new Error('SupabaseDataProvider not implemented. See class documentation for setup instructions.')
   }

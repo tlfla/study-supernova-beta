@@ -1,10 +1,12 @@
 import React, { useState } from 'react'
 import { useNavigate, useLocation } from 'react-router-dom'
 import { Home, PlayCircle, RotateCcw, BookOpen, User, ChevronDown } from 'lucide-react'
+import { useAppContext } from '../../state/AppContext'
 
 export default function DesktopHeader() {
   const navigate = useNavigate()
   const location = useLocation()
+  const { logout } = useAppContext()
   const [showUserMenu, setShowUserMenu] = useState(false)
 
   const navLinks = [
@@ -129,16 +131,13 @@ export default function DesktopHeader() {
                   >
                     View Profile
                   </button>
-                  <button
-                    className="w-full text-left px-3 py-2 rounded-lg transition-colors"
-                    style={{ color: 'var(--text-primary)' }}
-                    onMouseEnter={(e) => e.currentTarget.style.backgroundColor = 'var(--bg-raised)'}
-                    onMouseLeave={(e) => e.currentTarget.style.backgroundColor = 'transparent'}
-                  >
-                    Settings
-                  </button>
                   <div className="my-1 border-t" style={{ borderColor: 'var(--stroke-soft)' }} />
                   <button
+                    onClick={async () => {
+                      setShowUserMenu(false)
+                      await logout()
+                      navigate('/')
+                    }}
                     className="w-full text-left px-3 py-2 rounded-lg transition-colors"
                     style={{ color: 'var(--danger-500)' }}
                     onMouseEnter={(e) => e.currentTarget.style.backgroundColor = 'rgba(239, 68, 68, 0.1)'}

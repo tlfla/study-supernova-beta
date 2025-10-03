@@ -142,6 +142,7 @@ interface AppContextType {
   // Helper functions
   loadUserData: () => Promise<void>
   updateDailyGoal: (completedQuestions: number, completedTime: number) => Promise<void>
+  logout: () => Promise<void>
 }
 
 const AppContext = createContext<AppContextType | null>(null)
@@ -188,6 +189,29 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
     }
   }
 
+  const logout = async () => {
+    try {
+      await dataProvider.signOut()
+      // Clear user state
+      dispatch({ type: 'SET_USER', payload: null })
+      dispatch({ type: 'SET_DAILY_GOAL', payload: null })
+      dispatch({ type: 'SET_USER_PROGRESS', payload: [] })
+      dispatch({ type: 'RESET_QUIZ' })
+      // Clear any saved quiz data
+      localStorage.removeItem('savedQuiz')
+    } catch (error) {
+      console.error('Failed to sign out:', error)
+      dispatch({
+        type: 'SHOW_TOAST',
+        payload: {
+          type: 'error',
+          title: 'Sign Out Failed',
+          message: 'Please try again.'
+        }
+      })
+    }
+  }
+
   useEffect(() => {
     loadUserData()
   }, [])
@@ -196,7 +220,8 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
     state,
     dispatch,
     loadUserData,
-    updateDailyGoal
+    updateDailyGoal,
+    logout
   }
 
   return (

@@ -6,6 +6,7 @@ import Button from '../components/common/Button'
 import Toast from '../components/common/Toast'
 import Dropdown from '../components/common/Dropdown'
 import MinimalHeader from '../components/common/MinimalHeader'
+import DesktopHeader from '../components/common/DesktopHeader'
 
 export default function Study() {
   const navigate = useNavigate()
@@ -73,8 +74,9 @@ export default function Study() {
   }
 
   return (
-    <div className="min-h-screen pb-20" style={{ backgroundColor: 'var(--bg-base)', paddingTop: '72px' }}>
+    <div className="min-h-screen pb-20 md:pb-0 pt-16 md:pt-20" style={{ backgroundColor: 'var(--bg-base)' }}>
       <MinimalHeader title="Study Area" />
+      <DesktopHeader />
 
       {/* Content */}
       <div className="max-w-7xl mx-auto px-4 py-8 safe-area-padding-left safe-area-padding-right safe-area-padding-bottom">

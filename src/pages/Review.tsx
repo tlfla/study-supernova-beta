@@ -7,6 +7,7 @@ import Card from '../components/common/Card'
 import Button from '../components/common/Button'
 import Dropdown from '../components/common/Dropdown'
 import MinimalHeader from '../components/common/MinimalHeader'
+import DesktopHeader from '../components/common/DesktopHeader'
 import { getCategoryColor } from '../lib/categoryColors'
 
 const categories = [
@@ -128,11 +129,12 @@ export default function Review() {
   }
 
   return (
-    <div className="min-h-screen-safe pb-20" style={{ backgroundColor: 'var(--bg-base)' }}>
-      <MinimalHeader title="Review & Study" />
+    <div className="min-h-screen-safe pb-20 md:pb-0" style={{ backgroundColor: 'var(--bg-base)' }}>
+      <MinimalHeader title="Review Section" />
+      <DesktopHeader />
 
       {/* Filters */}
-      <main className="pt-16 px-4 py-6 max-w-7xl mx-auto safe-area-padding-left safe-area-padding-right safe-area-padding-bottom">
+      <main className="pt-16 md:pt-24 px-4 py-6 max-w-7xl mx-auto safe-area-padding-left safe-area-padding-right safe-area-padding-bottom">
         <Card className="mb-6 border-2" style={{
           borderColor: 'var(--border-muted)',
           boxShadow: 'var(--shadow-emphasis)'

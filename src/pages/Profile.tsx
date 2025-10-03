@@ -10,7 +10,7 @@ import { getCategoryColor } from '../lib/categoryColors'
 
 export default function Profile() {
   const navigate = useNavigate()
-  const { state, dispatch } = useAppContext()
+  const { state, dispatch, logout } = useAppContext()
 
   const [showEditModal, setShowEditModal] = useState(false)
   const [name, setName] = useState(state.currentUser?.name || 'John Doe')
@@ -367,6 +367,23 @@ export default function Profile() {
           >
             Privacy Policy
           </a>
+        </div>
+
+        {/* Sign Out Button - Mobile Only */}
+        <div className="md:hidden px-4">
+          <div className="border-t mb-4" style={{ borderColor: 'var(--stroke-soft)' }} />
+          <button
+            onClick={async () => {
+              await logout()
+              navigate('/')
+            }}
+            className="text-left py-3 px-4 text-sm font-medium transition-colors"
+            style={{ color: 'var(--danger-700)' }}
+            onMouseEnter={(e) => e.currentTarget.style.color = 'var(--danger-800)'}
+            onMouseLeave={(e) => e.currentTarget.style.color = 'var(--danger-700)'}
+          >
+            Sign Out
+          </button>
         </div>
       </main>
 
