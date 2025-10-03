@@ -173,23 +173,64 @@ export const getAudioByCategory = (audioFiles: AudioContent[]) => {
   return categoryMap
 }
 
-// Helper function to get category summary
-export const getCategorySummary = (audioFiles: AudioContent[]) => {
+// All categories for browse page
+export interface AudioCategorySummary {
+  category: string
+  fileCount: number
+  totalDuration: number // in seconds
+  hasFiles: boolean
+}
+
+export const allAudioCategories: AudioCategorySummary[] = [
+  { category: 'General Surgery', fileCount: 0, totalDuration: 0, hasFiles: true },
+  { category: 'Sterilization', fileCount: 0, totalDuration: 0, hasFiles: true },
+  { category: 'Anatomy & Physiology', fileCount: 0, totalDuration: 0, hasFiles: true },
+  { category: 'Cardiovascular', fileCount: 0, totalDuration: 0, hasFiles: false },
+  { category: 'Emergency Procedures', fileCount: 0, totalDuration: 0, hasFiles: true },
+  { category: 'Genitourinary', fileCount: 0, totalDuration: 0, hasFiles: false },
+  { category: 'Instrumentation', fileCount: 0, totalDuration: 0, hasFiles: true },
+  { category: 'Medical Ethics', fileCount: 0, totalDuration: 0, hasFiles: true },
+  { category: 'Microbiology', fileCount: 0, totalDuration: 0, hasFiles: true },
+  { category: 'Neurology', fileCount: 0, totalDuration: 0, hasFiles: false },
+  { category: 'Obstetrics and Gynecology', fileCount: 0, totalDuration: 0, hasFiles: false },
+  { category: 'Ophthalmic', fileCount: 0, totalDuration: 0, hasFiles: false },
+  { category: 'Orthopedic', fileCount: 0, totalDuration: 0, hasFiles: false },
+  { category: 'Otorhinolaryngology', fileCount: 0, totalDuration: 0, hasFiles: false },
+  { category: 'Patient Care', fileCount: 0, totalDuration: 0, hasFiles: true },
+  { category: 'Peripheral Vascular', fileCount: 0, totalDuration: 0, hasFiles: false },
+  { category: 'Pharmacology', fileCount: 0, totalDuration: 0, hasFiles: true },
+  { category: 'Plastics and Reconstructive', fileCount: 0, totalDuration: 0, hasFiles: false },
+  { category: 'Postoperative', fileCount: 0, totalDuration: 0, hasFiles: false },
+  { category: 'Preoperative', fileCount: 0, totalDuration: 0, hasFiles: false },
+  { category: 'Professional and Administrative Responsibilities', fileCount: 0, totalDuration: 0, hasFiles: false },
+  { category: 'Surgical Procedures', fileCount: 0, totalDuration: 0, hasFiles: true }
+]
+
+// Helper function to get category summary with actual data
+export const getCategorySummary = (audioFiles: AudioContent[]): AudioCategorySummary[] => {
   const grouped = getAudioByCategory(audioFiles)
-  const summaries = Array.from(grouped.entries()).map(([category, files]) => ({
-    category,
-    fileCount: files.length,
-    totalDuration: files.reduce((sum, file) => sum + file.duration_seconds, 0)
-  }))
   
-  // Sort: General Surgery first, Sterilization second, then alphabetical
-  return summaries.sort((a, b) => {
-    if (a.category === 'General Surgery') return -1
-    if (b.category === 'General Surgery') return 1
-    if (a.category === 'Sterilization') return -1
-    if (b.category === 'Sterilization') return 1
-    return a.category.localeCompare(b.category)
+  // Update allAudioCategories with actual file counts
+  return allAudioCategories.map(cat => {
+    const files = grouped.get(cat.category) || []
+    return {
+      ...cat,
+      fileCount: files.length,
+      totalDuration: files.reduce((sum, file) => sum + file.duration_seconds, 0),
+      hasFiles: files.length > 0
+    }
   })
+}
+
+// Get total stats for all audio
+export const getAudioStats = (audioFiles: AudioContent[]) => {
+  const activeFiles = audioFiles.filter(f => f.is_active)
+  const categories = new Set(activeFiles.map(f => f.category))
+  
+  return {
+    totalCategories: categories.size,
+    totalFiles: activeFiles.length
+  }
 }
 
 // Format duration for display

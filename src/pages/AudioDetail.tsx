@@ -95,7 +95,7 @@ export default function AudioDetail() {
         {/* Header with Back Button */}
         <div className="mb-6">
           <button
-            onClick={() => navigate('/study')}
+            onClick={() => navigate('/study/audio')}
             className="flex items-center gap-2 px-4 py-2 rounded-lg transition-colors mb-4"
             style={{ color: 'var(--text-secondary)' }}
             onMouseEnter={(e) => {
@@ -108,7 +108,7 @@ export default function AudioDetail() {
             }}
           >
             <Home className="w-5 h-5" />
-            <span className="font-medium">Back to Study</span>
+            <span className="font-medium">Back to Audio Library</span>
           </button>
 
           <h1 className="text-2xl font-bold mb-2" style={{ color: 'var(--text-primary)' }}>

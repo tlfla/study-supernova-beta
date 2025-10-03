@@ -8,7 +8,7 @@ import Dropdown from '../components/common/Dropdown'
 import MinimalHeader from '../components/common/MinimalHeader'
 import DesktopHeader from '../components/common/DesktopHeader'
 import { getCategoryColor } from '../lib/categoryColors'
-import { mockAudioContent, getCategorySummary, formatDuration } from '../data/audioData'
+import { mockAudioContent, getAudioStats } from '../data/audioData'
 
 export default function Study() {
   const navigate = useNavigate()
@@ -28,8 +28,8 @@ export default function Study() {
     { value: 'emergency', label: 'Emergency Procedures' }
   ]
 
-  // Get audio category summaries from mock data
-  const audioCategories = getCategorySummary(mockAudioContent)
+  // Get audio stats for the single card
+  const audioStats = getAudioStats(mockAudioContent)
 
   const flashcardSets = [
     {
@@ -127,103 +127,52 @@ export default function Study() {
         </div>
 
         <div className="space-y-6">
-          {/* Audio Learning Section */}
-          <div 
-            className="rounded-2xl border p-6"
+          {/* Audio Learning Section - Single Card */}
+          <button
+            onClick={() => navigate('/study/audio')}
+            className="w-full rounded-2xl border p-6 text-left transition-all hover:-translate-y-1"
             style={{ 
               backgroundColor: 'var(--bg-card)', 
               boxShadow: 'var(--shadow-raised)',
               borderColor: 'var(--stroke-soft)'
             }}
+            onMouseEnter={(e) => {
+              e.currentTarget.style.boxShadow = 'var(--shadow-emphasis)'
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.boxShadow = 'var(--shadow-raised)'
+            }}
           >
-            <div className="flex items-center gap-3 mb-4">
+            <div className="flex items-start gap-4 mb-4">
               <div 
-                className="p-2 rounded-lg"
+                className="flex-shrink-0 w-12 h-12 rounded-xl flex items-center justify-center"
                 style={{ backgroundColor: 'rgba(17, 181, 164, 0.1)' }}
               >
                 <Headphones className="w-6 h-6" style={{ color: 'var(--primary-500)' }} />
               </div>
-              <div>
-                <h2 className="text-xl font-semibold" style={{ color: 'var(--text-primary)' }}>
-                  Audio Learning
+              <div className="flex-1">
+                <h2 className="text-xl font-bold mb-2" style={{ color: 'var(--text-primary)' }}>
+                  🎧 Audio Learning
                 </h2>
-                <p className="text-sm" style={{ color: 'var(--text-secondary)' }}>
-                  Learn on the go with expert-narrated content
+                <p className="text-sm mb-3" style={{ color: 'var(--text-secondary)' }}>
+                  Learn on the go with expert-narrated content covering all surgical technology topics
                 </p>
-              </div>
-            </div>
-
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              {audioCategories.map((categoryData, index) => (
-                <button
-                  key={categoryData.category}
-                  onClick={() => navigate(`/study/audio/${encodeURIComponent(categoryData.category)}`)}
-                  className="rounded-xl border p-4 text-left transition-all hover:-translate-y-0.5"
+                <p className="text-sm font-medium mb-4" style={{ color: 'var(--text-secondary)' }}>
+                  {audioStats.totalCategories} categories • {audioStats.totalFiles}+ audio files
+                </p>
+                <div
+                  className="inline-flex items-center gap-2 px-4 py-2 rounded-lg font-semibold transition-colors"
                   style={{
-                    backgroundColor: 'white',
-                    borderColor: 'var(--stroke-soft)',
-                    boxShadow: 'var(--shadow-raised)'
-                  }}
-                  onMouseEnter={(e) => {
-                    e.currentTarget.style.boxShadow = 'var(--shadow-emphasis)'
-                  }}
-                  onMouseLeave={(e) => {
-                    e.currentTarget.style.boxShadow = 'var(--shadow-raised)'
+                    backgroundColor: 'var(--primary-500)',
+                    color: 'white'
                   }}
                 >
-                  <div className="flex items-start justify-between mb-3">
-                    <div className="flex items-center gap-2">
-                      <div 
-                        className="p-2 rounded-lg"
-                        style={{ backgroundColor: getCategoryColor(categoryData.category, 0.1) }}
-                      >
-                        <Play className="w-4 h-4" style={{ color: getCategoryColor(categoryData.category) }} />
-                      </div>
-                      <div>
-                        <h3 className="font-semibold text-base" style={{ color: 'var(--text-primary)' }}>
-                          {categoryData.category}
-                        </h3>
-                        {index === 0 && (
-                          <span 
-                            className="inline-block text-xs font-semibold px-2 py-0.5 rounded-full mt-1"
-                            style={{
-                              backgroundColor: 'rgba(251, 191, 36, 0.15)',
-                              color: '#F59E0B'
-                            }}
-                          >
-                            Most Popular
-                          </span>
-                        )}
-                      </div>
-                    </div>
-                  </div>
-                  
-                  <div className="flex items-center justify-between">
-                    <div className="flex items-center gap-3">
-                      <div className="flex items-center gap-1">
-                        <Clock className="w-4 h-4" style={{ color: 'var(--text-secondary)' }} />
-                        <span className="text-sm" style={{ color: 'var(--text-secondary)' }}>
-                          {formatDuration(categoryData.totalDuration)}
-                        </span>
-                      </div>
-                      <span className="text-sm" style={{ color: 'var(--text-secondary)' }}>
-                        {categoryData.fileCount} {categoryData.fileCount === 1 ? 'episode' : 'episodes'}
-                      </span>
-                    </div>
-                    <span 
-                      className="text-xs font-semibold px-2 py-1 rounded-full"
-                      style={{
-                        backgroundColor: getCategoryColor(categoryData.category, 0.15),
-                        color: getCategoryColor(categoryData.category)
-                      }}
-                    >
-                      {categoryData.category}
-                    </span>
-                  </div>
-                </button>
-              ))}
+                  Browse Audio Library
+                  <TrendingUp className="w-4 h-4" />
+                </div>
+              </div>
             </div>
-          </div>
+          </button>
 
           {/* Interactive Flashcards Section */}
           <div 

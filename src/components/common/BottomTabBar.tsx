@@ -21,11 +21,11 @@ export default function BottomTabBar() {
   const location = useLocation()
   const navigate = useNavigate()
 
-  // Hide bottom nav during active quiz, flashcard sessions, and audio detail pages
+  // Hide bottom nav during active quiz, flashcard sessions, and audio pages
   if (
     location.pathname === '/quiz' || 
     location.pathname.includes('/study/flashcards/') ||
-    location.pathname.includes('/study/audio/')
+    location.pathname.startsWith('/study/audio')
   ) return null
 
   return (
