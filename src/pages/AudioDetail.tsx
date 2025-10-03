@@ -93,24 +93,30 @@ export default function AudioDetail() {
       {/* Main Content */}
       <div className="max-w-4xl mx-auto px-4 pt-20 md:pt-28 pb-8 safe-area-padding-left safe-area-padding-right safe-area-padding-bottom">
         {/* Header with Back Button */}
-        <div className="mb-6">
+        <div className="mb-6 flex justify-center md:justify-start">
           <button
             onClick={() => navigate('/study/audio')}
-            className="flex items-center gap-2 px-4 py-2 rounded-lg transition-colors mb-4"
-            style={{ color: 'var(--text-secondary)' }}
+            className="flex items-center gap-2 px-4 py-2.5 rounded-lg transition-all border-2 mb-4"
+            style={{ 
+              color: 'var(--text-primary)',
+              backgroundColor: 'rgba(17, 181, 164, 0.05)',
+              borderColor: 'var(--primary-200)'
+            }}
             onMouseEnter={(e) => {
-              e.currentTarget.style.backgroundColor = 'var(--bg-raised)'
-              e.currentTarget.style.color = 'var(--text-primary)'
+              e.currentTarget.style.backgroundColor = 'rgba(17, 181, 164, 0.1)'
+              e.currentTarget.style.borderColor = 'var(--primary-500)'
             }}
             onMouseLeave={(e) => {
-              e.currentTarget.style.backgroundColor = 'transparent'
-              e.currentTarget.style.color = 'var(--text-secondary)'
+              e.currentTarget.style.backgroundColor = 'rgba(17, 181, 164, 0.05)'
+              e.currentTarget.style.borderColor = 'var(--primary-200)'
             }}
           >
-            <Home className="w-5 h-5" />
-            <span className="font-medium">Back to Audio Library</span>
+            <Home className="w-5 h-5" style={{ color: 'var(--primary-500)' }} />
+            <span className="font-semibold">Back to Audio Library</span>
           </button>
+        </div>
 
+        <div className="mb-6 px-2 md:px-0">
           <h1 className="text-2xl font-bold mb-2" style={{ color: 'var(--text-primary)' }}>
             {decodedCategory}
           </h1>
@@ -120,9 +126,9 @@ export default function AudioDetail() {
         </div>
 
         {/* Search and Filter Bar */}
-        <div className="mb-6 space-y-4 md:space-y-0 md:flex md:gap-4 sticky top-16 md:top-20 z-10 bg-[var(--bg-base)] py-4">
+        <div className="mb-6 space-y-4 md:space-y-0 md:flex md:gap-4 md:justify-center sticky top-16 md:top-20 z-10 bg-[var(--bg-base)] py-4">
           {/* Search Input */}
-          <div className="flex-1 relative">
+          <div className="flex-1 md:max-w-md relative">
             <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5" style={{ color: 'var(--text-secondary)' }} />
             <input
               type="text"
@@ -152,7 +158,7 @@ export default function AudioDetail() {
           <select
             value={typeFilter}
             onChange={(e) => setTypeFilter(e.target.value as 'all' | 'qa' | 'study_guide')}
-            className="px-4 py-3 rounded-xl transition-all focus:outline-none md:w-48"
+            className="px-4 py-3 rounded-xl transition-all focus:outline-none w-full md:w-48"
             style={{
               borderWidth: '2px',
               borderStyle: 'solid',

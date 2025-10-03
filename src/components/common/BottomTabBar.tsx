@@ -68,7 +68,7 @@ export default function BottomTabBar() {
               >
                 <Icon className="h-5 w-5 mb-1 transition-colors duration-200" />
                 <span 
-                  className="text-[10px] leading-tight font-medium truncate w-full text-center"
+                  className="text-xs leading-tight font-medium truncate w-full text-center"
                 >
                   {tab.label}
                 </span>

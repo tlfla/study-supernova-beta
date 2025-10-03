@@ -93,37 +93,39 @@ export default function Study() {
         </div>
         
         {/* Category Filter */}
-        <div className="mb-8">
+        <div className="mb-8 px-4 md:px-0">
           <label className="block text-sm font-semibold mb-2" style={{ color: 'var(--text-primary)' }}>
             Filter by Category
           </label>
-          <select
-            value={selectedCategory}
-            onChange={(e) => setSelectedCategory(e.target.value)}
-            className="w-full md:w-96 px-4 rounded-xl transition-all focus:outline-none"
-            style={{
-              height: '48px',
-              borderWidth: '2px',
-              borderStyle: 'solid',
-              borderColor: 'var(--border-muted)',
-              backgroundColor: 'white',
-              color: 'var(--text-primary)'
-            }}
-            onFocus={(e) => {
-              e.currentTarget.style.borderColor = 'var(--primary-500)'
-              e.currentTarget.style.boxShadow = '0 0 0 3px rgba(17, 181, 164, 0.2)'
-            }}
-            onBlur={(e) => {
-              e.currentTarget.style.borderColor = 'var(--border-muted)'
-              e.currentTarget.style.boxShadow = 'none'
-            }}
-          >
-            {studyCategories.map((cat) => (
-              <option key={cat.value} value={cat.value}>
-                {cat.label}
-              </option>
-            ))}
-          </select>
+          <div className="flex justify-center md:justify-start">
+            <select
+              value={selectedCategory}
+              onChange={(e) => setSelectedCategory(e.target.value)}
+              className="w-full max-w-sm px-4 rounded-xl transition-all focus:outline-none"
+              style={{
+                height: '48px',
+                borderWidth: '2px',
+                borderStyle: 'solid',
+                borderColor: 'var(--border-muted)',
+                backgroundColor: 'white',
+                color: 'var(--text-primary)'
+              }}
+              onFocus={(e) => {
+                e.currentTarget.style.borderColor = 'var(--primary-500)'
+                e.currentTarget.style.boxShadow = '0 0 0 3px rgba(17, 181, 164, 0.2)'
+              }}
+              onBlur={(e) => {
+                e.currentTarget.style.borderColor = 'var(--border-muted)'
+                e.currentTarget.style.boxShadow = 'none'
+              }}
+            >
+              {studyCategories.map((cat) => (
+                <option key={cat.value} value={cat.value}>
+                  {cat.label}
+                </option>
+              ))}
+            </select>
+          </div>
         </div>
 
         <div className="space-y-6">

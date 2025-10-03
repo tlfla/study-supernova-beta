@@ -27,24 +27,30 @@ export default function AudioBrowse() {
       {/* Main Content */}
       <div className="max-w-4xl mx-auto px-4 pt-20 md:pt-28 pb-8 safe-area-padding-left safe-area-padding-right safe-area-padding-bottom">
         {/* Header with Back Button */}
-        <div className="mb-6">
+        <div className="mb-6 flex justify-center md:justify-start">
           <button
             onClick={() => navigate('/study')}
-            className="flex items-center gap-2 px-4 py-2 rounded-lg transition-colors mb-4"
-            style={{ color: 'var(--text-secondary)' }}
+            className="flex items-center gap-2 px-4 py-2.5 rounded-lg transition-all border-2 mb-4"
+            style={{ 
+              color: 'var(--text-primary)',
+              backgroundColor: 'rgba(17, 181, 164, 0.05)',
+              borderColor: 'var(--primary-200)'
+            }}
             onMouseEnter={(e) => {
-              e.currentTarget.style.backgroundColor = 'var(--bg-raised)'
-              e.currentTarget.style.color = 'var(--text-primary)'
+              e.currentTarget.style.backgroundColor = 'rgba(17, 181, 164, 0.1)'
+              e.currentTarget.style.borderColor = 'var(--primary-500)'
             }}
             onMouseLeave={(e) => {
-              e.currentTarget.style.backgroundColor = 'transparent'
-              e.currentTarget.style.color = 'var(--text-secondary)'
+              e.currentTarget.style.backgroundColor = 'rgba(17, 181, 164, 0.05)'
+              e.currentTarget.style.borderColor = 'var(--primary-200)'
             }}
           >
-            <Home className="w-5 h-5" />
-            <span className="font-medium">Back to Study</span>
+            <Home className="w-5 h-5" style={{ color: 'var(--primary-500)' }} />
+            <span className="font-semibold">Back to Study</span>
           </button>
+        </div>
 
+        <div className="mb-6 px-2 md:px-0">
           <h1 className="text-2xl font-bold mb-2" style={{ color: 'var(--text-primary)' }}>
             Audio Learning
           </h1>
@@ -54,8 +60,8 @@ export default function AudioBrowse() {
         </div>
 
         {/* Search Bar */}
-        <div className="mb-6">
-          <div className="relative">
+        <div className="mb-6 flex justify-center">
+          <div className="relative w-full max-w-2xl">
             <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5" style={{ color: 'var(--text-secondary)' }} />
             <input
               type="text"
