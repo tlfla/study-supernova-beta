@@ -72,8 +72,32 @@ export default function Dashboard() {
   return (
     <div className="min-h-screen-safe pb-20 md:pb-0" style={{ backgroundColor: 'var(--bg-base)' }}>
         <DesktopHeader />
+        
+        {/* Mobile Branding Header - Dashboard Only */}
+        <div 
+          className="md:hidden bg-white border-b safe-area-padding-top"
+          style={{ 
+            height: '48px',
+            borderColor: 'var(--stroke-soft)'
+          }}
+        >
+          <div className="h-full flex items-center px-4">
+            <div className="flex items-center gap-3">
+              <div 
+                className="w-8 h-8 rounded-lg flex items-center justify-center"
+                style={{ backgroundColor: 'var(--primary-500)' }}
+              >
+                <span className="text-white font-bold text-lg">P</span>
+              </div>
+              <span className="text-lg font-bold" style={{ color: 'var(--text-primary)' }}>
+                PrepLift
+              </span>
+            </div>
+          </div>
+        </div>
+
         {/* Main Content */}
-        <div className="max-w-2xl md:max-w-6xl mx-auto px-4 pt-6 md:pt-24 safe-area-padding-top safe-area-padding-left safe-area-padding-right safe-area-padding-bottom">
+        <div className="max-w-2xl md:max-w-6xl mx-auto px-4 pt-6 md:pt-24 safe-area-padding-left safe-area-padding-right safe-area-padding-bottom">
           {/* Study Progress Card with Exam Countdown */}
           <div className="rounded-2xl border p-6 mb-6" style={{ backgroundColor: 'white', boxShadow: 'var(--shadow-raised)', borderColor: 'var(--stroke-soft)' }}>
             <div className="flex items-center justify-between mb-6">
